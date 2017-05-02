@@ -12,6 +12,12 @@ import java.util.*;
  * @author paolacarulli
  */
 public class ClassificaEliminazioneDiretta {
-    private int partiteGiocate;
-    private List<Squadra> squadreRimasteInGioco = new ArrayList<>();
+    private EliminazioneDiretta torneoElDir;
+    
+    public ClassificaEliminazioneDiretta(EliminazioneDiretta torneoElDir){
+        this.torneoElDir = torneoElDir;
+    }
+    public List<Squadra> printRisultato(){
+        return torneoElDir.getSquadreNelTorneo();
+    }
 }
