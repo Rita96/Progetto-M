@@ -1,0 +1,3 @@
+A1Nome	A1Cognome	A1Codice	A1Pass
+A2Nome	A2Cognome	A2Codice	A2Pass
+A3Nome	A3Cognome	A3Codice	A3Pass

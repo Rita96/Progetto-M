@@ -1,0 +1,12 @@
+-	S1	S2	A1Codice	Napoli	TERMINATA
+5	G1S2Nome	G1S2Cognome	1
+20	G2S2Nome	G2S2Cognome	2
+-	S2	S1	A2Codice	Milano	TERMINATA
+5	G1S2Nome	G1S2Cognome	1
+20	G2S2Nome	G2S2Cognome	2
+-	S3	S4	A3Codice	Genova	TERMINATA
+5	G1S3Nome	G1S3Cognome	1
+25	G2S3Nome	G2S3Cognome	2
+60	G3S4Nome	G3S4Cognome	3
+-	S4	S3	A4Codice	Torino	TERMINATA
+5	G1S4Nome	G1S4Cognome	1

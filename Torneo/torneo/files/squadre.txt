@@ -1,0 +1,22 @@
+G1S1Nome	G1S1Cognome	1
+G2S1Nome	G2S1Cognome	2
+G3S1Nome	G3S1Cognome	3
+G4S1Nome	G4S1Cognome	4
+G5S1Nome	G5S1Cognome	5
+G6S1Nome	G6S1Cognome	6
+G7S1Nome	G7S1Cognome	7
+G8S1Nome	G8S1Cognome	8
+G9S1Nome	G9S1Cognome	9
+-	S1	blu	Napoli
+G1S2Nome	G1S2Cognome	1
+G2S2Nome	G2S2Cognome	2
+G3S2Nome	G3S2Cognome	3
+-	S2	rosso	Milano
+G1S3Nome	G1S3Cognome	1
+G2S3Nome	G2S3Cognome	2
+G3S3Nome	G3S3Cognome	3
+-	S3	nero	Genova
+G1S4Nome	G1S4Cognome	1
+G2S4Nome	G2S4Cognome	2
+G3S4Nome	G3S4Cognome	3
+-	S4	viola	Torino
