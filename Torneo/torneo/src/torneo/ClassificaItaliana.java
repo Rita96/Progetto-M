@@ -9,9 +9,33 @@ import java.util.*;
 
 /**
  *
- * @author paolacarulli
+ * @author giuliafumagalli
  */
 public class ClassificaItaliana {
-    private int partiteGiocate;
-    private Map<String, Integer> classificaSquadraPunteggioRelativo = new HashMap<String, Integer>();
+    private Italiana torneoItaliana;
+    
+    public ClassificaItaliana(Italiana torneoItaliana){
+        this.torneoItaliana = torneoItaliana;
+    }
+    
+    public Map<String, Integer> printRisultato(){
+        Map<String, Integer> classifica = new HashMap<>();
+        for(Map.Entry<Squadra, Integer> entry: torneoItaliana.getClassifica().entrySet()){
+            classifica.put(entry.getKey().getNome(), entry.getValue());
+        }
+        return classifica;
+    }
+    
+    //per comodità, poi in caso non serva si può anche togliere
+    @Override
+    public String toString(){
+        String testo = "";
+        for(Map.Entry<Squadra, Integer> entry : torneoItaliana.getClassifica().entrySet()){
+            testo+=entry.getKey().getNome() + " - "+ entry.getValue() + "\n";
+        }
+        return testo;
+    }
+    
+
 }
+

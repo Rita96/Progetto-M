@@ -12,115 +12,164 @@ import java.util.*;
  * @author paolacarulli
  */
 public class EliminazioneDiretta extends Torneo {
-    private ClassificaEliminazioneDiretta classifica;
     private List<Squadra> squadreNelTorneo = new ArrayList<>();
     private List<Squadra> squadreDaRimuovere = new ArrayList<>();
     
     public EliminazioneDiretta(List<Partita> p) {
         super(p);
         for(Partita pa : this.getPartite()){
-            if(!(squadreNelTorneo.contains(pa.getSquadra1()))){
-                squadreNelTorneo.add(pa.getSquadra1());
+            if(!(squadreNelTorneo.contains(pa.getSquadraCasa()))){
+                squadreNelTorneo.add(pa.getSquadraCasa());
             }
-            if(!(squadreNelTorneo.contains(pa.getSquadra2()))){
-                squadreNelTorneo.add(pa.getSquadra2());
+            if(!(squadreNelTorneo.contains(pa.getSquadraOspite()))){
+                squadreNelTorneo.add(pa.getSquadraOspite());
             }
-        }
-    }
-    public void setVincitore(){
-        for(Partita p: this.getPartite()){
-            // CASO 1: GIOCANO IN CASA DELLA SQUADRA1 ALL'ANDATA
-            if(p.getDoveGioca()){ // getDoveGioca ridà vero se si gioca in casa della squadra 1, altrimenti ridà falso
-                if(p.getGoalSquadra1() > p.getGoalSquadra2()){ // La squadra 1 vince in casa, ora bisogna fare un controllo sulla partita in casa della squadra 2 per sapere chi vince
-                    for(Partita pa: this.getPartite()){
-                        if(!(pa.getDoveGioca()) && pa.getSquadra1().equals(p.getSquadra1()) && pa.getSquadra2().equals(p.getSquadra2())){ // Cerco la partita di ritorno, cioè con le stesse squadre, ma svoltasi in casa della squadra 2
-                            if(pa.getGoalSquadra1() > pa.getGoalSquadra2()){ // Vince nuovamente la squadra1, quindi la squadra2 viene eliminata dal torneo
-                                squadreDaRimuovere.add(p.getSquadra2());
-                            }
-                            else{
-                                if(pa.getGoalSquadra1() < pa.getGoalSquadra2()){ // La squadra2 ha vinto in casa, quindi per capire chi eliminare dal torneo si guarda quella che ha fatto il maggior numero di goal fuori casa
-                                    if(p.getGoalSquadra2() > pa.getGoalSquadra1()){ // La squadra2 ha fatto più goal fuori casa
-                                        squadreDaRimuovere.add(p.getSquadra1());
-                                    }
-                                    else{ // Manca da aggiungere il caso in cui hanno fatto lo stesso numero di goal fuori casa, per semplicità la ometto per ora
-                                        squadreDaRimuovere.add(p.getSquadra2());
-                                    }
-                                }
-                            }
-                        }
-                    }  
-                }
-                else { // La squadra1 perde in casa, ora faccio un controllo sull'altra partita
-                     for(Partita pa: this.getPartite()){
-                        if(!(pa.getDoveGioca()) && pa.getSquadra1().equals(p.getSquadra1()) && pa.getSquadra2().equals(p.getSquadra2())){ // Cerco la partita di ritorno, cioè con le stesse squadre, ma svoltasi in casa della squadra 2
-                            if(pa.getGoalSquadra1() < pa.getGoalSquadra2()){ // Vince nuovamente la squadra2, quindi la squadra1 viene eliminata dal torneo
-                                squadreDaRimuovere.add(p.getSquadra1());
-                            }
-                            else{
-                                if(pa.getGoalSquadra1() > pa.getGoalSquadra2()){ // La squadra2 ha perso in casa, quindi per capire chi eliminare dal torneo si guarda quella che ha fatto il maggior numero di goal fuori casa
-                                    if(p.getGoalSquadra2() > pa.getGoalSquadra1()){ // La squadra2 ha fatto più goal fuori casa
-                                        squadreDaRimuovere.add(p.getSquadra1());
-                                    }
-                                    else{ // Manca da aggiungere il caso in cui hanno fatto lo stesso numero di goal fuori casa, per semplicità la ometto per ora
-                                        squadreDaRimuovere.add(p.getSquadra2());
-                                    }
-                                }
-                            }
-                        }
-                    }  
-                    
-                }
-            }
-            else {
-            // CASO 2: GIOCANO IN CASA DELLA SQUADRA2 ALL'ANDATA
-            if(!(p.getDoveGioca())){ 
-                if(p.getGoalSquadra2() > p.getGoalSquadra1()){ // La squadra 2 vince in casa, ora bisogna fare un controllo sulla partita in casa della squadra 1 per sapere chi vince
-                    for(Partita pa: this.getPartite()){
-                        if(pa.getDoveGioca() && pa.getSquadra1().equals(p.getSquadra1()) && pa.getSquadra2().equals(p.getSquadra2())){ // Cerco la partita di ritorno, cioè con le stesse squadre, ma svoltasi in casa della squadra 2
-                            if(pa.getGoalSquadra2() > pa.getGoalSquadra1()){ // Vince nuovamente la squadra2, quindi la squadra1 viene eliminata dal torneo
-                                squadreDaRimuovere.add(p.getSquadra1());
-                            }
-                            else{
-                                if(pa.getGoalSquadra2() < pa.getGoalSquadra1()){ // La squadra1 ha vinto in casa, quindi per capire chi eliminare dal torneo si guarda quella che ha fatto il maggior numero di goal fuori casa
-                                    if(p.getGoalSquadra1() > pa.getGoalSquadra2()){ // La squadra1 ha fatto più goal fuori casa
-                                        squadreDaRimuovere.add(p.getSquadra2());
-                                    }
-                                    else{ // Manca da aggiungere il caso in cui hanno fatto lo stesso numero di goal fuori casa, per semplicità la ometto per ora
-                                        squadreDaRimuovere.add(p.getSquadra1());
-                                    }
-                                }
-                            }
-                        }
-                    }  
-                }
-                else { // La squadra2 perde in casa, ora faccio un controllo sull'altra partita
-                     for(Partita pa: this.getPartite()){
-                        if(pa.getDoveGioca() && pa.getSquadra1().equals(p.getSquadra1()) && pa.getSquadra2().equals(p.getSquadra2())){ // Cerco la partita di ritorno, cioè con le stesse squadre, ma svoltasi in casa della squadra 2
-                            if(pa.getGoalSquadra1() > pa.getGoalSquadra2()){ // Perde nuovamente la squadra2, quindi la squadra2 viene eliminata dal torneo
-                                squadreDaRimuovere.add(p.getSquadra2());
-                            }
-                            else{
-                                if(pa.getGoalSquadra1() < pa.getGoalSquadra2()){ // La squadra2 vince fuori casa, quindi per capire chi eliminare dal torneo si guarda quella che ha fatto il maggior numero di goal fuori casa
-                                    if(p.getGoalSquadra1() > pa.getGoalSquadra2()){ // La squadra1 ha fatto più goal fuori casa
-                                        squadreDaRimuovere.add(p.getSquadra2());
-                                    }
-                                    else{ // Manca da aggiungere il caso in cui hanno fatto lo stesso numero di goal fuori casa, per semplicità la ometto per ora
-                                        squadreDaRimuovere.add(p.getSquadra1());
-                                    }
-                                }
-                            }
-                        }
-                    }  
-                    
-                }
-            }
-        }
         }
         
+        setEliminazioneDiretta();
     }
-    @Override
-    public void printRisultato() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public List<Squadra> getSquadreNelTorneo(){
+        return squadreNelTorneo;
     }
     
+    public void setEliminazioneDiretta(){
+        for(Partita p: this.getPartite()){
+            this.andata(p);
+        }
+    }
+    
+    public void andata(Partita p){
+        if(p.getGoalSquadraCasaRegolare() > p.getGoalSquadraOspiteRegolare()){ // All'andata vince la squadra di casa
+            this.ritorno(p.getSquadraCasa(), p.getSquadraOspite(), p.getSquadraCasa(), p.getGoalSquadraCasaRegolare(), p.getGoalSquadraOspiteRegolare());
+        }
+        if(p.getGoalSquadraCasaRegolare() < p.getGoalSquadraOspiteRegolare()){ // All'andata vince la squadra ospite
+            this.ritorno(p.getSquadraCasa(), p.getSquadraOspite(), p.getSquadraOspite(), p.getGoalSquadraOspiteRegolare(), p.getGoalSquadraCasaRegolare());
+        }
+        if(p.getGoalSquadraCasaRegolare() == p.getGoalSquadraOspiteRegolare()){ // Pareggiano all'andata
+            this.ritorno(p.getSquadraCasa(), p.getSquadraOspite(), p.getGoalSquadraCasaRegolare(), p.getGoalSquadraOspiteRegolare());
+        }
+        if(squadreNelTorneo.size() == 2){
+            finale(p);
+        }
+    }
+    public void ritorno(Squadra squadraCasaAndata, Squadra squadraCasaRitorno, Squadra squadraVincitriceAndata, int goalSquadraVincenteAndata, int goalSquadraPerdenteAndata){ // Caso in cui non c'è pareggio all'andata
+        for(Partita p: this.getPartite()){
+            if(p.getSquadraCasa().equals(squadraCasaRitorno) && p.getSquadraOspite().equals(squadraCasaAndata)){ // Cerco la partita di ritorno
+                if(p.getStatoPartita().equals(StatoPartita.TERMINATA)){
+                    if(p.getGoalSquadraCasaRegolare() > p.getGoalSquadraOspiteRegolare() && squadraVincitriceAndata.equals(p.getSquadraCasa())){ // Vince sempre la squadra che era ospite all'andata e in casa al ritorno
+                        squadreDaRimuovere.add(squadraCasaAndata); // Rimuovo la squadra che era in casa all'andata
+                    }
+                    if(p.getGoalSquadraCasaRegolare() < p.getGoalSquadraOspiteRegolare() && squadraVincitriceAndata.equals(p.getSquadraOspite())){ // Vince sempre la squadra che era in casa all'andata e ospite al ritorno
+                        squadreDaRimuovere.add(squadraCasaRitorno); // Rimuovo la squadra che è in casa al ritorno
+                    }
+                    if(p.getGoalSquadraCasaRegolare() > p.getGoalSquadraOspiteRegolare() && squadraVincitriceAndata.equals(p.getSquadraOspite())){ // Vince all'andata la squadra che era in casa all'andata e al ritorno quella che è in casa al ritorno
+                        if(goalSquadraPerdenteAndata > p.getGoalSquadraOspiteRegolare()){ // Faccio un controllo sui goal fatti quando erano rispettivamente ospiti
+                            squadreDaRimuovere.add(squadraCasaAndata); // Dato che la squadra in casa al ritorno ha fatto più goal da ospite, elimino l'altra
+                        }
+                        if(goalSquadraPerdenteAndata < p.getGoalSquadraOspiteRegolare()){ // Fa più goal da ospite la squadra che era in casa all'andata
+                            squadreDaRimuovere.add(squadraCasaRitorno);
+                        } 
+                        if(goalSquadraPerdenteAndata == p.getGoalSquadraOspiteRegolare()){
+                            this.supplementari(p);
+                        }
+                    }
+                    if(p.getGoalSquadraCasaRegolare() < p.getGoalSquadraOspiteRegolare() && squadraVincitriceAndata.equals(p.getSquadraCasa())){ // All'andata vince la squadra che era ospite all'andata, al ritorno vince la squadra che era ospite al ritorno
+                        if(goalSquadraVincenteAndata > p.getGoalSquadraOspiteRegolare()){ // vince la squadra che era in casa al ritorno
+                            squadreDaRimuovere.add(squadraCasaAndata);
+                        }
+                        if(goalSquadraVincenteAndata < p.getGoalSquadraOspiteRegolare()){ // vince la squadra che era in casa all'andata
+                            squadreDaRimuovere.add(squadraCasaRitorno);
+                        } 
+                        if(goalSquadraVincenteAndata == p.getGoalSquadraOspiteRegolare()){
+                            this.supplementari(p);
+                        }
+                    }
+                }
+            }
+        }
+        squadreNelTorneo.removeAll(squadreDaRimuovere);
+    }
+    public void ritorno(Squadra squadraCasaAndata, Squadra squadraCasaRitorno, int goalSquadraCasaAndata, int goalSquadraOspiteAndata){ // Caso in cui all'andata pareggiano
+        for(Partita p: this.getPartite()){
+            if(p.getStatoPartita().equals(StatoPartita.TERMINATA)){
+                if(p.getSquadraCasa().equals(squadraCasaRitorno) && p.getSquadraOspite().equals(squadraCasaAndata)){ // Cerco la partita di ritorno
+                    if(p.getGoalSquadraCasaRegolare() > p.getGoalSquadraOspiteRegolare()){ // Vince la squadra che era ospite all'andata 
+                        squadreDaRimuovere.add(squadraCasaAndata); // Rimuovo la squadra che era in casa all'andata
+                    }
+                    if(p.getGoalSquadraCasaRegolare() < p.getGoalSquadraOspiteRegolare()){ // Vince  la squadra che era in casa all'andata 
+                        squadreDaRimuovere.add(squadraCasaRitorno); // Rimuovo la squadra che è in casa al ritorno
+                    }
+                    if(p.getGoalSquadraCasaRegolare() == p.getGoalSquadraOspiteRegolare()){ // Pareggiano anche al ritorno
+                        if(goalSquadraOspiteAndata > p.getGoalSquadraOspiteRegolare()){ // Controllo sui goal da ospite
+                            squadreDaRimuovere.add(squadraCasaAndata);
+                        }
+                        if(goalSquadraOspiteAndata < p.getGoalSquadraOspiteRegolare()){ // Fa più goal da ospite la squadra che era in casa all'andata
+                            squadreDaRimuovere.add(squadraCasaRitorno);
+                        } 
+                        if(goalSquadraOspiteAndata == p.getGoalSquadraOspiteRegolare()){
+                            this.supplementari(p);
+                        }
+                    }
+                }
+            }
+        }
+        squadreNelTorneo.removeAll(squadreDaRimuovere);
+    }
+    public void supplementari(Partita p){
+        if(p.getGoalSquadraCasaSupplementari() > p.getGoalSquadraOspiteSupplementari()){ // Ai supplementari fa più goal la squadra che è in casa al ritorno
+            squadreDaRimuovere.add(p.getSquadraOspite());
+        }
+        if(p.getGoalSquadraCasaSupplementari()<p.getGoalSquadraOspiteSupplementari()){ // Ai supplementari fa più goal la squadra che è ospite al ritorno
+            squadreDaRimuovere.add(p.getSquadraCasa());
+        }
+        if(p.getGoalSquadraCasaSupplementari()==p.getGoalSquadraOspiteSupplementari()){ // Pareggiano anche ai supplementari
+            this.rigori(p);
+        }
+
+    }
+    public void rigori(Partita p){
+        if(p.getGoalSquadraCasaRigori() > p.getGoalSquadraOspiteRigori()){ // Ai rigori fa più goal la squadra che è in casa al ritorno
+            squadreDaRimuovere.add(p.getSquadraOspite());
+        }
+        if(p.getGoalSquadraCasaRigori()<p.getGoalSquadraOspiteRigori()){ // Ai rigori fa più goal la squadra che è ospite al ritorno
+            squadreDaRimuovere.add(p.getSquadraCasa());
+        }
+    }
+    
+    public void finale(Partita p){
+        if(p.getGoalSquadraCasaRegolare() > p.getGoalSquadraOspiteRegolare()){ // Alla finale vince la squadra che è in casa
+            squadreDaRimuovere.add(p.getSquadraOspite());
+        }
+        if(p.getGoalSquadraCasaRegolare() < p.getGoalSquadraOspiteRegolare()){ // Alla finale vince la squadra che è ospite
+            squadreDaRimuovere.add(p.getSquadraCasa());
+        }
+        if(p.getGoalSquadraCasaRegolare() == p.getGoalSquadraOspiteRegolare()){
+            this.supplementari(p);
+        }
+        squadreNelTorneo.removeAll(squadreDaRimuovere);
+    }
+    
+    /*    public void supplementari(Partita p){
+        int goalSupplementariSquadraCasaRitorno = 0;
+        int goalSupplementariSquadraOspiteRitorno = 0;
+        for(Goal g : p.getGoalSquadraCasaList()){ // Controllo se la squadra di casa (al ritorno) ha fatto goal durante i supplementari
+            if((90+p.getMinutiRecupero()<g.getMinuto())&& g.getMinuto()<p.getMinutiRecupero()+90+30){
+                goalSupplementariSquadraCasaRitorno+=1;
+            }
+        }
+        for(Goal g : p.getGoalSquadraOspiteList()){ // controllo se la squadra ospite (al ritorno) ha fatto goal durante i supplementari
+            if((90+p.getMinutiRecupero()<g.getMinuto())&& g.getMinuto()<p.getMinutiRecupero()+90+30){
+                goalSupplementariSquadraOspiteRitorno +=1;
+            }
+        }
+        if(goalSupplementariSquadraCasaRitorno<goalSupplementariSquadraOspiteRitorno){ // Ai supplementari fa più goal la squadra ospite al ritorno
+            squadreDaRimuovere.add(p.getSquadraCasa());
+        }
+        if(goalSupplementariSquadraCasaRitorno>goalSupplementariSquadraOspiteRitorno){
+            squadreDaRimuovere.add(p.getSquadraOspite());
+        }
+        if(goalSupplementariSquadraCasaRitorno==goalSupplementariSquadraOspiteRitorno){ // IMPLEMENTARE RIGORI
+            
+        }
+    } */
 }

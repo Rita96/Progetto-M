@@ -10,5 +10,5 @@ package torneo;
  * @author paolacarulli
  */
 public enum StatoPartita {
-    INCORSO, TERMINATA, PROGRAMMATA;
+    REGOLAMENTARE, SUPPLEMENTARI, RIGORI, TERMINATA, PROGRAMMATA; // I tempi di recupero di eliminazione diretta contano come regolamentare
 }

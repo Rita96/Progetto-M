@@ -11,7 +11,7 @@ import java.util.*;
  *
  * @author paolacarulli
  */
-public abstract class Torneo {
+public  class Torneo {
     private List<Partita> partite = new ArrayList<>();
     
     public Torneo(List <Partita> p){
@@ -23,5 +23,4 @@ public abstract class Torneo {
     public void aggiungiPartita(Partita p){
         this.partite.add(p);
     }
-    public abstract void printRisultato();
 }
