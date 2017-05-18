@@ -16,7 +16,7 @@ public interface DatabaseInterface extends Remote{
     /*
     MarioNOTE:
     here will be located all the methods that can be run by the remote client,
-    inoltre (in inglese non la so) the methods are defined in DatabaseGestion.
+    furthermore the methods are defined in DatabaseManagement.
     
     This class needs to be imported in the client library
     */
