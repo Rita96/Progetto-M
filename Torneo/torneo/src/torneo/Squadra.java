@@ -26,6 +26,9 @@ public class Squadra {
     public String getNome(){
         return nome;
     }
+    public String ModificaNome(String s) {
+        return nome = s;
+    }
     public String getColore(){
         return colore;
     }
@@ -34,5 +37,9 @@ public class Squadra {
     }
     public List<Giocatore> getGiocatori(){
         return giocatori;
+    }
+    @Override
+    public String toString() {
+        return nome;
     }
 }

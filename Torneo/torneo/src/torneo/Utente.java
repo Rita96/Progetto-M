@@ -23,4 +23,11 @@ public class Utente {
     public String getCognome(){
         return cognome;
     }
+    public String ModificaArbitro(String s) {
+        return nome = s;
+    }
+    @Override
+    public String toString() {
+        return nome + " " + cognome;
+    }
 }

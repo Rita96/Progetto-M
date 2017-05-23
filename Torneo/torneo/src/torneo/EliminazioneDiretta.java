@@ -15,8 +15,8 @@ public class EliminazioneDiretta extends Torneo {
     private List<Squadra> squadreNelTorneo = new ArrayList<>();
     private List<Squadra> squadreDaRimuovere = new ArrayList<>();
     
-    public EliminazioneDiretta(List<Partita> p) {
-        super(p);
+    public EliminazioneDiretta(String nome, List<Partita> p) {
+        super(nome, p);
         for(Partita pa : this.getPartite()){
             if(!(squadreNelTorneo.contains(pa.getSquadraCasa()))){
                 squadreNelTorneo.add(pa.getSquadraCasa());
@@ -148,28 +148,8 @@ public class EliminazioneDiretta extends Torneo {
         }
         squadreNelTorneo.removeAll(squadreDaRimuovere);
     }
+    public String toString() {
+        return "Torneo "+this.getNome()+" del tipo Eliminazione Diretta";
+    }
     
-    /*    public void supplementari(Partita p){
-        int goalSupplementariSquadraCasaRitorno = 0;
-        int goalSupplementariSquadraOspiteRitorno = 0;
-        for(Goal g : p.getGoalSquadraCasaList()){ // Controllo se la squadra di casa (al ritorno) ha fatto goal durante i supplementari
-            if((90+p.getMinutiRecupero()<g.getMinuto())&& g.getMinuto()<p.getMinutiRecupero()+90+30){
-                goalSupplementariSquadraCasaRitorno+=1;
-            }
-        }
-        for(Goal g : p.getGoalSquadraOspiteList()){ // controllo se la squadra ospite (al ritorno) ha fatto goal durante i supplementari
-            if((90+p.getMinutiRecupero()<g.getMinuto())&& g.getMinuto()<p.getMinutiRecupero()+90+30){
-                goalSupplementariSquadraOspiteRitorno +=1;
-            }
-        }
-        if(goalSupplementariSquadraCasaRitorno<goalSupplementariSquadraOspiteRitorno){ // Ai supplementari fa più goal la squadra ospite al ritorno
-            squadreDaRimuovere.add(p.getSquadraCasa());
-        }
-        if(goalSupplementariSquadraCasaRitorno>goalSupplementariSquadraOspiteRitorno){
-            squadreDaRimuovere.add(p.getSquadraOspite());
-        }
-        if(goalSupplementariSquadraCasaRitorno==goalSupplementariSquadraOspiteRitorno){ // IMPLEMENTARE RIGORI
-            
-        }
-    } */
 }
