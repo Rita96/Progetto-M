@@ -23,4 +23,7 @@ public class Goal {
     public Giocatore getGiocatore(){
         return giocatore;
     }
+    public String toString() {
+        return "Goal di "+giocatore.getNome()+" "+giocatore.getCognome()+" ("+giocatore.getNumero()+") al minuto "+minuto;
+    }
 }

@@ -17,13 +17,15 @@ import java.util.Random;
  */
 public class GeneratoreTorneo {
     private Torneo torneo;
+    private String nome;
     private List<Partita> partite = new ArrayList<>();
     private List<Squadra> squadre = new ArrayList<>();
     private List<Arbitro> arbitri = new ArrayList<>();
     
-    public GeneratoreTorneo(String Tipo, List<Squadra> squadre, List<Arbitro> arbitri){
+    public GeneratoreTorneo(String nome, String Tipo, List<Squadra> squadre, List<Arbitro> arbitri){
         this.squadre.addAll(squadre);
         this.arbitri.addAll(arbitri);
+        this.nome = nome;
         if(Tipo.equals("ELIMINAZIONE DIRETTA")){
             this.eliminazioneDiretta();
         }
@@ -60,7 +62,7 @@ public class GeneratoreTorneo {
             System.out.println(partite.get(i).getSquadraCasa().getNome() + " " + partite.get(i).getSquadraOspite().getNome());
         }
         
-        torneo = new EliminazioneDiretta(partite);
+        torneo = new EliminazioneDiretta(nome, partite);
     }
     
     public void italiana(){
@@ -84,7 +86,7 @@ public class GeneratoreTorneo {
         for(int i = 0; i<partite.size(); i++){
             System.out.println(partite.get(i).getSquadraCasa().getNome() + " " + partite.get(i).getSquadraOspite().getNome());
         }
-        torneo = new Italiana(partite);
+        torneo = new Italiana(nome, partite);
     }
 }
 

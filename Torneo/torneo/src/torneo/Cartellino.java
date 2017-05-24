@@ -26,4 +26,10 @@ public class Cartellino {
             case ROSSO: descrizione = "Giocatore espulso";        
         }
     }
+    public Giocatore getGiocatore() {
+        return giocatore;
+    }
+    public String toString() {
+        return "Cartellino "+colore;
+    }
 }

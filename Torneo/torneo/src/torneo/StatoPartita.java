@@ -10,5 +10,20 @@ package torneo;
  * @author paolacarulli
  */
 public enum StatoPartita {
-    REGOLAMENTARE, SUPPLEMENTARI, RIGORI, TERMINATA, PROGRAMMATA; // I tempi di recupero di eliminazione diretta contano come regolamentare
+    REGOLAMENTARE("REGOLAMENTARE"), SUPPLEMENTARI("SUPPLEMENTARI"), RIGORI("RIGORI"), TERMINATA("TERMINATA"), PROGRAMMATA("PROGRAMMATA"); // I tempi di recupero di eliminazione diretta contano come regolamentare
+    
+    String name;
+        StatoPartita(String s) {
+            name = s;
+        }
+        public String ModificaStato(String s) {
+            return name = s;
+        }
+        public StatoPartita getStato(String s) {
+            return StatoPartita.valueOf(s);
+        }
+    @Override 
+        public String toString(){ 
+            return name; 
+        }
 }

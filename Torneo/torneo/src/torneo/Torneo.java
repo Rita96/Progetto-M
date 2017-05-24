@@ -12,15 +12,24 @@ import java.util.*;
  * @author paolacarulli
  */
 public  class Torneo {
+    private String nome;
     private List<Partita> partite = new ArrayList<>();
+    private List<Arbitro> arbitri = new ArrayList<>();
     
-    public Torneo(List <Partita> p){
+    public Torneo(String nome, List <Partita> p){
+        this.nome = nome;
         this.partite.addAll(p);
     }
     public List<Partita> getPartite(){
         return partite;
     }
+    public List getArbitri() {
+        return arbitri;
+    }
     public void aggiungiPartita(Partita p){
         this.partite.add(p);
+    }
+    public String getNome() {
+        return nome;
     }
 }

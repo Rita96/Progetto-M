@@ -19,4 +19,7 @@ public class Giocatore extends Utente{
     public int getNumero(){
         return numero;
     }
+    public String toString() {
+        return this.getNome()+" "+this.getCognome()+" "+numero+"\n";
+    }
 }

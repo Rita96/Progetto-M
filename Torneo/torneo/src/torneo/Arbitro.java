@@ -12,7 +12,7 @@ import exception.EccezioneLogIn;
  * @author paolacarulli
  */
 public class Arbitro extends Utente{
-    private String autenticazione; // boolean o enum = topquality, no String 
+    private String autenticazione = "NONAUTENTICATO"; // boolean o enum = topquality, no String 
     private String codiceFiscale;
     private String password;
     
@@ -24,19 +24,22 @@ public class Arbitro extends Utente{
     public String getAutenticazione(){
         return autenticazione;
     }
-    public void logIn(String cf, String p){
+    public String logIn(String cf, String p){
         try{
-            if(cf.equals(codiceFiscale) && p.equals(password)){
+            if( cf.equals(codiceFiscale) && p.equals(password) ) {
                 autenticazione = "AUTENTICATO";
-                System.out.println("Credenziali corrette");
+                return "CREDENZIALI CORRETTE";
+            }
+            else if( cf == null || p == null ) {
+                return "NULL";
             }
             else{
                 autenticazione = "NONAUTENTICATO";
-                throw new EccezioneLogIn("Credenziali sbagli");
+                throw new EccezioneLogIn("CREDENZIALI SCORRETTE");
             }
         }
         catch(EccezioneLogIn e){
-            e.getMessage();
+            return e.getMessage();
         }
-    } 
+    }
 }
