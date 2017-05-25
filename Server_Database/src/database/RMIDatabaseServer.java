@@ -30,8 +30,8 @@ public class RMIDatabaseServer {
            publish a service and client to retrieve the proxy
            */
            Registry registry = LocateRegistry.createRegistry(port);
-           DatabaseGestion DBGestor = new DatabaseGestion();
-           registry.rebind("MyDatabase", DBGestor);
+           DatabaseManagement DBManage = new DatabaseManagement();
+           registry.rebind("MyDatabase", DBManage);
            
            System.out.println("\nServer is ready...");
            

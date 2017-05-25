@@ -7,6 +7,7 @@ package database;
 
 import java.sql.*; 
 import static database.DatabaseConnection.statement;
+import databaseinterface.DatabaseInterface;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
@@ -45,8 +46,9 @@ public class DatabaseManagement extends UnicastRemoteObject implements DatabaseI
     public void putToreo(String nome, int annoTorneo) throws RemoteException {
         try{
             query= "INSERT INTO TORNEO\n"
-                    + " VALUES ( ' " + nome.toUpperCase() + " ' , ' " + annoTorneo +" ' );";
-            resSet = statement.executeQuery(query);
+                    + " VALUES ( '" + nome.toUpperCase() + "' , '" + annoTorneo +"' );";
+            PreparedStatement posted = DatabaseConnection.connection.prepareStatement(query);
+            posted.executeUpdate(query);
         }catch(SQLException ex){
             System.out.println("ERROR:" + ex);
         }
@@ -56,8 +58,9 @@ public class DatabaseManagement extends UnicastRemoteObject implements DatabaseI
     public void putLogin(String username, String password) throws RemoteException {
         try{
             query= "INSERT INTO LOGIN\n"
-                    + " VALUES ( ' " + username + " ' , ' " + password +" ' );";
-            resSet = statement.executeQuery(query);
+                    + " VALUES ( '" + username + "' , '" + password +"' );";
+            PreparedStatement posted = DatabaseConnection.connection.prepareStatement(query);
+            posted.executeUpdate(query);
         }catch(SQLException ex){
             System.out.println("ERROR:" + ex);
         }    
@@ -67,8 +70,9 @@ public class DatabaseManagement extends UnicastRemoteObject implements DatabaseI
     public void putGoal(int idPartita, int minuto, int numeroGiocatore, String nomeSquadra, String cittaSquadra, String nomeTorneo, int annoTorneo) throws RemoteException {
         try{
             query= "INSERT INTO GOAL\n "
-                    + "VALUES ( ' " + idPartita + " ' , ' " + numeroGiocatore + " ' , ' " + nomeSquadra.toUpperCase() + " ' , ' " + cittaSquadra.toUpperCase() + " ' , ' " + nomeTorneo.toUpperCase() + annoTorneo +" ' );";
-            resSet = statement.executeQuery(query);
+                    + "VALUES ( '" + idPartita + "' , '" + numeroGiocatore + "' , '" + nomeSquadra.toUpperCase() + "' , '" + cittaSquadra.toUpperCase() + "' , '" + nomeTorneo.toUpperCase() + annoTorneo +"' );";
+            PreparedStatement posted = DatabaseConnection.connection.prepareStatement(query);
+            posted.executeUpdate(query);
         }catch(SQLException ex){
             System.out.println("ERROR:" + ex);
         } 
@@ -78,8 +82,9 @@ public class DatabaseManagement extends UnicastRemoteObject implements DatabaseI
     public void putCartellino(int idPartita, String colore, int minuto, int numeroGiocatore, String nomeSquadra, String cittaSquadra, String nomeTorneo, int annoTorneo) throws RemoteException {
         try{
             query= "INSERT INTO CARTELLINO\n "
-                    + "VALUES ('" + idPartita + "','" + colore.toUpperCase() + " ' , ' " + minuto + " ' , ' " + numeroGiocatore + " ' , ' " + nomeSquadra.toUpperCase() + " ' , ' " + cittaSquadra.toUpperCase() + " ' , ' " + nomeTorneo.toUpperCase() + annoTorneo +" ' );";
-            resSet = statement.executeQuery(query);
+                    + "VALUES ( '" + idPartita + "','" + colore.toUpperCase() + "' , '" + minuto + "' , '" + numeroGiocatore + "' , '" + nomeSquadra.toUpperCase() + "' , '" + cittaSquadra.toUpperCase() + "' , '" + nomeTorneo.toUpperCase() + annoTorneo +"' );";
+            PreparedStatement posted = DatabaseConnection.connection.prepareStatement(query);
+            posted.executeUpdate(query);
         }catch(SQLException ex){
             System.out.println("ERROR:" + ex);
         } 
@@ -89,8 +94,9 @@ public class DatabaseManagement extends UnicastRemoteObject implements DatabaseI
     public void putArbitro(String codiceFiscale) throws RemoteException {
         try{
             query= "INSERT INTO ARBITRO (CFARBITRO)\n "
-                    + "VALUES ( ' " + codiceFiscale.toUpperCase() +" ' );";
-            resSet = statement.executeQuery(query);
+                    + "VALUES ( '" + codiceFiscale.toUpperCase() +"' );";
+            PreparedStatement posted = DatabaseConnection.connection.prepareStatement(query);
+            posted.executeUpdate(query);
         }catch(SQLException ex){
             System.out.println("ERROR:" + ex);
         } 
@@ -100,8 +106,9 @@ public class DatabaseManagement extends UnicastRemoteObject implements DatabaseI
     public void putArbitro(String codiceFiscale, String nome, String cognome, String username, String password) throws RemoteException {
         try{
             query= "INSERT INTO ARBITRO\n "
-                    + "VALUES ( ' " + codiceFiscale.toUpperCase() + " ' , ' " + nome.toUpperCase() + " ' , ' " + cognome.toUpperCase() + " ' , ' " + username + " ' , ' " + password +" ' );";
-            resSet = statement.executeQuery(query);
+                    + "VALUES ( '" + codiceFiscale.toUpperCase() + "' , '" + nome.toUpperCase() + "' , '" + cognome.toUpperCase() + "' , '" + username + "' , '" + password +"' );";
+            PreparedStatement posted = DatabaseConnection.connection.prepareStatement(query);
+            posted.executeUpdate(query);
         }catch(SQLException ex){
             System.out.println("ERROR:" + ex);
         } 
@@ -111,8 +118,9 @@ public class DatabaseManagement extends UnicastRemoteObject implements DatabaseI
     public void putOrganizzatore(int idOrganizzatore) throws RemoteException {
         try{
             query= "INSERT INTO ORGANIZZATORE (IDORGANIZZATORE)\n "
-                    + "VALUES ( ' " + idOrganizzatore + " ' );";
-            resSet = statement.executeQuery(query);
+                    + "VALUES ( '" + idOrganizzatore + "' );";
+            PreparedStatement posted = DatabaseConnection.connection.prepareStatement(query);
+            posted.executeUpdate(query);
         }catch(SQLException ex){
             System.out.println("ERROR:" + ex);
         } 
@@ -122,8 +130,9 @@ public class DatabaseManagement extends UnicastRemoteObject implements DatabaseI
     public void putOrganizzatore(int idOrganizzatore, String username, String password) throws RemoteException {
         try{
             query= "INSERT INTO ORGANIZZATORE\n "
-                    + "VALUES ( ' " + idOrganizzatore + " ' , ' " + username + " ' , ' " + password +" ' );";
-            resSet = statement.executeQuery(query);
+                    + "VALUES ( '" + idOrganizzatore + "' , '" + username + "' , '" + password +"' );";
+            PreparedStatement posted = DatabaseConnection.connection.prepareStatement(query);
+            posted.executeUpdate(query);
         }catch(SQLException ex){
             System.out.println("ERROR:" + ex);
         } 
@@ -133,8 +142,9 @@ public class DatabaseManagement extends UnicastRemoteObject implements DatabaseI
     public void putPartita(int idPartita, String nomeTorneo, int annoTorneo) throws RemoteException {
         try{
             query= "INSERT INTO PARTITA (IDPARTITA, NOMETORNEO, ANNOTORNEO)\n "
-                    + "VALUES ( ' " + idPartita + " ' , ' " + nomeTorneo.toUpperCase() + annoTorneo + " ' );";
-            resSet = statement.executeQuery(query);
+                    + "VALUES ( '" + idPartita + "' , '" + nomeTorneo.toUpperCase() + annoTorneo + "' );";
+            PreparedStatement posted = DatabaseConnection.connection.prepareStatement(query);
+            posted.executeUpdate(query);
         }catch(SQLException ex){
             System.out.println("ERROR:" + ex);
         } 
@@ -144,8 +154,9 @@ public class DatabaseManagement extends UnicastRemoteObject implements DatabaseI
     public void putPartita(int idPartita, String squadraCasa, String squadraOspite, Date data, String andataritorno, String cfArbitro, String nomeTorneo, int annoTorneo) throws RemoteException {
         try{
             query= "INSERT INTO PARTITA\n "
-                    + "VALUES ( ' " + idPartita + " ' , ' " + squadraCasa.toUpperCase() + " ' , ' " + squadraOspite.toUpperCase() + " ' , ' " + data + " ' , ' " + andataritorno.toUpperCase() + " ' , ' " + cfArbitro.toUpperCase() + " ' , ' " + nomeTorneo.toUpperCase() + annoTorneo +" ' );";
-            resSet = statement.executeQuery(query);
+                    + "VALUES ( '" + idPartita + "' , '" + squadraCasa.toUpperCase() + "' , '" + squadraOspite.toUpperCase() + "' , '" + data + "' , '" + andataritorno.toUpperCase() + "' , '" + cfArbitro.toUpperCase() + "' , '" + nomeTorneo.toUpperCase() + annoTorneo +"' );";
+            PreparedStatement posted = DatabaseConnection.connection.prepareStatement(query);
+            posted.executeUpdate(query);
         }catch(SQLException ex){
             System.out.println("ERROR:" + ex);
         } 
@@ -155,8 +166,9 @@ public class DatabaseManagement extends UnicastRemoteObject implements DatabaseI
     public void putPartita(int idPartita, String squadraCasa, String squadraOspite, Date data, String cfArbitro, String nomeTorneo, int annoTorneo) throws RemoteException {
         try{
             query= "INSERT INTO PARTITA (IDPARTITA, SQUADRACASA, SQUADRAOSPITE, DATA, CFARBITRO, NOMETORNEO, ANNOTORNEO)\n "
-                    + "VALUES ( ' " + idPartita + " ' , ' " + squadraCasa.toUpperCase() + " ' , ' " + squadraOspite.toUpperCase() + " ' , ' " + data + " ' , ' " + cfArbitro.toUpperCase() + " ' , ' " + nomeTorneo.toUpperCase() + annoTorneo +" ' );";
-            resSet = statement.executeQuery(query);
+                    + "VALUES ( '" + idPartita + "' , '" + squadraCasa.toUpperCase() + "' , '" + squadraOspite.toUpperCase() + "' , '" + data + "' , '" + cfArbitro.toUpperCase() + "' , '" + nomeTorneo.toUpperCase() + annoTorneo +"' );";
+            PreparedStatement posted = DatabaseConnection.connection.prepareStatement(query);
+            posted.executeUpdate(query);
         }catch(SQLException ex){
             System.out.println("ERROR:" + ex);
         } 
@@ -166,8 +178,9 @@ public class DatabaseManagement extends UnicastRemoteObject implements DatabaseI
     public void putGiocatore(int numero, String nomeSquadra, String cittaSquadra) throws RemoteException {
         try{
             query= "INSERT INTO GIOCATORE (NUMERO, NOMESQUADRA, CITTASQUADRA)\n "
-                    + "VALUES ( ' " + numero + " ' , ' " + nomeSquadra.toUpperCase() + " ' , ' " + cittaSquadra.toUpperCase() +" ' );";
-            resSet = statement.executeQuery(query);
+                    + "VALUES ( '" + numero + "' , '" + nomeSquadra.toUpperCase() + "' , '" + cittaSquadra.toUpperCase() +"' );";
+            PreparedStatement posted = DatabaseConnection.connection.prepareStatement(query);
+            posted.executeUpdate(query);
         }catch(SQLException ex){
             System.out.println("ERROR:" + ex);
         } 
@@ -177,8 +190,9 @@ public class DatabaseManagement extends UnicastRemoteObject implements DatabaseI
     public void putGiocatore(int numero, String nomeGiocatore, String cognomeGiocatore, String nomeSquadra, String cittaSquadra) throws RemoteException {
         try{
             query= "INSERT INTO GIOCATORE\n "
-                    + "VALUES ( ' " + numero + " ' , ' " + nomeGiocatore.toUpperCase() + " ' , ' " + cognomeGiocatore.toUpperCase() + " ' , ' "  + nomeSquadra.toUpperCase() + " ' , ' " + cittaSquadra.toUpperCase() +" ' );";
-            resSet = statement.executeQuery(query);
+                    + "VALUES ( '" + numero + "' , '" + nomeGiocatore.toUpperCase() + "' , '" + cognomeGiocatore.toUpperCase() + "' , '"  + nomeSquadra.toUpperCase() + "' , '" + cittaSquadra.toUpperCase() +"' );";
+            PreparedStatement posted = DatabaseConnection.connection.prepareStatement(query);
+            posted.executeUpdate(query);
         }catch(SQLException ex){
             System.out.println("ERROR:" + ex);
         } 
@@ -188,8 +202,9 @@ public class DatabaseManagement extends UnicastRemoteObject implements DatabaseI
     public void putSquadra(String nomeSquadra, String cittaSquadra) throws RemoteException {
         try{
             query= "INSERT INTO SQUADRA (NOMESQUADRA, CITTASQUADRA)\n "
-                    + "VALUES ( ' " +  nomeSquadra.toUpperCase() + " ' , ' " + cittaSquadra.toUpperCase() + " ' , ' " + " ' );";
-            resSet = statement.executeQuery(query);
+                    + "VALUES ( '" +  nomeSquadra.toUpperCase() + "' , '" + cittaSquadra.toUpperCase() + "' );";
+            PreparedStatement posted = DatabaseConnection.connection.prepareStatement(query);
+            posted.executeUpdate(query);
         }catch(SQLException ex){
             System.out.println("ERROR:" + ex);
         } 
@@ -199,8 +214,9 @@ public class DatabaseManagement extends UnicastRemoteObject implements DatabaseI
     public void putSquadra(String nomeSquadra, String cittaSquadra, String coloreSquadra) throws RemoteException {
         try{
             query= "INSERT INTO SQUADRA\n "
-                    + "VALUES ( ' " +  nomeSquadra.toUpperCase() + " ' , ' " + cittaSquadra.toUpperCase() + " ' , ' " + coloreSquadra.toUpperCase() +" ' );";
-            resSet = statement.executeQuery(query);
+                    + "VALUES ( '" +  nomeSquadra.toUpperCase() + "' , '" + cittaSquadra.toUpperCase() + "' , '" + coloreSquadra.toUpperCase() +"' );";
+            PreparedStatement posted = DatabaseConnection.connection.prepareStatement(query);
+            posted.executeUpdate(query);
         }catch(SQLException ex){
             System.out.println("ERROR:" + ex);
         } 
@@ -210,8 +226,9 @@ public class DatabaseManagement extends UnicastRemoteObject implements DatabaseI
     public void putSquadraCasa(String nomeSquadra, String cittaSquadra) throws RemoteException {
         try{
             query= "INSERT INTO SQUADRACASA\n "
-                    + "VALUES ( ' " +  nomeSquadra.toUpperCase() + " ' , ' " + cittaSquadra.toUpperCase() + " ' );";
-            resSet = statement.executeQuery(query);
+                    + "VALUES ( '" +  nomeSquadra.toUpperCase() + "' , '" + cittaSquadra.toUpperCase() + "' );";
+            PreparedStatement posted = DatabaseConnection.connection.prepareStatement(query);
+            posted.executeUpdate(query);
         }catch(SQLException ex){
             System.out.println("ERROR:" + ex);
         } 
@@ -221,8 +238,9 @@ public class DatabaseManagement extends UnicastRemoteObject implements DatabaseI
     public void putSquadraOspite(String nomeSquadra, String cittaSquadra) throws RemoteException {
         try{
             query= "INSERT INTO SQUADRAOSPITE\n "
-                    + "VALUES ( ' " +  nomeSquadra.toUpperCase() + " ' , ' " + cittaSquadra.toUpperCase() + " ' , ' " +" ' );";
-            resSet = statement.executeQuery(query);
+                    + "VALUES ( '" +  nomeSquadra.toUpperCase() + "' , '" + cittaSquadra.toUpperCase() + "' , '" +"' );";
+            PreparedStatement posted = DatabaseConnection.connection.prepareStatement(query);
+            posted.executeUpdate(query);
         }catch(SQLException ex){
             System.out.println("ERROR:" + ex);
         } 
@@ -232,8 +250,9 @@ public class DatabaseManagement extends UnicastRemoteObject implements DatabaseI
     public void putTorneoItaliana(String nomeSquadra, String cittaSquadra, int punti, String nomeTorneo, String annoTorneo) throws RemoteException {
          try{
             query= "INSERT INTO TORNEO_ITALIANA\n "
-                    + "VALUES ( ' " +  nomeSquadra.toUpperCase() + " ' , ' " + cittaSquadra.toUpperCase() + " ' , ' " + punti + " ' , ' " + nomeTorneo.toUpperCase() + " ' , ' " + annoTorneo.toUpperCase() + " ' );";
-            resSet = statement.executeQuery(query);
+                    + "VALUES ( '" +  nomeSquadra.toUpperCase() + "' , '" + cittaSquadra.toUpperCase() + "' , '" + punti + "' , '" + nomeTorneo.toUpperCase() + "' , '" + annoTorneo.toUpperCase() + "' );";
+            PreparedStatement posted = DatabaseConnection.connection.prepareStatement(query);
+            posted.executeUpdate(query);
         }catch(SQLException ex){
             System.out.println("ERROR:" + ex);
         } 
