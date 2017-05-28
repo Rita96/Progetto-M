@@ -223,34 +223,10 @@ public class DatabaseManagement extends UnicastRemoteObject implements DatabaseI
     }
 
     @Override
-    public void putSquadraCasa(String nomeSquadra, String cittaSquadra) throws RemoteException {
-        try{
-            query= "INSERT INTO SQUADRACASA\n "
-                    + "VALUES ( '" +  nomeSquadra.toUpperCase() + "' , '" + cittaSquadra.toUpperCase() + "' );";
-            PreparedStatement posted = DatabaseConnection.connection.prepareStatement(query);
-            posted.executeUpdate(query);
-        }catch(SQLException ex){
-            System.out.println("ERROR:" + ex);
-        } 
-    }
-
-    @Override
-    public void putSquadraOspite(String nomeSquadra, String cittaSquadra) throws RemoteException {
-        try{
-            query= "INSERT INTO SQUADRAOSPITE\n "
-                    + "VALUES ( '" +  nomeSquadra.toUpperCase() + "' , '" + cittaSquadra.toUpperCase() + "' , '" +"' );";
-            PreparedStatement posted = DatabaseConnection.connection.prepareStatement(query);
-            posted.executeUpdate(query);
-        }catch(SQLException ex){
-            System.out.println("ERROR:" + ex);
-        } 
-    }
-
-    @Override
-    public void putTorneoItaliana(String nomeSquadra, String cittaSquadra, int punti, String nomeTorneo, String annoTorneo) throws RemoteException {
+    public void putTorneoItaliana(String nomeSquadra, String cittaSquadra, int punti, String nomeTorneo, int annoTorneo) throws RemoteException {
          try{
             query= "INSERT INTO TORNEO_ITALIANA\n "
-                    + "VALUES ( '" +  nomeSquadra.toUpperCase() + "' , '" + cittaSquadra.toUpperCase() + "' , '" + punti + "' , '" + nomeTorneo.toUpperCase() + "' , '" + annoTorneo.toUpperCase() + "' );";
+                    + "VALUES ( '" +  nomeSquadra.toUpperCase() + "' , '" + cittaSquadra.toUpperCase() + "' , '" + punti + "' , '" + nomeTorneo.toUpperCase() + "' , '" + annoTorneo + "' );";
             PreparedStatement posted = DatabaseConnection.connection.prepareStatement(query);
             posted.executeUpdate(query);
         }catch(SQLException ex){
@@ -351,7 +327,6 @@ public class DatabaseManagement extends UnicastRemoteObject implements DatabaseI
         }
         return partita;
     }
-
     /*@Override
     public ArrayList<Integer> getGoal(int idPartita, String nomeTorneo, int annoTorneo) throws RemoteException {
         
@@ -395,5 +370,205 @@ public class DatabaseManagement extends UnicastRemoteObject implements DatabaseI
         } 
         return cartellino;
     }*/
+
+    @Override
+    public void updateToreo(String nome, int annoTorneo) throws RemoteException {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void updateLogin(String username, String password) throws RemoteException {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void updateGoal(int idPartita, int minuto, int numeroGiocatore, String nomeSquadra, String cittaSquadra, String nomeTorneo, int annoTorneo) throws RemoteException {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void updateCartellino(int idPartita, String colore, int minuto, int numeroGiocatore, String nomeSquadra, String cittaSquadra, String nomeTorneo, int annoTorneo) throws RemoteException {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void updateArbitro(String codiceFiscale) throws RemoteException {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void updateArbitro(String codiceFiscale, String nome, String cognome, String username, String password) throws RemoteException {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void updateOrganizzatore(int idOrganizzatore) throws RemoteException {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void updateOrganizzatore(int idOrganizzatore, String username, String password) throws RemoteException {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void updatePartita(int idPartita, String nomeTorneo, int annoTorneo) throws RemoteException {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void updatePartita(int idPartita, String squadraCasa, String squadraOspite, Date data, String andataritorno, String cfArbitro, String nomeTorneo, int annoTorneo) throws RemoteException {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void updatePartita(int idPartita, String squadraCasa, String squadraOspite, Date data, String cfArbitro, String nomeTorneo, int annoTorneo) throws RemoteException {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void updateGiocatore(int numero, String nomeSquadra, String cittaSquadra) throws RemoteException {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void updateGiocatore(int numero, String nomeGiocatore, String cognomeGiocatore, String nomeSquadra, String cittaSquadra) throws RemoteException {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void updateSquadra(String nomeSquadra, String cittaSquadra) throws RemoteException {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void updateSquadra(String nomeSquadra, String cittaSquadra, String coloreSquadra) throws RemoteException {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void updateTorneoItaliana(String nomeSquadra, String cittaSquadra, int punti, String nomeTorneo, String annoTorneo) throws RemoteException {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void deleteToreo(String nome, int annoTorneo) throws RemoteException {
+        try{
+            query= "DELETE FROM TORNEO\n "
+                    + "WHERE NOMETORNEO = '" + nome.toUpperCase() + "' AND ANNOTORNEO = '" + annoTorneo + "' ;";
+            PreparedStatement posted = DatabaseConnection.connection.prepareStatement(query);
+            posted.executeUpdate(query);
+        }catch(SQLException ex){
+            System.out.println("ERROR:" + ex);
+        } 
+    }
+
+    @Override
+    public void deleteLogin(String username, String password) throws RemoteException {
+        try{
+            query= "DELETE FROM LOGIN\n "
+                    + "WHERE USERNAME = '" + username + "' AND PASSWORD = '" + password + "' ;";
+            PreparedStatement posted = DatabaseConnection.connection.prepareStatement(query);
+            posted.executeUpdate(query);
+        }catch(SQLException ex){
+            System.out.println("ERROR:" + ex);
+        } 
+    }
+
+    @Override
+    public void deleteGoal(int idPartita, int minuto, int numeroGiocatore, String nomeSquadra, String cittaSquadra, String nomeTorneo, int annoTorneo) throws RemoteException {
+        try{
+            query= "DELETE FROM GOAL\n "
+                    + "WHERE IDPARTITA = '" + idPartita + "' AND MINUTO = '" + minuto + "' AND MINUTO = '" + minuto + "' AND NUMEROGIOCATORE = '" + numeroGiocatore + "' AND NOMESQUADRA = '" + nomeSquadra.toUpperCase() + "' AND CITTASQUADRA = '" + cittaSquadra.toUpperCase() + "' AND NOMETORNEO = '" + nomeTorneo.toUpperCase() + "' AND ANNOTORENO = '" + annoTorneo + "' ;";
+            PreparedStatement posted = DatabaseConnection.connection.prepareStatement(query);
+            posted.executeUpdate(query);
+        }catch(SQLException ex){
+            System.out.println("ERROR:" + ex);
+        } 
+    }
+
+    @Override
+    public void deleteCartellino(int idPartita, String colore, int minuto, int numeroGiocatore, String nomeSquadra, String cittaSquadra, String nomeTorneo, int annoTorneo) throws RemoteException {
+        try{
+            query= "DELETE FROM CARTELLINO\n "
+                    + "WHERE IDPARTITA = '" + idPartita + "' AND COLORECARTELLINO = '" + colore.toUpperCase() + "' AND MINUTO = '" + minuto + "' AND NUMEROGIOCATORE = '" + numeroGiocatore + "' AND NOMESQUADRA = '" + nomeSquadra.toUpperCase() + "' AND CITTASQUADRA = '" + cittaSquadra.toUpperCase() + "' AND NOMETORNEO = '" + nomeTorneo.toUpperCase() + "' AND ANNOTORENO = '" + annoTorneo + "' ;";
+            PreparedStatement posted = DatabaseConnection.connection.prepareStatement(query);
+            posted.executeUpdate(query);
+        }catch(SQLException ex){
+            System.out.println("ERROR:" + ex);
+        } 
+    }
+
+    @Override
+    public void deleteArbitro(String codiceFiscale) throws RemoteException {
+        try{
+            query= "DELETE FROM ARBITRO\n "
+                    + "WHERE CFARBITRO = '" + codiceFiscale.toUpperCase() + "' ;";
+            PreparedStatement posted = DatabaseConnection.connection.prepareStatement(query);
+            posted.executeUpdate(query);
+        }catch(SQLException ex){
+            System.out.println("ERROR:" + ex);
+        } 
+    }
+
+    @Override
+    public void deleteOrganizzatore(int idOrganizzatore) throws RemoteException {
+        try{
+            query= "DELETE FROM ORGANIZZATORE\n "
+                    + "WHERE IDORGANIZZATORE = '" + idOrganizzatore + "' ;";
+            PreparedStatement posted = DatabaseConnection.connection.prepareStatement(query);
+            posted.executeUpdate(query);
+        }catch(SQLException ex){
+            System.out.println("ERROR:" + ex);
+        } 
+    }
+
+    @Override
+    public void deletePartita(int idPartita, String nomeTorneo, int annoTorneo) throws RemoteException {
+        try{
+            query= "DELETE FROM PARTITA\n "
+                    + "WHERE IDPARTITA = '" + idPartita + "' AND NOMETORNEO = '" + nomeTorneo + "' AND ANNOTORNEO = '" + annoTorneo + "' ;";
+            PreparedStatement posted = DatabaseConnection.connection.prepareStatement(query);
+            posted.executeUpdate(query);
+        }catch(SQLException ex){
+            System.out.println("ERROR:" + ex);
+        } 
+    }
+
+    @Override
+    public void deleteGiocatore(int numero, String nomeSquadra, String cittaSquadra) throws RemoteException {
+        try{
+            query= "DELETE FROM GIOCATORE\n "
+                    + "WHERE NOMERO = '" + numero + "' AND NOMESQUADRA = '" + nomeSquadra.toUpperCase() + "' AND CITTASQUADRA = '" + cittaSquadra.toUpperCase() + "' ;";
+            PreparedStatement posted = DatabaseConnection.connection.prepareStatement(query);
+            posted.executeUpdate(query);
+        }catch(SQLException ex){
+            System.out.println("ERROR:" + ex);
+        } 
+    }
+
+    @Override
+    public void deleteSquadra(String nomeSquadra, String cittaSquadra) throws RemoteException {
+        try{
+            query= "DELETE FROM SQUADRA\n "
+                    + "WHERE NOMESQUADRA = '" + nomeSquadra + "' AND CITTASQUADRA = '" + cittaSquadra + "' ;";
+            PreparedStatement posted = DatabaseConnection.connection.prepareStatement(query);
+            posted.executeUpdate(query);
+        }catch(SQLException ex){
+            System.out.println("ERROR:" + ex);
+        } 
+    }
+
+    @Override
+    public void deleteTorneoItaliana(String nomeSquadra, String cittaSquadra, int punti, String nomeTorneo, int annoTorneo) throws RemoteException {
+        try{
+            query= "DELETE FROM TORNEO_ITALIANA\n "
+                    + "WHERE NOMESQUADRA = '" + nomeSquadra.toUpperCase() + "' AND CITTASQUADRA = '" + cittaSquadra.toUpperCase() + "' AND PUNTI = '" + punti + "' AND NOMETORNEO = '" + nomeTorneo + "' AND ANNOTORNEO = '" + annoTorneo +"' ;";
+            PreparedStatement posted = DatabaseConnection.connection.prepareStatement(query);
+            posted.executeUpdate(query);
+        }catch(SQLException ex){
+            System.out.println("ERROR:" + ex);
+        } 
+    }
 
 }
