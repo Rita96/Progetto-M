@@ -29,18 +29,6 @@ public class DatabaseManagement extends UnicastRemoteObject implements DatabaseI
     public DatabaseManagement ()throws RemoteException{
         
     }
-        
-    @Override
-    public String getQuery(){
-        try{
-            query= "SELECT * FROM PARTITA";
-            resSet = statement.executeQuery(query);
-            System.out.println("RISULTATO QUERY:");
-        }catch(Exception ex){
-            System.out.println("ERROR:" + ex);
-        }
-        return query;
-    }
 
     @Override
     public void putToreo(String nome, int annoTorneo) throws RemoteException {
@@ -242,7 +230,7 @@ public class DatabaseManagement extends UnicastRemoteObject implements DatabaseI
         
         try{
             query= "SELECT NOMEGIOCATORE, COGNOMEGIOCATORE, NUMERO FROM GIOCATORE\n "
-                    + "WHERE NOMESQUADRA = \"" +  nomeSquadra.toUpperCase() + "\" AND CITTASQUADRA = \"" + cittaSquadra.toUpperCase() + "\" ;";
+                    + "WHERE NOMESQUADRA = '" +  nomeSquadra.toUpperCase() + "' AND CITTASQUADRA = '" + cittaSquadra.toUpperCase() + "' ;";
             resSet = statement.executeQuery(query);
             rsmd = resSet.getMetaData();
             int columnNumber = rsmd.getColumnCount();
@@ -263,14 +251,14 @@ public class DatabaseManagement extends UnicastRemoteObject implements DatabaseI
     }
 
     @Override
-    public ArrayList<String> getAllSquadreTorneo(String nomeTorneo, int annoTorneo) throws RemoteException { 
+    public ArrayList<String> getSquadre(String nomeTorneo, int annoTorneo) throws RemoteException { 
         
         ArrayList<String> squadre = new ArrayList<String>();
         int column = 1;
         
         try{
             query= "SELECT SQUADRACASA FROM PARTITA\n "
-                    + "WHERE NOMETORNEO = \"" + nomeTorneo.toUpperCase() + "\" AND ANNOTORNEO = \"" + annoTorneo + "\" ;";
+                    + "WHERE NOMETORNEO = '" + nomeTorneo.toUpperCase() + "' AND ANNOTORNEO = '" + annoTorneo + "' ;";
             resSet = statement.executeQuery(query);
             
             do{
@@ -294,7 +282,7 @@ public class DatabaseManagement extends UnicastRemoteObject implements DatabaseI
         
         try{
              query= "SELECT * FROM PARTITA\n "
-                    + "WHERE NOMETORNEO = \"" + nomeTorneo.toUpperCase() + "\" AND ANNOTORNEO = \"" + annoTorneo + "\" ;";
+                    + "WHERE NOMETORNEO = '" + nomeTorneo.toUpperCase() + "' AND ANNOTORNEO = '" + annoTorneo + "' ;";
             resSet = statement.executeQuery(query);
             
             do{
@@ -317,7 +305,7 @@ public class DatabaseManagement extends UnicastRemoteObject implements DatabaseI
         
         try{
             query= "SELECT * FROM PARTITA\n "
-                    + "WHERE IDPARTITA = " + idPartita + "\" AND NOMETORNEO = \""  + nomeTorneo.toUpperCase() + "\" AND ANNOTORNEO = \"" + annoTorneo + "\" ;";
+                    + "WHERE IDPARTITA = '" + idPartita + "' AND NOMETORNEO = '"  + nomeTorneo.toUpperCase() + "' AND ANNOTORNEO = '" + annoTorneo + "' ;";
             resSet = statement.executeQuery(query);
             
             partita.put(resSet.getString(squadraCasaColumn), resSet.getString(squadraOspiteColumn));   //getting the value in the current row of the column indicated
@@ -327,51 +315,6 @@ public class DatabaseManagement extends UnicastRemoteObject implements DatabaseI
         }
         return partita;
     }
-    /*@Override
-    public ArrayList<Integer> getGoal(int idPartita, String nomeTorneo, int annoTorneo) throws RemoteException {
-        
-        ArrayList<Integer> goal = new ArrayList<Integer>();
-        int column = 2;
-        
-        try{
-             query= "SELECT * FROM CARTELLINO\n "
-                    + "WHERE NOMETORNEO = \"" + nomeTorneo.toUpperCase() + "\" AND ANNOTORNEO = \"" + annoTorneo + "\" AND IDPARTITA = \"" + idPartita + "\" ;";
-            resSet = statement.executeQuery(query);
-            
-            do{
-               goal.add(resSet.getInt(column));   //getting the value in the current row of the column indicated
-               resSet.next();   //moving to the next row
-            }while(resSet.next());
- 
-        }catch(SQLException ex){
-            System.out.println("ERROR:" + ex);
-        } 
-        return goal;
-    }*/
-
-    /*@Override
-    public ArrayList<Integer> getCartellini(int idPartita, String nomeTorneo, int annoTorneo) throws RemoteException {
-        
-        ArrayList<Integer> cartellino = new ArrayList<Integer>();
-        int column = 3;
-        
-        try{
-             query= "SELECT * FROM CARTELLINO\n "
-                    + "WHERE NOMETORNEO = \"" + nomeTorneo.toUpperCase() + "\" AND ANNOTORNEO = \"" + annoTorneo + "\" AND IDPARTITA = \"" + idPartita + "\" ;";
-            resSet = statement.executeQuery(query);
-            
-            do{
-               cartellino.add(resSet.getInt(column));   //getting the value in the current row of the column indicated
-               resSet.next();   //moving to the next row
-            }while(resSet.next());
- 
-        }catch(SQLException ex){
-            System.out.println("ERROR:" + ex);
-        } 
-        return cartellino;
-    }*/
-
-   
 
     @Override
     public void deleteToreo(String nome, int annoTorneo) throws RemoteException {
@@ -1142,7 +1085,6 @@ public class DatabaseManagement extends UnicastRemoteObject implements DatabaseI
             System.out.println("ERROR:" + ex);
         }
     }
-
     
 
 }
