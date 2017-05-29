@@ -263,7 +263,7 @@ public class DatabaseManagement extends UnicastRemoteObject implements DatabaseI
     }
 
     @Override
-    public ArrayList<String> getSquadra(String nomeTorneo, int annoTorneo) throws RemoteException { 
+    public ArrayList<String> getAllSquadreTorneo(String nomeTorneo, int annoTorneo) throws RemoteException { 
         
         ArrayList<String> squadre = new ArrayList<String>();
         int column = 1;
@@ -371,85 +371,7 @@ public class DatabaseManagement extends UnicastRemoteObject implements DatabaseI
         return cartellino;
     }*/
 
-    @Override
-    public void updateToreo(String nome, int annoTorneo) throws RemoteException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public void updateLogin(String username, String password) throws RemoteException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public void updateGoal(int idPartita, int minuto, int numeroGiocatore, String nomeSquadra, String cittaSquadra, String nomeTorneo, int annoTorneo) throws RemoteException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public void updateCartellino(int idPartita, String colore, int minuto, int numeroGiocatore, String nomeSquadra, String cittaSquadra, String nomeTorneo, int annoTorneo) throws RemoteException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public void updateArbitro(String codiceFiscale) throws RemoteException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public void updateArbitro(String codiceFiscale, String nome, String cognome, String username, String password) throws RemoteException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public void updateOrganizzatore(int idOrganizzatore) throws RemoteException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public void updateOrganizzatore(int idOrganizzatore, String username, String password) throws RemoteException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public void updatePartita(int idPartita, String nomeTorneo, int annoTorneo) throws RemoteException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public void updatePartita(int idPartita, String squadraCasa, String squadraOspite, Date data, String andataritorno, String cfArbitro, String nomeTorneo, int annoTorneo) throws RemoteException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public void updatePartita(int idPartita, String squadraCasa, String squadraOspite, Date data, String cfArbitro, String nomeTorneo, int annoTorneo) throws RemoteException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public void updateGiocatore(int numero, String nomeSquadra, String cittaSquadra) throws RemoteException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public void updateGiocatore(int numero, String nomeGiocatore, String cognomeGiocatore, String nomeSquadra, String cittaSquadra) throws RemoteException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public void updateSquadra(String nomeSquadra, String cittaSquadra) throws RemoteException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public void updateSquadra(String nomeSquadra, String cittaSquadra, String coloreSquadra) throws RemoteException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public void updateTorneoItaliana(String nomeSquadra, String cittaSquadra, int punti, String nomeTorneo, String annoTorneo) throws RemoteException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
+   
 
     @Override
     public void deleteToreo(String nome, int annoTorneo) throws RemoteException {
@@ -570,5 +492,657 @@ public class DatabaseManagement extends UnicastRemoteObject implements DatabaseI
             System.out.println("ERROR:" + ex);
         } 
     }
+
+    @Override
+    public void updateNomeToreo(String nome, int annoTorneo, String nuovoNome) throws RemoteException {
+        try{
+            query= "UPDATE TORNEO\n "
+                    + "SET NOMETORNEO = '" + nuovoNome.toUpperCase() + "'\n "
+                    + "WHERE NOMETORNEO = '" + nome.toUpperCase() + "' AND ANNOTORNEO = '" + annoTorneo + "' ;";
+            PreparedStatement posted = DatabaseConnection.connection.prepareStatement(query);
+            posted.executeUpdate(query);
+        }catch(SQLException ex){
+            System.out.println("ERROR:" + ex);
+        } 
+    }
+
+    @Override
+    public void updateAnnoToreo(String nome, int annoTorneo, int nuovoAnno) throws RemoteException {
+        try{
+            query= "UPDATE TORNEO\n "
+                    + "SET ANNOTORNEO = '" + nuovoAnno + "'\n "
+                    + "WHERE NOMETORNEO = '" + nome.toUpperCase() + "' AND ANNOTORNEO = '" + annoTorneo + "' ;";
+            PreparedStatement posted = DatabaseConnection.connection.prepareStatement(query);
+            posted.executeUpdate(query);
+        }catch(SQLException ex){
+            System.out.println("ERROR:" + ex);
+        } 
+    }
+
+    @Override
+    public void updateUsernameLogin(String username, String password, String nuovoUsername) throws RemoteException {
+        try{
+            query= "UPDATE LOGIN\n "
+                    + "SET USERNAME = '" + nuovoUsername + "'\n "
+                    + "WHERE USERNAME = '" + username + "' AND PASSWORD = '" + password + "' ;";
+            PreparedStatement posted = DatabaseConnection.connection.prepareStatement(query);
+            posted.executeUpdate(query);
+        }catch(SQLException ex){
+            System.out.println("ERROR:" + ex);
+        } 
+    }
+
+    @Override
+    public void updatePasswordLogin(String username, String password, String nuovaPassword) throws RemoteException {
+        try{
+            query= "UPDATE LOGIN\n "
+                    + "SET PASSWORD = '" + nuovaPassword + "'\n "
+                    + "WHERE USERNAME = '" + username + "' AND PASSWORD = '" + password + "' ;";
+            PreparedStatement posted = DatabaseConnection.connection.prepareStatement(query);
+            posted.executeUpdate(query);
+        }catch(SQLException ex){
+            System.out.println("ERROR:" + ex);
+        } 
+    }
+
+    @Override
+    public void updateIdPartitaGoal(int idPartita, int minuto, int numeroGiocatore, String nomeSquadra, String cittaSquadra, String nomeTorneo, int annoTorneo, int nuovoId) throws RemoteException {
+        try{
+            query= "UPDATE GOAL\n "
+                    + "SET IDPARTITA = '" + nuovoId + "'\n "
+                    + "WHERE IDPARTITA = '" + idPartita + "' AND MINUTO = '" + minuto + "' AND NUMEROGIOCATORE = '" + numeroGiocatore + "' AND NOMESQUADRA = '" + nomeSquadra.toUpperCase() + "' AND CITTASQUADRA = '" + cittaSquadra.toUpperCase() + "' AND NOMETORNEO = '" + nomeTorneo.toUpperCase() + "' AND ANNOTORNEO = '" + annoTorneo + "' ;";
+            PreparedStatement posted = DatabaseConnection.connection.prepareStatement(query);
+            posted.executeUpdate(query);
+        }catch(SQLException ex){
+            System.out.println("ERROR:" + ex);
+        } 
+    }
+
+    @Override
+    public void updateMinutoGoal(int idPartita, int minuto, int numeroGiocatore, String nomeSquadra, String cittaSquadra, String nomeTorneo, int annoTorneo, int nuovoMinuto) throws RemoteException {
+        try{
+            query= "UPDATE GOAL\n "
+                    + "SET MINUTO = '" + nuovoMinuto + "'\n "
+                    + "WHERE IDPARTITA = '" + idPartita + "' AND MINUTO = '" + minuto + "' AND NUMEROGIOCATORE = '" + numeroGiocatore + "' AND NOMESQUADRA = '" + nomeSquadra.toUpperCase() + "' AND CITTASQUADRA = '" + cittaSquadra.toUpperCase() + "' AND NOMETORNEO = '" + nomeTorneo.toUpperCase() + "' AND ANNOTORNEO = '" + annoTorneo + "' ;";
+            PreparedStatement posted = DatabaseConnection.connection.prepareStatement(query);
+            posted.executeUpdate(query);
+        }catch(SQLException ex){
+            System.out.println("ERROR:" + ex);
+        } 
+    }
+
+    @Override
+    public void updateNumeroGiocatoreGoal(int idPartita, int minuto, int numeroGiocatore, String nomeSquadra, String cittaSquadra, String nomeTorneo, int annoTorneo, int nuovoNumero) throws RemoteException {
+        try{
+            query= "UPDATE GOAL\n "
+                    + "SET NUMEROGIOCATORE = '" + nuovoNumero + "'\n "
+                    + "WHERE IDPARTITA = '" + idPartita + "' AND MINUTO = '" + minuto + "' AND NUMEROGIOCATORE = '" + numeroGiocatore + "' AND NOMESQUADRA = '" + nomeSquadra.toUpperCase() + "' AND CITTASQUADRA = '" + cittaSquadra.toUpperCase() + "' AND NOMETORNEO = '" + nomeTorneo.toUpperCase() + "' AND ANNOTORNEO = '" + annoTorneo + "' ;";
+            PreparedStatement posted = DatabaseConnection.connection.prepareStatement(query);
+            posted.executeUpdate(query);
+        }catch(SQLException ex){
+            System.out.println("ERROR:" + ex);
+        } 
+    }
+
+    @Override
+    public void updateNomeSquadraGoal(int idPartita, int minuto, int numeroGiocatore, String nomeSquadra, String cittaSquadra, String nomeTorneo, int annoTorneo, String nuovoNomeSquadra) throws RemoteException {
+        try{
+            query= "UPDATE GOAL\n "
+                    + "SET NOMESQUADRA = '" + nuovoNomeSquadra.toUpperCase() + "'\n "
+                    + "WHERE IDPARTITA = '" + idPartita + "' AND MINUTO = '" + minuto + "' AND NUMEROGIOCATORE = '" + numeroGiocatore + "' AND NOMESQUADRA = '" + nomeSquadra.toUpperCase() + "' AND CITTASQUADRA = '" + cittaSquadra.toUpperCase() + "' AND NOMETORNEO = '" + nomeTorneo.toUpperCase() + "' AND ANNOTORNEO = '" + annoTorneo + "' ;";
+            PreparedStatement posted = DatabaseConnection.connection.prepareStatement(query);
+            posted.executeUpdate(query);
+        }catch(SQLException ex){
+            System.out.println("ERROR:" + ex);
+        } 
+    }
+
+    @Override
+    public void updateCittaSquadraGoal(int idPartita, int minuto, int numeroGiocatore, String nomeSquadra, String cittaSquadra, String nomeTorneo, int annoTorneo, String nuovaCittaSquadra) throws RemoteException {
+        try{
+            query= "UPDATE GOAL\n "
+                    + "SET CITTASQUADRA = '" + nuovaCittaSquadra.toUpperCase() + "'\n "
+                    + "WHERE IDPARTITA = '" + idPartita + "' AND MINUTO = '" + minuto + "' AND NUMEROGIOCATORE = '" + numeroGiocatore + "' AND NOMESQUADRA = '" + nomeSquadra.toUpperCase() + "' AND CITTASQUADRA = '" + cittaSquadra.toUpperCase() + "' AND NOMETORNEO = '" + nomeTorneo.toUpperCase() + "' AND ANNOTORNEO = '" + annoTorneo + "' ;";
+            PreparedStatement posted = DatabaseConnection.connection.prepareStatement(query);
+            posted.executeUpdate(query);
+        }catch(SQLException ex){
+            System.out.println("ERROR:" + ex);
+        } 
+    }
+
+    @Override
+    public void updateNomeTorneoGoal(int idPartita, int minuto, int numeroGiocatore, String nomeSquadra, String cittaSquadra, String nomeTorneo, int annoTorneo, String nuovoNomeTorneo) throws RemoteException {
+        try{
+            query= "UPDATE GOAL\n "
+                    + "SET NOMETORNEO = '" + nuovoNomeTorneo.toUpperCase() + "'\n "
+                    + "WHERE IDPARTITA = '" + idPartita + "' AND MINUTO = '" + minuto + "' AND NUMEROGIOCATORE = '" + numeroGiocatore + "' AND NOMESQUADRA = '" + nomeSquadra.toUpperCase() + "' AND CITTASQUADRA = '" + cittaSquadra.toUpperCase() + "' AND NOMETORNEO = '" + nomeTorneo.toUpperCase() + "' AND ANNOTORNEO = '" + annoTorneo + "' ;";
+            PreparedStatement posted = DatabaseConnection.connection.prepareStatement(query);
+            posted.executeUpdate(query);
+        }catch(SQLException ex){
+            System.out.println("ERROR:" + ex);
+        } 
+    }
+
+    @Override
+    public void updateAnnotorneoGoal(int idPartita, int minuto, int numeroGiocatore, String nomeSquadra, String cittaSquadra, String nomeTorneo, int annoTorneo, int nuovoAnnoTorneo) throws RemoteException {
+        try{
+            query= "UPDATE GOAL\n "
+                    + "SET ANNOTORNEO = '" + nuovoAnnoTorneo + "'\n "
+                    + "WHERE IDPARTITA = '" + idPartita + "' AND MINUTO = '" + minuto + "' AND NUMEROGIOCATORE = '" + numeroGiocatore + "' AND NOMESQUADRA = '" + nomeSquadra.toUpperCase() + "' AND CITTASQUADRA = '" + cittaSquadra.toUpperCase() + "' AND NOMETORNEO = '" + nomeTorneo.toUpperCase() + "' AND ANNOTORNEO = '" + annoTorneo + "' ;";
+            PreparedStatement posted = DatabaseConnection.connection.prepareStatement(query);
+            posted.executeUpdate(query);
+        }catch(SQLException ex){
+            System.out.println("ERROR:" + ex);
+        } 
+    }
+
+    @Override
+    public void updateIdPartitaCartellino(int idPartita, String colore, int minuto, int numeroGiocatore, String nomeSquadra, String cittaSquadra, String nomeTorneo, int annoTorneo, int nuovoIdPartita) throws RemoteException {
+        try{
+            query= "UPDATE CARTELLINO\n "
+                    + "SET IDPARTITA = '" + nuovoIdPartita + "'\n "
+                    + "WHERE IDPARTITA = '" + idPartita + "' AND COLORECARTELLINO = '" + colore.toUpperCase() + "' AND MINUTO = '" + minuto + "' AND NUMEROGIOCATORE = '" + numeroGiocatore + "' AND NOMESQUADRA = '" + nomeSquadra.toUpperCase() + "' AND CITTASQUADRA = '" + cittaSquadra.toUpperCase() + "' AND NOMETORNEO = '" + nomeTorneo.toUpperCase() + "' AND ANNOTORNEO = '" + annoTorneo + "' ;";
+            PreparedStatement posted = DatabaseConnection.connection.prepareStatement(query);
+            posted.executeUpdate(query);
+        }catch(SQLException ex){
+            System.out.println("ERROR:" + ex);
+        } 
+    }
+
+    @Override
+    public void updateColoreCartellino(int idPartita, String colore, int minuto, int numeroGiocatore, String nomeSquadra, String cittaSquadra, String nomeTorneo, int annoTorneo, String nuovoColore) throws RemoteException {
+        try{
+            query= "UPDATE CARTELLINO\n "
+                    + "SET COLORECARTELLINO = '" + nuovoColore.toUpperCase() + "'\n "
+                    + "WHERE IDPARTITA = '" + idPartita + "' AND COLORECARTELLINO = '" + colore.toUpperCase() + "' AND MINUTO = '" + minuto + "' AND NUMEROGIOCATORE = '" + numeroGiocatore + "' AND NOMESQUADRA = '" + nomeSquadra.toUpperCase() + "' AND CITTASQUADRA = '" + cittaSquadra.toUpperCase() + "' AND NOMETORNEO = '" + nomeTorneo.toUpperCase() + "' AND ANNOTORNEO = '" + annoTorneo + "' ;";
+            PreparedStatement posted = DatabaseConnection.connection.prepareStatement(query);
+            posted.executeUpdate(query);
+        }catch(SQLException ex){
+            System.out.println("ERROR:" + ex);
+        }  
+    }
+
+    @Override
+    public void updateMinutoCartellino(int idPartita, String colore, int minuto, int numeroGiocatore, String nomeSquadra, String cittaSquadra, String nomeTorneo, int annoTorneo, int nuovoMinuto) throws RemoteException {
+        try{
+            query= "UPDATE CARTELLINO\n "
+                    + "SET MINUTO = '" + nuovoMinuto + "'\n "
+                    + "WHERE IDPARTITA = '" + idPartita + "' AND COLORECARTELLINO = '" + colore.toUpperCase() + "' AND MINUTO = '" + minuto + "' AND NUMEROGIOCATORE = '" + numeroGiocatore + "' AND NOMESQUADRA = '" + nomeSquadra.toUpperCase() + "' AND CITTASQUADRA = '" + cittaSquadra.toUpperCase() + "' AND NOMETORNEO = '" + nomeTorneo.toUpperCase() + "' AND ANNOTORNEO = '" + annoTorneo + "' ;";
+            PreparedStatement posted = DatabaseConnection.connection.prepareStatement(query);
+            posted.executeUpdate(query);
+        }catch(SQLException ex){
+            System.out.println("ERROR:" + ex);
+        } 
+    }
+
+    @Override
+    public void updateNumeroGiocatoreCartellino(int idPartita, String colore, int minuto, int numeroGiocatore, String nomeSquadra, String cittaSquadra, String nomeTorneo, int annoTorneo, int nuovoNumeroGiocatore) throws RemoteException {
+        try{
+            query= "UPDATE CARTELLINO\n "
+                    + "SET NUMEROGIOCATORE = '" + nuovoNumeroGiocatore + "'\n "
+                    + "WHERE IDPARTITA = '" + idPartita + "' AND COLORECARTELLINO = '" + colore.toUpperCase() + "' AND MINUTO = '" + minuto + "' AND NUMEROGIOCATORE = '" + numeroGiocatore + "' AND NOMESQUADRA = '" + nomeSquadra.toUpperCase() + "' AND CITTASQUADRA = '" + cittaSquadra.toUpperCase() + "' AND NOMETORNEO = '" + nomeTorneo.toUpperCase() + "' AND ANNOTORNEO = '" + annoTorneo + "' ;";
+            PreparedStatement posted = DatabaseConnection.connection.prepareStatement(query);
+            posted.executeUpdate(query);
+        }catch(SQLException ex){
+            System.out.println("ERROR:" + ex);
+        } 
+    }
+
+    @Override
+    public void updateNomeSquadraCartellino(int idPartita, String colore, int minuto, int numeroGiocatore, String nomeSquadra, String cittaSquadra, String nomeTorneo, int annoTorneo, String nuovoNomeSquadra) throws RemoteException {
+        try{
+            query= "UPDATE CARTELLINO\n "
+                    + "SET NOMESQUADRA = '" + nuovoNomeSquadra.toUpperCase() + "'\n "
+                    + "WHERE IDPARTITA = '" + idPartita + "' AND COLORECARTELLINO = '" + colore.toUpperCase() + "' AND MINUTO = '" + minuto + "' AND NUMEROGIOCATORE = '" + numeroGiocatore + "' AND NOMESQUADRA = '" + nomeSquadra.toUpperCase() + "' AND CITTASQUADRA = '" + cittaSquadra.toUpperCase() + "' AND NOMETORNEO = '" + nomeTorneo.toUpperCase() + "' AND ANNOTORNEO = '" + annoTorneo + "' ;";
+            PreparedStatement posted = DatabaseConnection.connection.prepareStatement(query);
+            posted.executeUpdate(query);
+        }catch(SQLException ex){
+            System.out.println("ERROR:" + ex);
+        } 
+    }
+
+    @Override
+    public void updateCittaSquadraCartellino(int idPartita, String colore, int minuto, int numeroGiocatore, String nomeSquadra, String cittaSquadra, String nomeTorneo, int annoTorneo, String nuovaCittaSquadra) throws RemoteException {
+        try{
+            query= "UPDATE CARTELLINO\n "
+                    + "SET CITTASQUADRA = '" + nuovaCittaSquadra.toUpperCase() + "'\n "
+                    + "WHERE IDPARTITA = '" + idPartita + "' AND COLORECARTELLINO = '" + colore.toUpperCase() + "' AND MINUTO = '" + minuto + "' AND NUMEROGIOCATORE = '" + numeroGiocatore + "' AND NOMESQUADRA = '" + nomeSquadra.toUpperCase() + "' AND CITTASQUADRA = '" + cittaSquadra.toUpperCase() + "' AND NOMETORNEO = '" + nomeTorneo.toUpperCase() + "' AND ANNOTORNEO = '" + annoTorneo + "' ;";
+            PreparedStatement posted = DatabaseConnection.connection.prepareStatement(query);
+            posted.executeUpdate(query);
+        }catch(SQLException ex){
+            System.out.println("ERROR:" + ex);
+        } 
+    }
+
+    @Override
+    public void updateNomeTorneoCartellino(int idPartita, String colore, int minuto, int numeroGiocatore, String nomeSquadra, String cittaSquadra, String nomeTorneo, int annoTorneo, String nuovoNomeTorneo) throws RemoteException {
+        try{
+            query= "UPDATE CARTELLINO\n "
+                    + "SET NOMETORNEO = '" + nuovoNomeTorneo.toUpperCase() + "'\n "
+                    + "WHERE IDPARTITA = '" + idPartita + "' AND COLORECARTELLINO = '" + colore.toUpperCase() + "' AND MINUTO = '" + minuto + "' AND NUMEROGIOCATORE = '" + numeroGiocatore + "' AND NOMESQUADRA = '" + nomeSquadra.toUpperCase() + "' AND CITTASQUADRA = '" + cittaSquadra.toUpperCase() + "' AND NOMETORNEO = '" + nomeTorneo.toUpperCase() + "' AND ANNOTORNEO = '" + annoTorneo + "' ;";
+            PreparedStatement posted = DatabaseConnection.connection.prepareStatement(query);
+            posted.executeUpdate(query);
+        }catch(SQLException ex){
+            System.out.println("ERROR:" + ex);
+        } 
+    }
+
+    @Override
+    public void updateAnnoTorneoCartellino(int idPartita, String colore, int minuto, int numeroGiocatore, String nomeSquadra, String cittaSquadra, String nomeTorneo, int annoTorneo, int nuovoAnnoTorneo) throws RemoteException {
+        try{
+            query= "UPDATE CARTELLINO\n "
+                    + "SET ANNOTORNEO = '" + nuovoAnnoTorneo + "'\n "
+                    + "WHERE IDPARTITA = '" + idPartita + "' AND COLORECARTELLINO = '" + colore.toUpperCase() + "' AND MINUTO = '" + minuto + "' AND NUMEROGIOCATORE = '" + numeroGiocatore + "' AND NOMESQUADRA = '" + nomeSquadra.toUpperCase() + "' AND CITTASQUADRA = '" + cittaSquadra.toUpperCase() + "' AND NOMETORNEO = '" + nomeTorneo.toUpperCase() + "' AND ANNOTORNEO = '" + annoTorneo + "' ;";
+            PreparedStatement posted = DatabaseConnection.connection.prepareStatement(query);
+            posted.executeUpdate(query);
+        }catch(SQLException ex){
+            System.out.println("ERROR:" + ex);
+        } 
+    }
+
+    @Override
+    public void updateCfArbitro(String codiceFiscale, String nuovoCf) throws RemoteException {
+        try{
+            query= "UPDATE ARBITRO\n "
+                    + "SET CFARBITRO = '" + nuovoCf.toUpperCase() + "'\n "
+                    + "WHERE CFARBITRO = '" + codiceFiscale.toUpperCase() + "' ;";
+            PreparedStatement posted = DatabaseConnection.connection.prepareStatement(query);
+            posted.executeUpdate(query);
+        }catch(SQLException ex){
+            System.out.println("ERROR:" + ex);
+        } 
+    }
+
+    @Override
+    public void updateNomeArbitro(String codiceFiscale, String nuovoNome) throws RemoteException {
+        try{
+            query= "UPDATE ARBITRO\n "
+                    + "SET NOMEARBITRO = '" + nuovoNome.toUpperCase() + "'\n "
+                    + "WHERE CFARBITRO = '" + codiceFiscale.toUpperCase() + "' ;";
+            PreparedStatement posted = DatabaseConnection.connection.prepareStatement(query);
+            posted.executeUpdate(query);
+        }catch(SQLException ex){
+            System.out.println("ERROR:" + ex);
+        } 
+    }
+
+    @Override
+    public void updateCognomeArbitro(String codiceFiscale, String nuovoCognome) throws RemoteException {
+        try{
+            query= "UPDATE ARBITRO\n "
+                    + "SET COGNOMEARBITRO = '" + nuovoCognome.toUpperCase() + "'\n "
+                    + "WHERE CFARBITRO = '" + codiceFiscale.toUpperCase() + "' ;";
+            PreparedStatement posted = DatabaseConnection.connection.prepareStatement(query);
+            posted.executeUpdate(query);
+        }catch(SQLException ex){
+            System.out.println("ERROR:" + ex);
+        } 
+    }
+
+    @Override
+    public void updateUsernameArbitro(String codiceFiscale, String nuovoUsername) throws RemoteException {
+        try{
+            query= "UPDATE ARBITRO\n "
+                    + "SET USERNAME = '" + nuovoUsername + "'\n "
+                    + "WHERE CFARBITRO = '" + codiceFiscale.toUpperCase() + "' ;";
+            PreparedStatement posted = DatabaseConnection.connection.prepareStatement(query);
+            posted.executeUpdate(query);
+        }catch(SQLException ex){
+            System.out.println("ERROR:" + ex);
+        } 
+    }
+
+    @Override
+    public void updatePasswordArbitro(String codiceFiscale, String nuovaPassword) throws RemoteException {
+        try{
+            query= "UPDATE ARBITRO\n "
+                    + "SET PASSWORD = '" + nuovaPassword + "'\n "
+                    + "WHERE CFARBITRO = '" + codiceFiscale.toUpperCase() + "' ;";
+            PreparedStatement posted = DatabaseConnection.connection.prepareStatement(query);
+            posted.executeUpdate(query);
+        }catch(SQLException ex){
+            System.out.println("ERROR:" + ex);
+        }
+    }
+
+    @Override
+    public void updateIdOrganizzatore(int idOrganizzatore, int nuovoId) throws RemoteException {
+        try{
+            query= "UPDATE ORGANIZZATORE\n "
+                    + "SET IDORGANIZZATORE = '" + nuovoId + "'\n "
+                    + "WHERE IDORGANIZZATORE = '" + idOrganizzatore + "' ;";
+            PreparedStatement posted = DatabaseConnection.connection.prepareStatement(query);
+            posted.executeUpdate(query);
+        }catch(SQLException ex){
+            System.out.println("ERROR:" + ex);
+        }
+    }
+
+    @Override
+    public void updateUsernameOrganizzatore(int idOrganizzatore, String nuovoUsername) throws RemoteException {
+        try{
+            query= "UPDATE ORGANIZZATORE\n "
+                    + "SET USERNAME = '" + nuovoUsername + "'\n "
+                    + "WHERE IDORGANIZZATORE = '" + idOrganizzatore + "' ;";
+            PreparedStatement posted = DatabaseConnection.connection.prepareStatement(query);
+            posted.executeUpdate(query);
+        }catch(SQLException ex){
+            System.out.println("ERROR:" + ex);
+        }
+    }
+
+    @Override
+    public void updatePasswordOrganizzatore(int idOrganizzatore, String nuovaPassword) throws RemoteException {
+        try{
+            query= "UPDATE ORGANIZZATORE\n "
+                    + "SET PASSWORD = '" + nuovaPassword + "'\n "
+                    + "WHERE IDORGANIZZATORE = '" + idOrganizzatore + "' ;";
+            PreparedStatement posted = DatabaseConnection.connection.prepareStatement(query);
+            posted.executeUpdate(query);
+        }catch(SQLException ex){
+            System.out.println("ERROR:" + ex);
+        }
+    }
+
+    @Override
+    public void updateIdPartita(int idPartita, String nomeTorneo, int annoTorneo, int nuovoId) throws RemoteException {
+        try{
+            query= "UPDATE PARTITA\n "
+                    + "SET IDPARTITA = '" + nuovoId + "'\n "
+                    + "WHERE IDPARTITA = '" + idPartita + "' AND NOMETORNEO = '" + nomeTorneo.toUpperCase() + "' AND ANNOTORNEO = '" + annoTorneo + "' ;";
+            PreparedStatement posted = DatabaseConnection.connection.prepareStatement(query);
+            posted.executeUpdate(query);
+        }catch(SQLException ex){
+            System.out.println("ERROR:" + ex);
+        }
+    }
+
+    @Override
+    public void updateNomeSquadraCasaPartita(int idPartita, String nomeTorneo, int annoTorneo, String nuovoNomeSquadraCasa) throws RemoteException {
+        try{
+            query= "UPDATE PARTITA\n "
+                    + "SET NOMESQUADRACASA = '" + nuovoNomeSquadraCasa.toUpperCase() + "'\n "
+                    + "WHERE IDPARTITA = '" + idPartita + "' AND NOMETORNEO = '" + nomeTorneo.toUpperCase() + "' AND ANNOTORNEO = '" + annoTorneo + "' ;";
+            PreparedStatement posted = DatabaseConnection.connection.prepareStatement(query);
+            posted.executeUpdate(query);
+        }catch(SQLException ex){
+            System.out.println("ERROR:" + ex);
+        }
+    }
+
+    @Override
+    public void updateNomeSquadraOspitePartita(int idPartita, String nomeTorneo, int annoTorneo, String nuovonomeSquadraOspite) throws RemoteException {
+        try{
+            query= "UPDATE PARTITA\n "
+                    + "SET NOMESQUADRAOSPITE = '" + nuovonomeSquadraOspite.toUpperCase() + "'\n "
+                    + "WHERE IDPARTITA = '" + idPartita + "' AND NOMETORNEO = '" + nomeTorneo.toUpperCase() + "' AND ANNOTORNEO = '" + annoTorneo + "' ;";
+            PreparedStatement posted = DatabaseConnection.connection.prepareStatement(query);
+            posted.executeUpdate(query);
+        }catch(SQLException ex){
+            System.out.println("ERROR:" + ex);
+        }
+    }
+
+    @Override
+    public void updateGoalCasaPartita(int idPartita, String nomeTorneo, int annoTorneo, int nuovoGoalCasa) throws RemoteException {
+        try{
+            query= "UPDATE PARTITA\n "
+                    + "SET GOALCASA = '" + nuovoGoalCasa + "'\n "
+                    + "WHERE IDPARTITA = '" + idPartita + "' AND NOMETORNEO = '" + nomeTorneo.toUpperCase() + "' AND ANNOTORNEO = '" + annoTorneo + "' ;";
+            PreparedStatement posted = DatabaseConnection.connection.prepareStatement(query);
+            posted.executeUpdate(query);
+        }catch(SQLException ex){
+            System.out.println("ERROR:" + ex);
+        }
+    }
+
+    @Override
+    public void updateGoalOspitePartita(int idPartita, String nomeTorneo, int annoTorneo, int nuovoGoalOspite) throws RemoteException {
+        try{
+            query= "UPDATE PARTITA\n "
+                    + "SET GOALOSPITE = '" + nuovoGoalOspite + "'\n "
+                    + "WHERE IDPARTITA = '" + idPartita + "' AND NOMETORNEO = '" + nomeTorneo.toUpperCase() + "' AND ANNOTORNEO = '" + annoTorneo + "' ;";
+            PreparedStatement posted = DatabaseConnection.connection.prepareStatement(query);
+            posted.executeUpdate(query);
+        }catch(SQLException ex){
+            System.out.println("ERROR:" + ex);
+        }
+    }
+
+    @Override
+    public void updateDataPartita(int idPartita, String nomeTorneo, int annoTorneo, String nuovaData) throws RemoteException {
+        try{
+            query= "UPDATE PARTITA\n "
+                    + "SET DATA = '" + nuovaData + "'\n "
+                    + "WHERE IDPARTITA = '" + idPartita + "' AND NOMETORNEO = '" + nomeTorneo.toUpperCase() + "' AND ANNOTORNEO = '" + annoTorneo + "' ;";
+            PreparedStatement posted = DatabaseConnection.connection.prepareStatement(query);
+            posted.executeUpdate(query);
+        }catch(SQLException ex){
+            System.out.println("ERROR:" + ex);
+        }
+    }
+
+    @Override
+    public void updateAndataRitornoPartita(int idPartita, String nomeTorneo, int annoTorneo, String nuovaAndataRitorno) throws RemoteException {
+        try{
+            query= "UPDATE PARTITA\n "
+                    + "SET ANDATARIToRNO = '" + nuovaAndataRitorno.toUpperCase() + "'\n "
+                    + "WHERE IDPARTITA = '" + idPartita + "' AND NOMETORNEO = '" + nomeTorneo.toUpperCase() + "' AND ANNOTORNEO = '" + annoTorneo + "' ;";
+            PreparedStatement posted = DatabaseConnection.connection.prepareStatement(query);
+            posted.executeUpdate(query);
+        }catch(SQLException ex){
+            System.out.println("ERROR:" + ex);
+        }
+    }
+
+    @Override
+    public void updateCfArbitroPartita(int idPartita, String nomeTorneo, int annoTorneo, String nuovoCfArbitro) throws RemoteException {
+        try{
+            query= "UPDATE PARTITA\n "
+                    + "SET CFARBITRO = '" + nuovoCfArbitro.toUpperCase() + "'\n "
+                    + "WHERE IDPARTITA = '" + idPartita + "' AND NOMETORNEO = '" + nomeTorneo.toUpperCase() + "' AND ANNOTORNEO = '" + annoTorneo + "' ;";
+            PreparedStatement posted = DatabaseConnection.connection.prepareStatement(query);
+            posted.executeUpdate(query);
+        }catch(SQLException ex){
+            System.out.println("ERROR:" + ex);
+        }
+    }
+
+    @Override
+    public void updateNomeTorneoPartita(int idPartita, String nomeTorneo, int annoTorneo, String nuovoNomeTorneo) throws RemoteException {
+        try{
+            query= "UPDATE PARTITA\n "
+                    + "SET NOMETORNEO = '" + nuovoNomeTorneo.toUpperCase() + "'\n "
+                    + "WHERE IDPARTITA = '" + idPartita + "' AND NOMETORNEO = '" + nomeTorneo.toUpperCase() + "' AND ANNOTORNEO = '" + annoTorneo + "' ;";
+            PreparedStatement posted = DatabaseConnection.connection.prepareStatement(query);
+            posted.executeUpdate(query);
+        }catch(SQLException ex){
+            System.out.println("ERROR:" + ex);
+        }
+    }
+
+    @Override
+    public void updateAnnoTorneoPartita(int idPartita, String nomeTorneo, int annoTorneo, int nuovoAnnoTorneo) throws RemoteException {
+        try{
+            query= "UPDATE PARTITA\n "
+                    + "SET ANNOTORNEO = '" + nuovoAnnoTorneo + "'\n "
+                    + "WHERE IDPARTITA = '" + idPartita + "' AND NOMETORNEO = '" + nomeTorneo.toUpperCase() + "' AND ANNOTORNEO = '" + annoTorneo + "' ;";
+            PreparedStatement posted = DatabaseConnection.connection.prepareStatement(query);
+            posted.executeUpdate(query);
+        }catch(SQLException ex){
+            System.out.println("ERROR:" + ex);
+        }
+    }
+
+    @Override
+    public void updateNumeroGiocatore(int numero, String nomeSquadra, String cittaSquadra, int nuovoNumero) throws RemoteException {
+        try{
+            query= "UPDATE GIOCATORE\n "
+                    + "SET NUMERO = '" + nuovoNumero + "'\n "
+                    + "WHERE NUMERO = '" + numero + "' AND NOMESQUADRA = '" + nomeSquadra.toUpperCase() + "' AND CITTASQUADRA = '" + cittaSquadra.toUpperCase() + "' ;";
+            PreparedStatement posted = DatabaseConnection.connection.prepareStatement(query);
+            posted.executeUpdate(query);
+        }catch(SQLException ex){
+            System.out.println("ERROR:" + ex);
+        }
+    }
+
+    @Override
+    public void updateNomeGiocatore(int numero, String nomeSquadra, String cittaSquadra, String nuovoNome) throws RemoteException {
+        try{
+            query= "UPDATE GIOCATORE\n "
+                    + "SET NOMEGIOCATORE = '" + nuovoNome.toUpperCase() + "'\n "
+                    + "WHERE NUMERO = '" + numero + "' AND NOMESQUADRA = '" + nomeSquadra.toUpperCase() + "' AND CITTASQUADRA = '" + cittaSquadra.toUpperCase() + "' ;";
+            PreparedStatement posted = DatabaseConnection.connection.prepareStatement(query);
+            posted.executeUpdate(query);
+        }catch(SQLException ex){
+            System.out.println("ERROR:" + ex);
+        }
+    }
+
+    @Override
+    public void updateCognomeGiocatore(int numero, String nomeSquadra, String cittaSquadra, String nuovoCognome) throws RemoteException {
+        try{
+            query= "UPDATE GIOCATORE\n "
+                    + "SET COGNOMEGIOCATORE = '" + nuovoCognome.toUpperCase() + "'\n "
+                    + "WHERE NUMERO = '" + numero + "' AND NOMESQUADRA = '" + nomeSquadra.toUpperCase() + "' AND CITTASQUADRA = '" + cittaSquadra.toUpperCase() + "' ;";
+            PreparedStatement posted = DatabaseConnection.connection.prepareStatement(query);
+            posted.executeUpdate(query);
+        }catch(SQLException ex){
+            System.out.println("ERROR:" + ex);
+        }
+    }
+
+    @Override
+    public void updateNomeSquadraGiocatore(int numero, String nomeSquadra, String cittaSquadra, String nuovoNomeSquadra) throws RemoteException {
+        try{
+            query= "UPDATE GIOCATORE\n "
+                    + "SET NOMESQUADRA = '" + nuovoNomeSquadra.toUpperCase() + "'\n "
+                    + "WHERE NUMERO = '" + numero + "' AND NOMESQUADRA = '" + nomeSquadra.toUpperCase() + "' AND CITTASQUADRA = '" + cittaSquadra.toUpperCase() + "' ;";
+            PreparedStatement posted = DatabaseConnection.connection.prepareStatement(query);
+            posted.executeUpdate(query);
+        }catch(SQLException ex){
+            System.out.println("ERROR:" + ex);
+        }
+    }
+
+    @Override
+    public void updateCittaSquadraGiocatore(int numero, String nomeSquadra, String cittaSquadra, String nuovaCittaSquadra) throws RemoteException {
+        try{
+            query= "UPDATE GIOCATORE\n "
+                    + "SET CITTASQUADRA = '" + nuovaCittaSquadra.toUpperCase() + "'\n "
+                    + "WHERE NUMERO = '" + numero + "' AND NOMESQUADRA = '" + nomeSquadra.toUpperCase() + "' AND CITTASQUADRA = '" + cittaSquadra.toUpperCase() + "' ;";
+            PreparedStatement posted = DatabaseConnection.connection.prepareStatement(query);
+            posted.executeUpdate(query);
+        }catch(SQLException ex){
+            System.out.println("ERROR:" + ex);
+        }
+    }
+
+    @Override
+    public void updateNomeSquadra(String nomeSquadra, String cittaSquadra, String nuovoNome) throws RemoteException {
+        try{
+            query= "UPDATE SQUADRA\n "
+                    + "SET NOMESQUADRA = '" + nuovoNome.toUpperCase() + "'\n "
+                    + "WHERE NOMESQUADRA = '" + nomeSquadra.toUpperCase() + "' AND CITTASQUADRA = '" + cittaSquadra.toUpperCase() + "' ;";
+            PreparedStatement posted = DatabaseConnection.connection.prepareStatement(query);
+            posted.executeUpdate(query);
+        }catch(SQLException ex){
+            System.out.println("ERROR:" + ex);
+        }
+    }
+
+    @Override
+    public void updateCittaSquadra(String nomeSquadra, String cittaSquadra, String nuovaCitta) throws RemoteException {
+        try{
+            query= "UPDATE SQUADRA\n "
+                    + "SET CITTASQUADRA = '" + nuovaCitta.toUpperCase() + "'\n "
+                    + "WHERE NOMESQUADRA = '" + nomeSquadra.toUpperCase() + "' AND CITTASQUADRA = '" + cittaSquadra.toUpperCase() + "' ;";
+            PreparedStatement posted = DatabaseConnection.connection.prepareStatement(query);
+            posted.executeUpdate(query);
+        }catch(SQLException ex){
+            System.out.println("ERROR:" + ex);
+        }
+    }
+
+    @Override
+    public void updateColoreSquadra(String nomeSquadra, String cittaSquadra, String nuovoColore) throws RemoteException {
+        try{
+            query= "UPDATE SQUADRA\n "
+                    + "SET COLORESQUADRA = '" + nuovoColore.toUpperCase() + "'\n "
+                    + "WHERE NOMESQUADRA = '" + nomeSquadra.toUpperCase() + "' AND CITTASQUADRA = '" + cittaSquadra.toUpperCase() + "' ;";
+            PreparedStatement posted = DatabaseConnection.connection.prepareStatement(query);
+            posted.executeUpdate(query);
+        }catch(SQLException ex){
+            System.out.println("ERROR:" + ex);
+        }
+    }
+
+    @Override
+    public void updatePuntiTorneoItaliana(String nomeSquadra, String cittaSquadra, int punti, String nomeTorneo, String annoTorneo, int nuoviPunti) throws RemoteException {
+        try{
+            query= "UPDATE TORNEO_ITALIANA\n "
+                    + "SET PUNTI = '" + nuoviPunti + "'\n "
+                    + "WHERE NOMESQUADRA = '" + nomeSquadra.toUpperCase() + "' AND CITTASQUADRA = '" + cittaSquadra.toUpperCase() + "' AND PUNTI = '" + punti + "' AND NOMETORNEO = '" + nomeTorneo.toUpperCase() + "' AND ANNOTORNEO = '" + annoTorneo + "' ;";
+            PreparedStatement posted = DatabaseConnection.connection.prepareStatement(query);
+            posted.executeUpdate(query);
+        }catch(SQLException ex){
+            System.out.println("ERROR:" + ex);
+        }
+    }
+
+    @Override
+    public void updateNomeTorneoItaliana(String nomeSquadra, String cittaSquadra, int punti, String nomeTorneo, String annoTorneo, String nuovoNome) throws RemoteException {
+        try{
+            query= "UPDATE TORNEO_ITALIANA\n "
+                    + "SET NOMETORNEO = '" + nuovoNome.toUpperCase() + "'\n "
+                    + "WHERE NOMESQUADRA = '" + nomeSquadra.toUpperCase() + "' AND CITTASQUADRA = '" + cittaSquadra.toUpperCase() + "' AND PUNTI = '" + punti + "' AND NOMETORNEO = '" + nomeTorneo.toUpperCase() + "' AND ANNOTORNEO = '" + annoTorneo + "' ;";
+            PreparedStatement posted = DatabaseConnection.connection.prepareStatement(query);
+            posted.executeUpdate(query);
+        }catch(SQLException ex){
+            System.out.println("ERROR:" + ex);
+        }
+    }
+
+    @Override
+    public void updateAnnoTorneoItaliana(String nomeSquadra, String cittaSquadra, int punti, String nomeTorneo, String annoTorneo, int nuovoAnno) throws RemoteException {
+        try{
+            query= "UPDATE TORNEO_ITALIANA\n "
+                    + "SET ANNOTORNEO = '" + annoTorneo + "'\n "
+                    + "WHERE NOMESQUADRA = '" + nomeSquadra.toUpperCase() + "' AND CITTASQUADRA = '" + cittaSquadra.toUpperCase() + "' AND PUNTI = '" + punti + "' AND NOMETORNEO = '" + nomeTorneo.toUpperCase() + "' AND ANNOTORNEO = '" + annoTorneo + "' ;";
+            PreparedStatement posted = DatabaseConnection.connection.prepareStatement(query);
+            posted.executeUpdate(query);
+        }catch(SQLException ex){
+            System.out.println("ERROR:" + ex);
+        }
+    }
+
+    @Override
+    public void updateNomeSquadraTorneoItaliana(String nomeSquadra, String cittaSquadra, int punti, String nomeTorneo, String annoTorneo, String nuovoNomeSquadra) throws RemoteException {
+        try{
+            query= "UPDATE TORNEO_ITALIANA\n "
+                    + "SET NOMESQUADRA = '" + nuovoNomeSquadra.toUpperCase() + "'\n "
+                    + "WHERE NOMESQUADRA = '" + nomeSquadra.toUpperCase() + "' AND CITTASQUADRA = '" + cittaSquadra.toUpperCase() + "' AND PUNTI = '" + punti + "' AND NOMETORNEO = '" + nomeTorneo.toUpperCase() + "' AND ANNOTORNEO = '" + annoTorneo + "' ;";
+            PreparedStatement posted = DatabaseConnection.connection.prepareStatement(query);
+            posted.executeUpdate(query);
+        }catch(SQLException ex){
+            System.out.println("ERROR:" + ex);
+        }
+    }
+
+    @Override
+    public void updateCittaSquadraTorneoItaliana(String nomeSquadra, String cittaSquadra, int punti, String nomeTorneo, String annoTorneo, String nuovaCittaSquadra) throws RemoteException {
+        try{
+            query= "UPDATE TORNEO_ITALIANA\n "
+                    + "SET CITTASQUADRA = '" + nuovaCittaSquadra.toUpperCase() + "'\n "
+                    + "WHERE NOMESQUADRA = '" + nomeSquadra.toUpperCase() + "' AND CITTASQUADRA = '" + cittaSquadra.toUpperCase() + "' AND PUNTI = '" + punti + "' AND NOMETORNEO = '" + nomeTorneo.toUpperCase() + "' AND ANNOTORNEO = '" + annoTorneo + "' ;";
+            PreparedStatement posted = DatabaseConnection.connection.prepareStatement(query);
+            posted.executeUpdate(query);
+        }catch(SQLException ex){
+            System.out.println("ERROR:" + ex);
+        }
+    }
+
+    
 
 }
