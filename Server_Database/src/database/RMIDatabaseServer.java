@@ -17,7 +17,6 @@ public class RMIDatabaseServer {
     
     public static void main(String[] args) {
        /*
-        MarioNOTE:
         creating a connection to the database
         */
        DatabaseConnection connection = new DatabaseConnection("java", "password");
@@ -25,13 +24,37 @@ public class RMIDatabaseServer {
        try{
            int port = 1099;
            /*
-           MarioNOTE:
            creating a Registry that allows the server to
            publish a service and client to retrieve the proxy
            */
            Registry registry = LocateRegistry.createRegistry(port);
-           DatabaseManagement DBManage = new DatabaseManagement();
-           registry.rebind("MyDatabase", DBManage);
+           
+//           DatabaseManagement DBManage = new DatabaseManagement();
+//           registry.rebind("DBProgettoM", DBManage);
+           
+           ManagerArbitro DBArbitro = new ManagerArbitro();
+           ManagerCartellino DBCartellino = new ManagerCartellino();
+           ManagerGiocatore DBGiocatore = new ManagerGiocatore();
+           ManagerGoal DBGoal = new ManagerGoal();
+           ManagerLogin DBLogin = new ManagerLogin();
+           ManagerOrganizzatore DBOrganizzatore = new ManagerOrganizzatore();
+           ManagerPartita DBPartita = new ManagerPartita();
+           ManagerSquadra DBSquadra = new ManagerSquadra();
+           ManagerTorneo DBTorneo = new ManagerTorneo();
+           ManagerTorneoItaliana DBTorneoItaliana = new ManagerTorneoItaliana();
+           
+           registry.rebind("DBArbitro", DBArbitro);
+           registry.rebind("DBCartellino", DBCartellino);
+           registry.rebind("DBGiocatore", DBGiocatore);
+           registry.rebind("DBGoal", DBGoal);
+           registry.rebind("DBLogin", DBLogin);
+           registry.rebind("DBOrganizzatore", DBOrganizzatore);
+           registry.rebind("DBPartita", DBPartita);
+           registry.rebind("DBSquadra", DBSquadra);
+           registry.rebind("DBTorneo", DBTorneo);
+           registry.rebind("DBTorneoItaliana", DBTorneoItaliana);
+           
+           
            
            System.out.println("\nServer is ready...");
            
