@@ -42,4 +42,22 @@ public class Arbitro extends Utente{
             return e.getMessage();
         }
     }
+    public String logOut(String cf, String p) {
+        if( autenticazione.equals("AUTENTICATO") ) {
+            autenticazione = "NONAUTENTICATO";
+            return "Log out effettuato";
+        } else if( autenticazione.equals("NONAUTENTICATO") ) {
+            return "Log out già effetuato!";
+        }
+        return null;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public String getCodiceFiscale() {
+        return codiceFiscale;
+    }
+    
 }

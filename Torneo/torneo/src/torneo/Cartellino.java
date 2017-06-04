@@ -16,7 +16,7 @@ public class Cartellino {
     private String descrizione;
     private Giocatore giocatore;
     
-    public Cartellino(ColoreCartellino colore, Giocatore giocatore){
+    public Cartellino(ColoreCartellino colore, Giocatore giocatore/*, int minuto*/){
         this.giocatore = giocatore;
         this.colore = colore;
         

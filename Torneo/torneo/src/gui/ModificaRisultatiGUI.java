@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package torneo;
+package gui;
 
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
@@ -28,10 +28,17 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
+import torneo.EliminazioneDiretta;
+import torneo.Giocatore;
+import torneo.Goal;
+import torneo.Italiana;
+import torneo.Partita;
+import torneo.StatoPartita;
+import torneo.Torneo;
 
 /**
  *
- * @author debora
+ * @author deboraquaini
  */
 public class ModificaRisultatiGUI extends JFrame {
     
@@ -220,7 +227,7 @@ public class ModificaRisultatiGUI extends JFrame {
                         int reply = JOptionPane.showConfirmDialog(null, "E' necessario autenticarsi come arbitro per modificare i dati!", "Attenzione!", JOptionPane.YES_NO_OPTION);
                         if (reply == JOptionPane.YES_OPTION )
                         {
-                          JFrame arbitroGUI = new ArbitroGUI(a, torneo);
+                          JFrame arbitroGUI = new ArbitroGUI(a);
                           arbitroGUI.setVisible(true);
                           arbitroGUI.setSize(1000, 655);
                           arbitroGUI.setLocation(400, 250);
@@ -243,7 +250,7 @@ public class ModificaRisultatiGUI extends JFrame {
                         int reply = JOptionPane.showConfirmDialog(null, "E' necessario autenticarsi come arbitro per modificare i dati!", "Attenzione!", JOptionPane.YES_NO_OPTION);
                         if (reply == JOptionPane.YES_OPTION)
                         {
-                          JFrame arbitroGUI = new ArbitroGUI(a, torneo);
+                          JFrame arbitroGUI = new ArbitroGUI(a);
                           arbitroGUI.setVisible(true);
                           arbitroGUI.setSize(1000, 655);
                           arbitroGUI.setLocation(400, 250);
@@ -278,7 +285,7 @@ public class ModificaRisultatiGUI extends JFrame {
                         int reply = JOptionPane.showConfirmDialog(null, "E' necessario autenticarsi come arbitro per modificare i dati!", "Attenzione!", JOptionPane.YES_NO_OPTION);
                         if (reply == JOptionPane.YES_OPTION)
                         {
-                          JFrame arbitroGUI = new ArbitroGUI(a, torneo);
+                          JFrame arbitroGUI = new ArbitroGUI(a);
                           arbitroGUI.setVisible(true);
                           arbitroGUI.setSize(1000, 655);
                           arbitroGUI.setLocation(400, 250);
@@ -314,7 +321,7 @@ public class ModificaRisultatiGUI extends JFrame {
                         int reply = JOptionPane.showConfirmDialog(null, "E' necessario autenticarsi come arbitro per modificare i dati!", "Attenzione!", JOptionPane.YES_NO_OPTION);
                         if (reply == JOptionPane.YES_OPTION)
                         {
-                          JFrame arbitroGUI = new ArbitroGUI(a, torneo);
+                          JFrame arbitroGUI = new ArbitroGUI(a);
                           arbitroGUI.setVisible(true);
                           arbitroGUI.setSize(1000, 655);
                           arbitroGUI.setLocation(400, 250);
@@ -338,7 +345,7 @@ public class ModificaRisultatiGUI extends JFrame {
                         int reply = JOptionPane.showConfirmDialog(null, "E' necessario autenticarsi come arbitro per modificare i dati!", "Attenzione!", JOptionPane.YES_NO_OPTION);
                         if (reply == JOptionPane.YES_OPTION)
                         {
-                          JFrame arbitroGUI = new ArbitroGUI(a, torneo);
+                          JFrame arbitroGUI = new ArbitroGUI(a);
                           arbitroGUI.setVisible(true);
                           arbitroGUI.setSize(1000, 655);
                           arbitroGUI.setLocation(400, 250);
@@ -361,7 +368,7 @@ public class ModificaRisultatiGUI extends JFrame {
                         int reply = JOptionPane.showConfirmDialog(null, "E' necessario autenticarsi come arbitro per modificare i dati!", "Attenzione!", JOptionPane.YES_NO_OPTION);
                         if (reply == JOptionPane.YES_OPTION)
                         {
-                            JFrame arbitroGUI = new ArbitroGUI(a, torneo);
+                            JFrame arbitroGUI = new ArbitroGUI(a);
                             arbitroGUI.setVisible(true);
                             arbitroGUI.setSize(1000, 655);
                             arbitroGUI.setLocation(400, 250);
@@ -393,7 +400,7 @@ public class ModificaRisultatiGUI extends JFrame {
                         int reply = JOptionPane.showConfirmDialog(null, "E' necessario autenticarsi come arbitro per modificare i dati!", "Attenzione!", JOptionPane.YES_NO_OPTION);
                         if (reply == JOptionPane.YES_OPTION)
                         {
-                          JFrame arbitroGUI = new ArbitroGUI(a, torneo);
+                          JFrame arbitroGUI = new ArbitroGUI(a);
                           arbitroGUI.setVisible(true);
                           arbitroGUI.setSize(1000, 655);
                           arbitroGUI.setLocation(400, 250);
@@ -602,7 +609,7 @@ public class ModificaRisultatiGUI extends JFrame {
                         int reply = JOptionPane.showConfirmDialog(null, "E' necessario autenticarsi come arbitro per modificare i dati!", "Attenzione!", JOptionPane.YES_NO_OPTION);
                         if (reply == JOptionPane.YES_OPTION)
                         {
-                          JFrame arbitroGUI = new ArbitroGUI(a, torneo);
+                          JFrame arbitroGUI = new ArbitroGUI(a);
                           arbitroGUI.setVisible(true);
                           arbitroGUI.setSize(1000, 655);
                           arbitroGUI.setLocation(400, 250);
@@ -655,7 +662,7 @@ public class ModificaRisultatiGUI extends JFrame {
                         int reply = JOptionPane.showConfirmDialog(null, "E' necessario autenticarsi come arbitro per modificare i dati!", "Attenzione!", JOptionPane.YES_NO_OPTION);
                         if (reply == JOptionPane.YES_OPTION)
                         {
-                          JFrame arbitroGUI = new ArbitroGUI(a, torneo);
+                          JFrame arbitroGUI = new ArbitroGUI(a);
                           arbitroGUI.setVisible(true);
                           arbitroGUI.setSize(1000, 655);
                           arbitroGUI.setLocation(400, 250);

@@ -5,6 +5,7 @@
  */
 package torneo;
 
+import exception.EccezioneLogIn;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -15,68 +16,115 @@ import java.util.Random;
  *
  * @author Giulia fumagalli
  */
-public class GeneratoreTorneo {
+public class GeneratoreTorneo extends Utente {
     private Torneo torneo;
-    private String nome;
+    private String cf;
+    private String password;
+    private String nomeTorneo;
+    private String autenticazione = "NONAUTENTICATO";
     private List<Partita> partite = new ArrayList<>();
-    private List<Squadra> squadre = new ArrayList<>();
-    private List<Arbitro> arbitri = new ArrayList<>();
+    private List<Torneo> tornei = new ArrayList<>();
     
-    public GeneratoreTorneo(String nome, String Tipo, List<Squadra> squadre, List<Arbitro> arbitri){
-        this.squadre.addAll(squadre);
-        this.arbitri.addAll(arbitri);
-        this.nome = nome;
-        if(Tipo.equals("ELIMINAZIONE DIRETTA")){
-            this.eliminazioneDiretta();
+    public GeneratoreTorneo(String nome, String cognome, String cf, String password){
+        super(nome, cognome);
+        this.cf = cf;
+        this.password = password;
+    }
+    public String getAutenticazione() {
+        return autenticazione;
+    }
+    public List<Torneo> getTorneiCreati() {
+        return tornei;
+    }
+
+    public String getCf() {
+        return cf;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+    public String logIn(String cf, String p){
+        try{
+            if( cf.equals(this.cf) && p.equals(password) ) {
+                autenticazione = "AUTENTICATO";
+                return "CREDENZIALI CORRETTE";
+            }
+            else if( cf == null || p == null ) {
+                return "NULL";
+            }
+            else{
+                autenticazione = "NONAUTENTICATO";
+                throw new EccezioneLogIn("CREDENZIALI SCORRETTE");
+            }
         }
-        if(Tipo.equals("ITALIANA")){
-            this.italiana();
+        catch(EccezioneLogIn e){
+            return e.getMessage();
         }
     }
-    
-    public void eliminazioneDiretta(){
+    public String logOut(String cf, String p) {
+        if( autenticazione.equals("AUTENTICATO") ) {
+            autenticazione = "NONAUTENTICATO";
+            return "Log out effettuato";
+        } else if( autenticazione.equals("NONAUTENTICATO") ) {
+            return "Log out già effetuato!";
+        }
+        return null;
+    }
+    public void eliminazioneDiretta(String nomeTorneo, List<Squadra> squadre, List<Arbitro> arbitri){
+        
         int sizeSquadre = squadre.size();
-        int sizeArbitri = arbitri.size();
+        if((sizeSquadre & (sizeSquadre - 1)) == 0){
+            int sizeArbitri = arbitri.size();
+            int k = 1;
         
-        Integer[] indexSquadre = new Integer[sizeSquadre];
-        for (int i = 0; i < indexSquadre.length; i++) {
-            indexSquadre[i] = i;
-        }
+            Integer[] indexSquadre = new Integer[sizeSquadre];
+            for (int i = 0; i < indexSquadre.length; i++) {
+                indexSquadre[i] = i;
+            }
         
-        Integer[] indexArbitri = new Integer[sizeArbitri];
-        for (int i = 0; i < indexArbitri.length; i++) {
-            indexArbitri[i] = i;
-        }
-        Collections.shuffle(Arrays.asList(indexSquadre));
-        for(int i = 0; i< sizeSquadre; i += 2){
-            Collections.shuffle(Arrays.asList(indexArbitri));
-            int j = 0;
-            partite.add(new Partita(squadre.get(indexSquadre[i]), squadre.get(indexSquadre[i+1]), arbitri.get(indexArbitri[j]), squadre.get(indexSquadre[i]).getCittaProvenienza(), StatoPartita.PROGRAMMATA));
-            j++;
-            partite.add(new Partita(squadre.get(indexSquadre[i+1]), squadre.get(indexSquadre[i]), arbitri.get(indexArbitri[j]), squadre.get(indexSquadre[i+1]).getCittaProvenienza(), StatoPartita.PROGRAMMATA));
-            j++;
-        }
+            Integer[] indexArbitri = new Integer[sizeArbitri];
+            for (int i = 0; i < indexArbitri.length; i++) {
+                indexArbitri[i] = i;
+            }
+            Collections.shuffle(Arrays.asList(indexSquadre));
+            for(int i = 0; i < sizeSquadre; i += 2){
+                Collections.shuffle(Arrays.asList(indexArbitri));
+                int j = 0;
+                partite.add(new Partita(k, squadre.get(indexSquadre[i]), squadre.get(indexSquadre[i+1]), arbitri.get(indexArbitri[j]), squadre.get(indexSquadre[i]).getCittaProvenienza(), StatoPartita.PROGRAMMATA));
+                j++;
+                k++;
+                partite.add(new Partita(k, squadre.get(indexSquadre[i+1]), squadre.get(indexSquadre[i]), arbitri.get(indexArbitri[j]), squadre.get(indexSquadre[i+1]).getCittaProvenienza(), StatoPartita.PROGRAMMATA));
+                j++;
+                k++;
+            }
         
-        //for solo per controllare se funziona
-        for(int i = 0; i<partite.size(); i++){
-            System.out.println(partite.get(i).getSquadraCasa().getNome() + " " + partite.get(i).getSquadraOspite().getNome());
-        }
+            //for solo per controllare se funziona
+            for(int i = 0; i<partite.size(); i++){
+                System.out.println(partite.get(i).getSquadraCasa().getNome() + " " + partite.get(i).getSquadraOspite().getNome());
+            }
         
-        torneo = new EliminazioneDiretta(nome, partite);
+            torneo = new EliminazioneDiretta(nomeTorneo, partite);
+            tornei.add(torneo);
+        } else {
+            System.out.println("Mi dispiace, non è possibile creare un torneo ad eliminazione diretta, serve che il numero delle squadre sia una potenza di due");
+        }
     }
     
-    public void italiana(){
+    public void italiana(String nomeTorneo, List<Squadra> squadre, List<Arbitro> arbitri){
         int sizeArbitri = arbitri.size();
         Integer[] indexArbitri = new Integer[sizeArbitri];
         for (int i = 0; i < indexArbitri.length; i++) {
             indexArbitri[i] = i;
         }
-        for(Squadra s1 : this.squadre){
-            for(Squadra s2 : this.squadre){
-                if(s1 != s2){
-                    Collections.shuffle(Arrays.asList(indexArbitri));
-                    partite.add(new Partita(s1, s2, arbitri.get(indexArbitri[0]), s1.getCittaProvenienza(), StatoPartita.PROGRAMMATA));
-                }
+        int k = 1;
+        for(Squadra s1 : squadre){
+            for(Squadra s2 : squadre){
+                    if(s1 != s2){
+                        Collections.shuffle(Arrays.asList(indexArbitri));
+                        partite.add(new Partita(k, s1, s2, arbitri.get(indexArbitri[0]), s1.getCittaProvenienza(), StatoPartita.PROGRAMMATA));
+                        k++;
+                    }
             }
         }
         
@@ -86,7 +134,11 @@ public class GeneratoreTorneo {
         for(int i = 0; i<partite.size(); i++){
             System.out.println(partite.get(i).getSquadraCasa().getNome() + " " + partite.get(i).getSquadraOspite().getNome());
         }
-        torneo = new Italiana(nome, partite);
+        torneo = new Italiana(nomeTorneo, partite);
+        tornei.add(torneo);
+    }
+    public void RimuoviTorneo(Torneo t) {
+        tornei.remove(t);
     }
 }
 

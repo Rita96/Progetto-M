@@ -3,11 +3,11 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package torneo;
+package gui;
 
 /**
  *
- * @author debora
+ * @author deboraquaini
  */
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
@@ -26,10 +26,13 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
+import torneo.EliminazioneDiretta;
+import torneo.Italiana;
+import torneo.Torneo;
 
 /**
  *
- * @author debora
+ * @author deboraquaini
  */
 public class CercaPartiteGUI extends JFrame {
     
@@ -39,10 +42,8 @@ public class CercaPartiteGUI extends JFrame {
     private JButton cerca;
     private JButton indietro;
     private JLabel labelNOME;
-    private JLabel labelANNO;
     private JLabel labelTIPOLOGIA;
     private JTextField fieldNOME;
-    private JTextField fieldANNO;
     private JTextField fieldTIPOLOGIA;
     private JTextArea sezionecomunicazioni;
     private JList list;
@@ -50,13 +51,13 @@ public class CercaPartiteGUI extends JFrame {
     
     public CercaPartiteGUI(Torneo torneo) {
         this.torneo = torneo;
-        this.setTitle("PARTITE");
+        this.setTitle("PARTITE TORNEO "+torneo.getNome());
         initComponents();
     }
 
     private void initComponents() {
         panelcampi = new JPanel();
-        panelcampi.setLayout(new GridLayout(3, 1, 2, 2));
+        panelcampi.setLayout(new GridLayout(2, 1, 2, 2));
         panelcampi.setBorder(BorderFactory.createEmptyBorder(10, 100, 0, 100));
         panelbottoni = new JPanel();
         panelbottoni.setLayout(new GridLayout(1, 2, 2, 2));
@@ -69,12 +70,15 @@ public class CercaPartiteGUI extends JFrame {
         fieldNOME = new JTextField();
         fieldNOME.setText(torneo.getNome());
         fieldNOME.setEditable(false);
-        labelANNO = new JLabel("Anno:");
-        fieldANNO = new JTextField();
-        fieldANNO.setEditable(false);
         labelTIPOLOGIA = new JLabel("Tipologia:");
         fieldTIPOLOGIA = new JTextField();
         fieldTIPOLOGIA.setEditable(false);
+        
+        if( torneo instanceof EliminazioneDiretta ) {
+            fieldTIPOLOGIA.setText("ELIMINAZIONE DIRETTA");
+        } else if( torneo instanceof Italiana ) {
+            fieldTIPOLOGIA.setText("ALL' ITALIANA");
+        }
         
         sezionecomunicazioni = new JTextArea();
         sezionecomunicazioni.setEditable(false);
@@ -169,8 +173,6 @@ public class CercaPartiteGUI extends JFrame {
         
         panelcampi.add(labelNOME, BorderLayout.WEST);
         panelcampi.add(fieldNOME, BorderLayout.EAST);
-        panelcampi.add(labelANNO, BorderLayout.WEST);
-        panelcampi.add(fieldANNO, BorderLayout.EAST);
         panelcampi.add(labelTIPOLOGIA, BorderLayout.WEST);
         panelcampi.add(fieldTIPOLOGIA, BorderLayout.EAST);
         panelbottoni.add(cerca, BorderLayout.EAST);

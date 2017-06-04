@@ -16,6 +16,8 @@ import java.util.*;
  * @author paolacarulli
  */
 public class Partita { // Manca il metodo che faccia settare all'arbitro i goal realtime
+    
+    private int ID;
     private Squadra squadraCasa;
     private Squadra squadraOspite;
     private StatoPartita stato;
@@ -35,12 +37,14 @@ public class Partita { // Manca il metodo che faccia settare all'arbitro i goal 
     private String cittaDoveSiSvolge;
     private String tipo = null;
     
-    public Partita(Squadra squadra1, Squadra squadra2, Arbitro arbitro, String citta, StatoPartita stato){
+    public Partita(int ID, Squadra squadra1, Squadra squadra2, Arbitro arbitro, String citta, StatoPartita stato){
+        this.ID = ID;
         this.squadraCasa = squadra1;
         this.squadraOspite = squadra2;
         this.arbitro = arbitro;
         this.cittaDoveSiSvolge = citta;
         this.stato = stato;
+        //metodo per generare un id intero casuale della partita
     }
     public String ModificaTipo(String stringa) {
         return tipo = stringa;

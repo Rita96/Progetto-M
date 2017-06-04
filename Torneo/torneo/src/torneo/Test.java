@@ -5,6 +5,7 @@
  */
 package torneo;
 
+import gui.SceltaTorneoGUI;
 import exception.GiocatoreInesistenteException;
 import java.io.BufferedReader;
 import java.io.File;
@@ -143,17 +144,25 @@ public class Test {
         Squadra s2 = new Squadra("S2", "rosso", "Milano", l2);
         Squadra s3 = new Squadra("S3", "rosso", "Milano", l2);
         
-        Partita p = new Partita(s1,s2, a, "Napoli", StatoPartita.PROGRAMMATA);
+        int ID1 = 1;
+        int ID2 = 2;
+        int ID3 = 3;
+        int ID4 = 4;
+        int ID5 = 5;
+        int ID6 = 6;
+        int ID7 = 7;
+        
+        Partita p = new Partita(ID1, s1,s2, a, "Napoli", StatoPartita.PROGRAMMATA);
         
         List<Partita> pa = new ArrayList<>();
-        pa.add(new Partita(s1, s2, a, "Milano", StatoPartita.REGOLAMENTARE));
-        pa.add(new Partita(s1, s3, b, "Rimini", StatoPartita.SUPPLEMENTARI));
-        pa.add(new Partita(s1, s2, c, "Aosta", StatoPartita.RIGORI));
+        pa.add(new Partita(ID2, s1, s2, a, "Milano", StatoPartita.REGOLAMENTARE));
+        pa.add(new Partita(ID3, s1, s3, b, "Rimini", StatoPartita.SUPPLEMENTARI));
+        pa.add(new Partita(ID4, s1, s2, c, "Aosta", StatoPartita.RIGORI));
         
         List<Partita> pb = new ArrayList<>();
-        pb.add(new Partita(s3, s2, c, "Lecce", StatoPartita.TERMINATA));
-        pb.add(new Partita(s1, s2, b, "Cagliari", StatoPartita.PROGRAMMATA));
-        pb.add(new Partita(s1, s3, a, "Pavia", StatoPartita.RIGORI));
+        pb.add(new Partita(ID5, s3, s2, c, "Lecce", StatoPartita.TERMINATA));
+        pb.add(new Partita(ID6, s1, s2, b, "Cagliari", StatoPartita.PROGRAMMATA));
+        pb.add(new Partita(ID7, s1, s3, a, "Pavia", StatoPartita.RIGORI));
 
         EliminazioneDiretta torneoED = new EliminazioneDiretta("Calcio 1", pa);
         Italiana torneoIT = new Italiana("Calcio 2", pb);
@@ -162,7 +171,9 @@ public class Test {
         tornei.add(torneoED);
         tornei.add(torneoIT);
         
-        JFrame sceltatorneo = new SceltaTorneoGUI(tornei);
+        GeneratoreTorneo gentorneo = new GeneratoreTorneo("g", "g", "g", "g");
+        
+        JFrame sceltatorneo = new SceltaTorneoGUI(tornei, gentorneo);
         sceltatorneo.setSize(1000, 655);
         sceltatorneo.setLocation(400, 250);
     }

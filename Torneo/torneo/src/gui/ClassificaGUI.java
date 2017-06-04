@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package torneo;
+package gui;
 
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
@@ -20,10 +20,16 @@ import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
+import torneo.ClassificaEliminazioneDiretta;
+import torneo.ClassificaItaliana;
+import torneo.EliminazioneDiretta;
+import torneo.Italiana;
+import torneo.Squadra;
+import torneo.Torneo;
 
 /**
  *
- * @author debora
+ * @author deboraquaini
  */
 public class ClassificaGUI extends JFrame {
     

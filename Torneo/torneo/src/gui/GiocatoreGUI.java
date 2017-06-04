@@ -3,12 +3,13 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package torneo;
+package gui;
 
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.List;
 import javax.swing.BorderFactory;
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
@@ -20,16 +21,24 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
+import torneo.Arbitro;
+import torneo.Cartellino;
+import torneo.ColoreCartellino;
+import torneo.Giocatore;
+import torneo.Goal;
+import torneo.Partita;
+import torneo.Torneo;
 
 /**
  *
- * @author debora
+ * @author deboraquaini
  */
 public class GiocatoreGUI extends JFrame {
     
     private Partita partita;
     private Giocatore giocatore;
     private Torneo torneo;
+    private List<Arbitro> a;
     
     private JPanel panelDATI;
     private JPanel panelBOTTONI;
@@ -60,6 +69,11 @@ public class GiocatoreGUI extends JFrame {
         this.partita = partita;
         this.giocatore = giocatore;
         this.torneo = torneo;
+        for( Partita p : torneo.getPartite() ) {
+            if(!(a.contains(p.getArbitro()))) {
+                a.add(p.getArbitro());
+            }
+        }
         setTitle("SCHEDA GIOCATORE "+giocatore.getNome()+" "+giocatore.getCognome()+" NUMERO "+giocatore.getNumero());
         initComponents();
     }
@@ -155,7 +169,7 @@ public class GiocatoreGUI extends JFrame {
                 } else {
                         int reply = JOptionPane.showConfirmDialog(null, "E' necessario autenticarsi come arbitro per modificare i dati!", "Attenzione!", JOptionPane.YES_NO_OPTION);
                         if (reply == JOptionPane.YES_OPTION) {
-                            JFrame arbitroGUI = new ArbitroGUI(torneo.getArbitri(), torneo);
+                            JFrame arbitroGUI = new ArbitroGUI(a);
                             arbitroGUI.setSize(1000, 610);
                             arbitroGUI.setLocation(400, 250);
                             arbitroGUI.setVisible(true);
@@ -187,7 +201,7 @@ public class GiocatoreGUI extends JFrame {
                     } else {
                         int reply = JOptionPane.showConfirmDialog(null, "E' necessario autenticarsi come arbitro per modificare i dati!", "Attenzione!", JOptionPane.YES_NO_OPTION);
                         if (reply == JOptionPane.YES_OPTION) {
-                            JFrame arbitroGUI = new ArbitroGUI(torneo.getArbitri(), torneo);
+                            JFrame arbitroGUI = new ArbitroGUI(a);
                             arbitroGUI.setSize(1000, 610);
                             arbitroGUI.setLocation(400, 250);
                             arbitroGUI.setVisible(true);
