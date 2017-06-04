@@ -31,7 +31,7 @@ public class ManagerTorneoItaliana extends UnicastRemoteObject implements Databa
         public void putTorneoItaliana(String nomeSquadra, String cittaSquadra, int punti, String nomeTorneo, int annoTorneo) throws RemoteException {
             try{
                 query= "INSERT INTO TORNEO_ITALIANA\n "
-                        + "VALUES ( '" +  nomeSquadra.toUpperCase() + "' , '" + cittaSquadra.toUpperCase() + "' , '" + punti + "' , '" + nomeTorneo.toUpperCase() + "' , '" + annoTorneo + "' );";
+                        + "VALUES ( '" +  nomeSquadra + "' , '" + cittaSquadra + "' , '" + punti + "' , '" + nomeTorneo + "' , '" + annoTorneo + "' );";
                 PreparedStatement posted = DatabaseConnection.connection.prepareStatement(query);
                 posted.executeUpdate(query);
             }catch(SQLException ex){
@@ -44,7 +44,7 @@ public class ManagerTorneoItaliana extends UnicastRemoteObject implements Databa
             try{
                 query= "UPDATE TORNEO_ITALIANA\n "
                         + "SET PUNTI = '" + nuoviPunti + "'\n "
-                        + "WHERE NOMESQUADRA = '" + nomeSquadra.toUpperCase() + "' AND CITTASQUADRA = '" + cittaSquadra.toUpperCase() + "' AND PUNTI = '" + punti + "' AND NOMETORNEO = '" + nomeTorneo.toUpperCase() + "' AND ANNOTORNEO = '" + annoTorneo + "' ;";
+                        + "WHERE NOMESQUADRA = '" + nomeSquadra + "' AND CITTASQUADRA = '" + cittaSquadra + "' AND PUNTI = '" + punti + "' AND NOMETORNEO = '" + nomeTorneo + "' AND ANNOTORNEO = '" + annoTorneo + "' ;";
                 PreparedStatement posted = DatabaseConnection.connection.prepareStatement(query);
                 posted.executeUpdate(query);
             }catch(SQLException ex){
@@ -56,8 +56,8 @@ public class ManagerTorneoItaliana extends UnicastRemoteObject implements Databa
         public void updateNomeTorneoItaliana(String nomeSquadra, String cittaSquadra, int punti, String nomeTorneo, String annoTorneo, String nuovoNome) throws RemoteException {
             try{
                 query= "UPDATE TORNEO_ITALIANA\n "
-                        + "SET NOMETORNEO = '" + nuovoNome.toUpperCase() + "'\n "
-                        + "WHERE NOMESQUADRA = '" + nomeSquadra.toUpperCase() + "' AND CITTASQUADRA = '" + cittaSquadra.toUpperCase() + "' AND PUNTI = '" + punti + "' AND NOMETORNEO = '" + nomeTorneo.toUpperCase() + "' AND ANNOTORNEO = '" + annoTorneo + "' ;";
+                        + "SET NOMETORNEO = '" + nuovoNome + "'\n "
+                        + "WHERE NOMESQUADRA = '" + nomeSquadra + "' AND CITTASQUADRA = '" + cittaSquadra + "' AND PUNTI = '" + punti + "' AND NOMETORNEO = '" + nomeTorneo + "' AND ANNOTORNEO = '" + annoTorneo + "' ;";
                 PreparedStatement posted = DatabaseConnection.connection.prepareStatement(query);
                 posted.executeUpdate(query);
             }catch(SQLException ex){
@@ -70,7 +70,7 @@ public class ManagerTorneoItaliana extends UnicastRemoteObject implements Databa
             try{
                 query= "UPDATE TORNEO_ITALIANA\n "
                         + "SET ANNOTORNEO = '" + annoTorneo + "'\n "
-                        + "WHERE NOMESQUADRA = '" + nomeSquadra.toUpperCase() + "' AND CITTASQUADRA = '" + cittaSquadra.toUpperCase() + "' AND PUNTI = '" + punti + "' AND NOMETORNEO = '" + nomeTorneo.toUpperCase() + "' AND ANNOTORNEO = '" + annoTorneo + "' ;";
+                        + "WHERE NOMESQUADRA = '" + nomeSquadra + "' AND CITTASQUADRA = '" + cittaSquadra + "' AND PUNTI = '" + punti + "' AND NOMETORNEO = '" + nomeTorneo + "' AND ANNOTORNEO = '" + annoTorneo + "' ;";
                 PreparedStatement posted = DatabaseConnection.connection.prepareStatement(query);
                 posted.executeUpdate(query);
             }catch(SQLException ex){
@@ -82,8 +82,8 @@ public class ManagerTorneoItaliana extends UnicastRemoteObject implements Databa
         public void updateNomeSquadraTorneoItaliana(String nomeSquadra, String cittaSquadra, int punti, String nomeTorneo, String annoTorneo, String nuovoNomeSquadra) throws RemoteException {
             try{
                 query= "UPDATE TORNEO_ITALIANA\n "
-                        + "SET NOMESQUADRA = '" + nuovoNomeSquadra.toUpperCase() + "'\n "
-                        + "WHERE NOMESQUADRA = '" + nomeSquadra.toUpperCase() + "' AND CITTASQUADRA = '" + cittaSquadra.toUpperCase() + "' AND PUNTI = '" + punti + "' AND NOMETORNEO = '" + nomeTorneo.toUpperCase() + "' AND ANNOTORNEO = '" + annoTorneo + "' ;";
+                        + "SET NOMESQUADRA = '" + nuovoNomeSquadra + "'\n "
+                        + "WHERE NOMESQUADRA = '" + nomeSquadra + "' AND CITTASQUADRA = '" + cittaSquadra + "' AND PUNTI = '" + punti + "' AND NOMETORNEO = '" + nomeTorneo + "' AND ANNOTORNEO = '" + annoTorneo + "' ;";
                 PreparedStatement posted = DatabaseConnection.connection.prepareStatement(query);
                 posted.executeUpdate(query);
             }catch(SQLException ex){
@@ -95,8 +95,8 @@ public class ManagerTorneoItaliana extends UnicastRemoteObject implements Databa
         public void updateCittaSquadraTorneoItaliana(String nomeSquadra, String cittaSquadra, int punti, String nomeTorneo, String annoTorneo, String nuovaCittaSquadra) throws RemoteException {
             try{
                 query= "UPDATE TORNEO_ITALIANA\n "
-                        + "SET CITTASQUADRA = '" + nuovaCittaSquadra.toUpperCase() + "'\n "
-                        + "WHERE NOMESQUADRA = '" + nomeSquadra.toUpperCase() + "' AND CITTASQUADRA = '" + cittaSquadra.toUpperCase() + "' AND PUNTI = '" + punti + "' AND NOMETORNEO = '" + nomeTorneo.toUpperCase() + "' AND ANNOTORNEO = '" + annoTorneo + "' ;";
+                        + "SET CITTASQUADRA = '" + nuovaCittaSquadra + "'\n "
+                        + "WHERE NOMESQUADRA = '" + nomeSquadra + "' AND CITTASQUADRA = '" + cittaSquadra + "' AND PUNTI = '" + punti + "' AND NOMETORNEO = '" + nomeTorneo + "' AND ANNOTORNEO = '" + annoTorneo + "' ;";
                 PreparedStatement posted = DatabaseConnection.connection.prepareStatement(query);
                 posted.executeUpdate(query);
             }catch(SQLException ex){
@@ -113,7 +113,7 @@ public class ManagerTorneoItaliana extends UnicastRemoteObject implements Databa
         public void deleteTorneoItaliana(String nomeSquadra, String cittaSquadra, int punti, String nomeTorneo, int annoTorneo) throws RemoteException {
             try{
                 query= "DELETE FROM TORNEO_ITALIANA\n "
-                        + "WHERE NOMESQUADRA = '" + nomeSquadra.toUpperCase() + "' AND CITTASQUADRA = '" + cittaSquadra.toUpperCase() + "' AND PUNTI = '" + punti + "' AND NOMETORNEO = '" + nomeTorneo + "' AND ANNOTORNEO = '" + annoTorneo +"' ;";
+                        + "WHERE NOMESQUADRA = '" + nomeSquadra + "' AND CITTASQUADRA = '" + cittaSquadra + "' AND PUNTI = '" + punti + "' AND NOMETORNEO = '" + nomeTorneo + "' AND ANNOTORNEO = '" + annoTorneo +"' ;";
                 PreparedStatement posted = DatabaseConnection.connection.prepareStatement(query);
                 posted.executeUpdate(query);
             }catch(SQLException ex){
