@@ -13,7 +13,7 @@ import java.sql.*;
  */
 public class DatabaseConnection {
     
-    protected static Connection connection;
+    private Connection connection;
     protected static Statement statement;
     
     public DatabaseConnection(String username, String password){
