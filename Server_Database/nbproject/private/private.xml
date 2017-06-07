@@ -3,10 +3,18 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/home/nautilus/NetBeansProjects/Server_Database/src/database/DatabaseConnection.java</file>
-            <file>file:/home/nautilus/NetBeansProjects/Server_Database/src/database/DatabaseInterface.java</file>
-            <file>file:/home/nautilus/NetBeansProjects/Server_Database/src/database/RMIDatabaseServer.java</file>
-            <file>file:/home/nautilus/NetBeansProjects/Server_Database/src/database/DatabaseGestion.java</file>
+            <file>file:/home/nautilus/NetBeansProjects/Progetto-M/Server_Database/src/databaseserver/ManagerSquadra.java</file>
+            <file>file:/home/nautilus/NetBeansProjects/Progetto-M/Server_Database/src/databaseserver/ManagerLogin.java</file>
+            <file>file:/home/nautilus/NetBeansProjects/Progetto-M/Server_Database/src/databaseserver/ManagerGiocatore.java</file>
+            <file>file:/home/nautilus/NetBeansProjects/Progetto-M/Server_Database/src/databaseserver/ManagerArbitro.java</file>
+            <file>file:/home/nautilus/NetBeansProjects/Progetto-M/Server_Database/src/databaseserver/ManagerTorneo.java</file>
+            <file>file:/home/nautilus/NetBeansProjects/Progetto-M/Server_Database/src/databaseserver/ManagerGoal.java</file>
+            <file>file:/home/nautilus/NetBeansProjects/Progetto-M/Server_Database/src/databaseserver/ManagerTorneoItaliana.java</file>
+            <file>file:/home/nautilus/NetBeansProjects/Progetto-M/Server_Database/src/databaseserver/DatabaseConnection.java</file>
+            <file>file:/home/nautilus/NetBeansProjects/Progetto-M/Server_Database/src/databaseserver/ManagerTorneoEliminazionediretta.java</file>
+            <file>file:/home/nautilus/NetBeansProjects/Progetto-M/Server_Database/src/databaseserver/RMIDatabaseServer.java</file>
+            <file>file:/home/nautilus/NetBeansProjects/Progetto-M/Server_Database/src/databaseserver/ManagerPartita.java</file>
+            <file>file:/home/nautilus/NetBeansProjects/Progetto-M/Server_Database/src/databaseserver/ManagerCartellino.java</file>
         </group>
     </open-files>
 </project-private>
