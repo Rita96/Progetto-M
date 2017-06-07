@@ -21,7 +21,7 @@ import torneo.Partita;
 public interface DatabaseInterfacePartita extends Remote{
     
     void putPartita(int idPartita, String nomeTorneo, int annoTorneo) throws RemoteException;
-    void putPartita(int idPartita, String squadraCasa, String squadraOspite, String andataritorno, String cfArbitro, String nomeTorneo, int annoTorneo) throws RemoteException;
+    void putPartita(int idPartita, String squadraCasa, String squadraOspite, String statoPartita, String cfArbitro, String nomeTorneo, int annoTorneo) throws RemoteException;
     void putPartita(int idPartita, String squadraCasa, String squadraOspite, String cfArbitro, String nomeTorneo, int annoTorneo) throws RemoteException;
   
     void updateIdPartita(int idPartita, String nomeTorneo, int annoTorneo, int nuovoId) throws RemoteException;
@@ -30,7 +30,7 @@ public interface DatabaseInterfacePartita extends Remote{
     void updateGoalCasaPartita(int idPartita, String nomeTorneo, int annoTorneo, int nuovoGoalCasa) throws RemoteException;
     void updateGoalOspitePartita(int idPartita, String nomeTorneo, int annoTorneo, int nuovoGoalOspite) throws RemoteException;
     void updateDataPartita(int idPartita, String nomeTorneo, int annoTorneo, String nuovaData) throws RemoteException;
-    void updateAndataRitornoPartita(int idPartita, String nomeTorneo, int annoTorneo, String nuovaAndataRitorno) throws RemoteException;
+    void updateStatoPartitaPartita(int idPartita, String nomeTorneo, int annoTorneo, String nuovoStatoPartita) throws RemoteException;
     void updateCfArbitroPartita(int idPartita, String nomeTorneo, int annoTorneo, String nuovoCfArbitro) throws RemoteException;
     void updateNomeTorneoPartita(int idPartita, String nomeTorneo, int annoTorneo, String nuovoNomeTorneo) throws RemoteException;
     void updateAnnoTorneoPartita(int idPartita, String nomeTorneo, int annoTorneo, int nuovoAnnoTorneo) throws RemoteException;

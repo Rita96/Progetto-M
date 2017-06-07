@@ -16,7 +16,7 @@ import torneo.Arbitro;
  */
 public interface DatabaseInterfaceArbitro extends Remote{
     
-    void putArbitro(Arbitro arbitro) throws RemoteException;
+    void putArbitro(String codiceFiscale, String nomeArbitro, String cognomeArbitro, String password) throws RemoteException;
     
     void updateCfArbitro(String codiceFiscale, String nuovoCf) throws RemoteException;
     void updateNomeArbitro(String codiceFiscale, String nuovoNome) throws RemoteException;
