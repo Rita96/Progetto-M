@@ -23,6 +23,7 @@ import javax.swing.JFrame;
  * @author giuliafumagalli
  */
 public class Test {
+    static DatabaseInterfaceFactory q;
     public static void main(String[] args) throws FileNotFoundException, IOException {
         //PRIMO TEST
 //        Giocatore g1s1 = new Giocatore("Prova", "Prova", 1);
@@ -125,6 +126,7 @@ public class Test {
 //        for(Squadra s: classificaElDiretta.printRisultato()){
 //            System.out.println(s.getNome());
 //        }
+        q = new DatabaseInterfaceFactory();
         Arbitro a = new Arbitro("a", "a", "a", "a");
         Arbitro b = new Arbitro("b", "b", "b", "b");
         Arbitro c = new Arbitro("c", "c", "c", "c");
