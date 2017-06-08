@@ -376,7 +376,7 @@ public class ModificaRisultatiGUI extends JFrame {
                     if( partita.getArbitro().getAutenticazione().equals("AUTENTICATO") ) {
                         String input = JOptionPane.showInputDialog(null, "Inserire modifica: ", "Modifica dati partita", JOptionPane.QUESTION_MESSAGE);
                         if( input != null && input.length() != 0 ) {
-                            partita.ModifcaCitta(input);
+                            partita.ModificaCitta(input);
                             CITTAfield.setText(input);
                         }
                     } else if(partita.getArbitro().getAutenticazione().equals("NONAUTENTICATO")) {
@@ -441,7 +441,7 @@ public class ModificaRisultatiGUI extends JFrame {
                     partita.ModificaGoalOspite(partita.getGoalSquadraOspiteList().size());
                     
                     String citta = CITTAfield.getText();
-                    partita.ModifcaCitta(citta);
+                    partita.ModificaCitta(citta);
                     
                     NumeroGoalCasa.setText("goal squadra casa\nregolari: "+partita.getGoalSquadraCasaRegolare()+"\tsupplementari: "+partita.getGoalSquadraCasaSupplementari()+"\trigori: "+partita.getGoalSquadraCasaRigori());
                     NumeroGoalOspite.setText("goal squadra ospite\nregolari: "+partita.getGoalSquadraOspiteRegolare()+"\tsupplementari: "+partita.getGoalSquadraOspiteSupplementari()+"\trigori: "+partita.getGoalSquadraOspiteRigori());
@@ -467,7 +467,7 @@ public class ModificaRisultatiGUI extends JFrame {
                     partita.ModificaGoalOspite(partita.getGoalSquadraOspiteList().size());
                     
                     String citta = CITTAfield.getText();
-                    partita.ModifcaCitta(citta);
+                    partita.ModificaCitta(citta);
                     
                     DefaultListModel NUOVOmodelgoalcasa = new DefaultListModel();
                     for( Goal g : partita.getGoalSquadraCasaList() ) {

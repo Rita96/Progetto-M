@@ -20,17 +20,18 @@ public class Arbitro extends Utente{
     private String codiceFiscale;
     private String password;
     
-    public Arbitro(String nome, String cognome, String codice, String password) {
+    public Arbitro(String nome, String cognome, String codice, String password, boolean putInDatabase) {
         super(nome, cognome);
         this.codiceFiscale = codice;
         this.password = password;
         
         //saving in DB
-        
-        try {
-            Test.q.makeArbitroTable().putArbitro(codice, nome, cognome, password);
-        } catch (RemoteException ex) {
-            Logger.getLogger(Arbitro.class.getName()).log(Level.SEVERE, null, ex);
+        if(putInDatabase){
+            try {
+                Test.q.makeArbitroTable().putArbitro(codice, nome, cognome, password);
+            } catch (RemoteException ex) {
+                Logger.getLogger(Arbitro.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
     }
     public String getAutenticazione(){

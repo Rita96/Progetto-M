@@ -162,7 +162,8 @@ public class GeneratoreTorneoGUI extends JFrame {
                         if( tipofield.getSelectedItem().toString().equals("ELIMINAZIONE DIRETTA") ) {
                             for( int i = 0; i < potenzedidue.length; i++ ) {
                                 if( (squadregen.size() == potenzedidue[i]) && (arbitrigen.size() >= 2) ) {
-                                    gentorneo.eliminazioneDiretta(nometorneo, squadregen, arbitrigen);
+                                    // aggiungere anno
+                                    gentorneo.eliminazioneDiretta(nometorneo, anno, squadregen, arbitrigen);
                                     stringagen.setText("AREA GENERAZIONE TORNEO - TORNEO AD EL. DIRETTA CREATO");
                                 } else
                                     counter++;
@@ -172,7 +173,8 @@ public class GeneratoreTorneoGUI extends JFrame {
                         } 
                         else if( tipofield.getSelectedItem().toString().equals("ITALIANA") ) {
                             if( squadregen.size() >= 2 ) {
-                                gentorneo.italiana(nometorneo, squadregen, arbitrigen);
+                                // aggiungere anno
+                                gentorneo.italiana(nometorneo, anno, squadregen, arbitrigen);
                                 stringagen.setText("AREA GENERAZIONE TORNEO - TORNEO ALL'ITALIANA CREATO");
                             } else {
                                 JOptionPane.showMessageDialog(null, "IL TORNEO DEVE AVERE ALMENO DUE SQUADRE PARTECIPANTI!", "Attenzione", JOptionPane.ERROR_MESSAGE);                                

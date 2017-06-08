@@ -9,7 +9,9 @@ import exception.EccezioneLogIn;
 import exception.GiocatoreInesistenteException;
 import exception.IncorrectValueException;
 import exception.SquadraIncorrettaException;
+import java.rmi.RemoteException;
 import java.util.*;
+import java.util.logging.*;
 
 /**
  *
@@ -17,6 +19,8 @@ import java.util.*;
  */
 public class Partita { // Manca il metodo che faccia settare all'arbitro i goal realtime
     
+    private String nomeTorneo;
+    private int annoTorneo;
     private int ID;
     private Squadra squadraCasa;
     private Squadra squadraOspite;
@@ -37,13 +41,22 @@ public class Partita { // Manca il metodo che faccia settare all'arbitro i goal 
     private String cittaDoveSiSvolge;
     private String tipo = null;
     
-    public Partita(int ID, Squadra squadra1, Squadra squadra2, Arbitro arbitro, String citta, StatoPartita stato){
+    public Partita(int ID, Squadra squadra1, Squadra squadra2, Arbitro arbitro, String citta, StatoPartita stato, String nomeTorneo, int annoTorneo, boolean putInDatabase){
+        this.nomeTorneo = nomeTorneo;
+        this.annoTorneo = annoTorneo;
         this.ID = ID;
         this.squadraCasa = squadra1;
         this.squadraOspite = squadra2;
         this.arbitro = arbitro;
         this.cittaDoveSiSvolge = citta;
         this.stato = stato;
+        if(putInDatabase){
+            try {
+                Test.q.makePartitaTable().putPartita(ID, squadraCasa.getNome(), squadraOspite.getNome(), stato.toString(), arbitro.getCodiceFiscale(), nomeTorneo, annoTorneo, citta);
+            } catch (RemoteException ex) {
+                Logger.getLogger(Partita.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
         //metodo per generare un id intero casuale della partita
     }
     public String ModificaTipo(String stringa) {
@@ -106,15 +119,23 @@ public class Partita { // Manca il metodo che faccia settare all'arbitro i goal 
     public List<Cartellino> getCartelliniSquadraOspite() {
         return cartelliniSquadraOspite;
     }
+    
+    // da togliere?
     public int ModificaGoalCasa(int goal) {
         int sommaCasa = goalSquadraCasaRegolare+goalSquadraCasaSupplementari+goalSquadraCasaRigori; 
         return sommaCasa = goal;
     }
+    // da togliere, piuttosto un getSommaGoal
     public int ModificaGoalOspite(int goal) {
         int sommaOspite = goalSquadraOspiteRegolare+goalSquadraOspiteSupplementari+goalSquadraOspiteRigori;
         return sommaOspite = goal;
     }
-    public String ModifcaCitta(String citta) {
+    public String ModificaCitta(String citta) {
+        try {
+            Test.q.makePartitaTable().updateCittaPartita(ID, nomeTorneo, annoTorneo, citta);
+        } catch (RemoteException ex) {
+            Logger.getLogger(Partita.class.getName()).log(Level.SEVERE, null, ex);
+        }
         return cittaDoveSiSvolge = citta;
     }
     public void setPuntiSquadra(int punti, String nameSquadra){
@@ -143,13 +164,23 @@ public class Partita { // Manca il metodo che faccia settare all'arbitro i goal 
             }
         }
     }
-    public void setCartellino(ColoreCartellino colore, Giocatore giocatore){
+    public void setCartellino(ColoreCartellino colore, Giocatore giocatore, int minuto){
         try{
             if(arbitro.getAutenticazione().equals("AUTENTICATO")){
                 if(squadraCasa.getGiocatori().contains(giocatore)){
                     cartelliniSquadraCasa.add(new Cartellino(colore, giocatore));
+                    try {
+                        Test.q.makeCartellinoTable().putCartellino(ID, colore.toString(), minuto, giocatore.getNumero(), squadraCasa.getNome(), squadraCasa.getCittaProvenienza(), nomeTorneo, annoTorneo);
+                    } catch (RemoteException ex) {
+                        Logger.getLogger(Cartellino.class.getName()).log(Level.SEVERE, null, ex);
+                    }
                 } else if(squadraOspite.getGiocatori().contains(giocatore)){
                     cartelliniSquadraOspite.add(new Cartellino(colore, giocatore));
+                    try {
+                        Test.q.makeCartellinoTable().putCartellino(ID, colore.toString(), minuto, giocatore.getNumero(), squadraOspite.getNome(), squadraOspite.getCittaProvenienza(), nomeTorneo, annoTorneo);
+                    } catch (RemoteException ex) {
+                        Logger.getLogger(Cartellino.class.getName()).log(Level.SEVERE, null, ex);
+                    }
                 }
                 else{
                     throw new GiocatoreInesistenteException("Il giocatore " + giocatore.getNome() + " " + giocatore.getCognome() + " non gioca in nessuna di queste squadre!");
@@ -172,6 +203,11 @@ public class Partita { // Manca il metodo che faccia settare all'arbitro i goal 
         try{
             if(arbitro.getAutenticazione().equals("AUTENTICATO")){
                 stato = s;
+                try {
+                        Test.q.makePartitaTable().updateStatoPartitaPartita(ID, nomeTorneo, annoTorneo, s.toString());
+                    } catch (RemoteException ex) {
+                        Logger.getLogger(Cartellino.class.getName()).log(Level.SEVERE, null, ex);
+                    }
             }
             else{
                 if(arbitro.getAutenticazione().equals("NONAUTENTICATO")){
@@ -193,6 +229,11 @@ public class Partita { // Manca il metodo che faccia settare all'arbitro i goal 
                 if( !this.getStatoPartita().equals("PROGRAMMATA") ) { // INSERITO CONTROLLO IN MODO CHE NON SI POSSANO AGGUNGERE GOAL IN STATO PROGRAMMATA
                     if(squadraCasa.getGiocatori().contains(giocatore)){
                         goalSquadraCasaList.add(new Goal(minuto, giocatore));
+                        try {
+                            Test.q.makeGoalTable().putGoal(ID, minuto, giocatore.getNumero(), squadraCasa.getNome(), squadraCasa.getCittaProvenienza(), nomeTorneo, annoTorneo);
+                        } catch (RemoteException ex) {
+                            Logger.getLogger(Goal.class.getName()).log(Level.SEVERE, null, ex);
+                        }
                         switch (this.getStatoPartita()) {
                             case REGOLAMENTARE:
                                 goalSquadraCasaRegolare++;
@@ -203,12 +244,19 @@ public class Partita { // Manca il metodo che faccia settare all'arbitro i goal 
                             case RIGORI:
                                 goalSquadraCasaRigori++;
                             break;
+                            case TERMINATA:
+                                goalSquadraCasaRegolare++;
                             default:
                             break;
                         }
                     }
                     else if(squadraOspite.getGiocatori().contains(giocatore)){
                         goalSquadraOspiteList.add(new Goal(minuto, giocatore));
+                        try {
+                            Test.q.makeGoalTable().putGoal(ID, minuto, giocatore.getNumero(), squadraOspite.getNome(), squadraOspite.getCittaProvenienza(), nomeTorneo, annoTorneo);
+                        } catch (RemoteException ex) {
+                            Logger.getLogger(Goal.class.getName()).log(Level.SEVERE, null, ex);
+                        }
                         switch (this.getStatoPartita()) {
                             case REGOLAMENTARE:
                                 goalSquadraOspiteRegolare++;
@@ -219,6 +267,8 @@ public class Partita { // Manca il metodo che faccia settare all'arbitro i goal 
                             case RIGORI:
                                 goalSquadraOspiteRigori++;
                             break;
+                            case TERMINATA:
+                                goalSquadraCasaRegolare++;
                             default:
                             break;
                         }
@@ -249,6 +299,11 @@ public class Partita { // Manca il metodo che faccia settare all'arbitro i goal 
                 for(Giocatore g : squadraCasa.getGiocatori()){
                     if(g.getNome().equals(Nome) && g.getCognome().equals(Cognome) && g.getNumero() == numero){
                         goalSquadraCasaList.add(new Goal(minuto, g));
+                        try {
+                            Test.q.makeGoalTable().putGoal(ID, minuto, g.getNumero(), squadraCasa.getNome(), squadraCasa.getCittaProvenienza(), nomeTorneo, annoTorneo);
+                        } catch (RemoteException ex) {
+                            Logger.getLogger(Goal.class.getName()).log(Level.SEVERE, null, ex);
+                        }
                         switch (this.getStatoPartita()) {
                             case REGOLAMENTARE:
                                 goalSquadraCasaRegolare++;
@@ -259,9 +314,17 @@ public class Partita { // Manca il metodo che faccia settare all'arbitro i goal 
                             case RIGORI:
                                 goalSquadraCasaRigori++;
                             break;
+                            case TERMINATA:
+                                goalSquadraCasaRegolare++;
                             default:
                             break;
                         }
+                        try {
+                            Test.q.makePartitaTable().updateGoalCasaPartita(ID, nomeTorneo, annoTorneo, goalSquadraCasaRegolare+goalSquadraCasaSupplementari+goalSquadraCasaRigori);
+                        } catch (RemoteException ex) {
+                            Logger.getLogger(Goal.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+                        
                         if(!gioca)
                             gioca = true;
                         else
@@ -271,6 +334,11 @@ public class Partita { // Manca il metodo che faccia settare all'arbitro i goal 
                 for(Giocatore g : squadraOspite.getGiocatori()){
                     if(g.getNome().equals(Nome) && g.getCognome().equals(Cognome) && g.getNumero() == numero){
                         goalSquadraOspiteList.add(new Goal(minuto, g));
+                        try {
+                            Test.q.makeGoalTable().putGoal(ID, minuto, g.getNumero(), squadraOspite.getNome(), squadraOspite.getCittaProvenienza(), nomeTorneo, annoTorneo);
+                        } catch (RemoteException ex) {
+                            Logger.getLogger(Goal.class.getName()).log(Level.SEVERE, null, ex);
+                        }
                         switch (this.getStatoPartita()) {
                             case REGOLAMENTARE:
                                 goalSquadraOspiteRegolare++;
@@ -281,9 +349,16 @@ public class Partita { // Manca il metodo che faccia settare all'arbitro i goal 
                             case RIGORI:
                                 goalSquadraOspiteRigori++;
                             break;
+                            case TERMINATA:
+                                goalSquadraOspiteRegolare++;
                             default:
-                            break;
-                    }
+                            break;}
+                        try {
+                            Test.q.makePartitaTable().updateGoalOspitePartita(ID, nomeTorneo, annoTorneo, goalSquadraOspiteRegolare+goalSquadraOspiteSupplementari+goalSquadraOspiteRigori);
+                        } catch (RemoteException ex) {
+                            Logger.getLogger(Goal.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+                    
                         if(!gioca)
                             gioca = true;
                         else
@@ -308,6 +383,12 @@ public class Partita { // Manca il metodo che faccia settare all'arbitro i goal 
     }
     public void setArbitro(Arbitro arbitro) {
         this.arbitro = arbitro;
+        try {
+            Test.q.makePartitaTable().updateCfArbitroPartita(ID, nomeTorneo, annoTorneo, arbitro.getCodiceFiscale());
+        } catch (RemoteException ex) {
+            Logger.getLogger(Goal.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
     }
     @Override
     public String toString() {

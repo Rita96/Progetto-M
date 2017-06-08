@@ -158,12 +158,14 @@ public class GiocatoreGUI extends JFrame {
                     if( jcombo.getSelectedItem() == ColoreCartellino.GIALLO && i == JOptionPane.YES_OPTION ) {
                         Cartellino cartellinoGIALLO = new Cartellino(ColoreCartellino.GIALLO, giocatore);
                         modelCARTELLINI.addElement(cartellinoGIALLO);
-                        partita.setCartellino(ColoreCartellino.GIALLO, giocatore);
+                        // aggiungere il minuto
+                        partita.setCartellino(ColoreCartellino.GIALLO, giocatore, minuto);
                         jcombo.setVisible(false);
                     } else if( jcombo.getSelectedItem() == ColoreCartellino.ROSSO && i == JOptionPane.YES_OPTION ) {
                         Cartellino cartellinoROSSO = new Cartellino(ColoreCartellino.ROSSO, giocatore);
                         modelCARTELLINI.addElement(cartellinoROSSO);
-                        partita.setCartellino(ColoreCartellino.ROSSO, giocatore);
+                        // aggiungere il minuto
+                        partita.setCartellino(ColoreCartellino.ROSSO, giocatore, minuto);
                         jcombo.setVisible(false);
                     } else if( i == JOptionPane.NO_OPTION )
                         jcombo.setVisible(false);

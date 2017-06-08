@@ -265,7 +265,7 @@ public class SceltaTorneoGUI extends JFrame {
                             String cognome = cognomefield.getText();
                             String cf = cffield.getText();
                             String pass = passfield.getText();
-                            Arbitro arbitro = new Arbitro(nome, cognome, cf, pass);
+                            Arbitro arbitro = new Arbitro(nome, cognome, cf, pass, true);
                             arbitri.add(arbitro);
                         } else {
                             JOptionPane.showMessageDialog(null, "PARAMETRI MANCANTI!", "Attenzione", JOptionPane.ERROR_MESSAGE);
@@ -372,7 +372,7 @@ public class SceltaTorneoGUI extends JFrame {
                                 String nome = nomefield.getText();
                                 String colore = colorefield.getText();
                                 String citta = cittafield.getText();
-                                Squadra squadra = new Squadra(nome, colore, citta, giocatorigen);
+                                Squadra squadra = new Squadra(nome, colore, citta, giocatorigen, true);
                                 squadre.add(squadra);
                             } else {
                             JOptionPane.showMessageDialog(null, "E' NECESSARIO SELEZIONARE ALMENO DUE GIOCATORI!", "Attenzione", JOptionPane.ERROR_MESSAGE);                                

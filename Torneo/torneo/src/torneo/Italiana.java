@@ -5,6 +5,7 @@
  */
 package torneo;
 
+import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -13,6 +14,8 @@ import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -23,8 +26,8 @@ public class Italiana extends Torneo {
     private Map<Squadra, Integer> SquadraPartiteGiocate = new HashMap<>();
     private Map<Squadra, Integer> SquadraGoalTotali = new HashMap<>();
     
-    public Italiana(String nome, List<Partita> p) {
-        super(nome, p);
+    public Italiana(String nome, int anno, List<Partita> p, boolean putInDatabase) {
+        super(nome, anno, p, putInDatabase);
         if(p.size()>0){
             setItaliana();
         }
@@ -39,15 +42,18 @@ public class Italiana extends Torneo {
     
     public void aggiornaClassifica(Partita p){
         int punteggioCasa = 0, punteggioOspite = 0, partiteGiocateCasa = 0, partiteGiocateOspite = 0, goalCasa = 0, goalOspite = 0;
+        boolean esisteCasa = false, esisteOspite = false;
         if(SquadraPunteggioRelativo.containsKey(p.getSquadraCasa())){ 
             punteggioCasa = SquadraPunteggioRelativo.get(p.getSquadraCasa());
             partiteGiocateCasa = SquadraPartiteGiocate.get(p.getSquadraCasa());
             goalCasa = SquadraGoalTotali.get(p.getSquadraCasa());
+            esisteCasa = true;
         }     
         if(SquadraPunteggioRelativo.containsKey(p.getSquadraOspite())){
             punteggioOspite = SquadraPunteggioRelativo.get(p.getSquadraOspite());
             partiteGiocateOspite = SquadraPartiteGiocate.get(p.getSquadraOspite());
             goalOspite = SquadraGoalTotali.get(p.getSquadraOspite());
+            esisteOspite = true;
         }
         
         
@@ -86,6 +92,32 @@ public class Italiana extends Torneo {
             break;
             default:
             break;
+        }
+        if(esisteCasa){
+            try {
+                Test.q.makeTorneoItalianaTable().updatePuntiTorneoItaliana(p.getSquadraCasa().getNome(), p.getSquadraCasa().getCittaProvenienza(), punteggioCasa, nome, anno, SquadraPunteggioRelativo.get(p.getSquadraCasa()));
+            } catch (RemoteException ex) {
+                Logger.getLogger(Italiana.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        } else {
+            try {
+                Test.q.makeTorneoItalianaTable().putTorneoItaliana(p.getSquadraCasa().getNome(), p.getSquadraCasa().getCittaProvenienza(), SquadraPunteggioRelativo.get(p.getSquadraCasa()), nome, anno);
+            } catch (RemoteException ex) {
+                Logger.getLogger(Italiana.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        if(esisteOspite){
+            try {
+                Test.q.makeTorneoItalianaTable().updatePuntiTorneoItaliana(p.getSquadraOspite().getNome(), p.getSquadraOspite().getCittaProvenienza(), punteggioOspite, nome, anno, SquadraPunteggioRelativo.get(p.getSquadraOspite()));
+            } catch (RemoteException ex) {
+                Logger.getLogger(Italiana.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        } else {
+            try {
+                Test.q.makeTorneoItalianaTable().putTorneoItaliana(p.getSquadraOspite().getNome(), p.getSquadraOspite().getCittaProvenienza(), SquadraPunteggioRelativo.get(p.getSquadraOspite()), nome, anno);
+            } catch (RemoteException ex) {
+                Logger.getLogger(Italiana.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
     }
     

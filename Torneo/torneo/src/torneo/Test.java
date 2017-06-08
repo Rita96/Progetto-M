@@ -127,9 +127,11 @@ public class Test {
 //            System.out.println(s.getNome());
 //        }
         q = new DatabaseInterfaceFactory();
-        Arbitro a = new Arbitro("a", "a", "a", "a");
-        Arbitro b = new Arbitro("b", "b", "b", "b");
-        Arbitro c = new Arbitro("c", "c", "c", "c");
+        String nomeTorneo = "Calcio 1";
+        int anno = 2017;
+        Arbitro a = new Arbitro("a", "a", "a", "a", true);
+        Arbitro b = new Arbitro("b", "b", "b", "b", true);
+        Arbitro c = new Arbitro("c", "c", "c", "c", true);
         
         Giocatore g1s1 = new Giocatore("Prova", "Prova", 1);
         Giocatore g2s1 = new Giocatore("Prova2", "Prova2", 2);
@@ -142,9 +144,9 @@ public class Test {
         l2.add(g1s2);
         l2.add(g2s2);
         Giocatore g2s3 = new Giocatore("Prova", "prova", 5);
-        Squadra s1 = new Squadra("S1", "blu", "Milano", l1);
-        Squadra s2 = new Squadra("S2", "rosso", "Milano", l2);
-        Squadra s3 = new Squadra("S3", "rosso", "Milano", l2);
+        Squadra s1 = new Squadra("S1", "blu", "Milano", l1, true);
+        Squadra s2 = new Squadra("S2", "rosso", "Milano", l2, true);
+        Squadra s3 = new Squadra("S3", "rosso", "Milano", l2, true);
         
         int ID1 = 1;
         int ID2 = 2;
@@ -154,20 +156,20 @@ public class Test {
         int ID6 = 6;
         int ID7 = 7;
         
-        Partita p = new Partita(ID1, s1,s2, a, "Napoli", StatoPartita.PROGRAMMATA);
+        Partita p = new Partita(ID1, s1,s2, a, "Napoli", StatoPartita.PROGRAMMATA, nomeTorneo, anno, true);
         
         List<Partita> pa = new ArrayList<>();
-        pa.add(new Partita(ID2, s1, s2, a, "Milano", StatoPartita.REGOLAMENTARE));
-        pa.add(new Partita(ID3, s1, s3, b, "Rimini", StatoPartita.SUPPLEMENTARI));
-        pa.add(new Partita(ID4, s1, s2, c, "Aosta", StatoPartita.RIGORI));
+        pa.add(new Partita(ID2, s1, s2, a, "Milano", StatoPartita.REGOLAMENTARE, nomeTorneo, anno, true));
+        pa.add(new Partita(ID3, s1, s3, b, "Rimini", StatoPartita.SUPPLEMENTARI, nomeTorneo, anno, true));
+        pa.add(new Partita(ID4, s1, s2, c, "Aosta", StatoPartita.RIGORI, nomeTorneo, anno, true));
         
         List<Partita> pb = new ArrayList<>();
-        pb.add(new Partita(ID5, s3, s2, c, "Lecce", StatoPartita.TERMINATA));
-        pb.add(new Partita(ID6, s1, s2, b, "Cagliari", StatoPartita.PROGRAMMATA));
-        pb.add(new Partita(ID7, s1, s3, a, "Pavia", StatoPartita.RIGORI));
+        pb.add(new Partita(ID5, s3, s2, c, "Lecce", StatoPartita.TERMINATA, nomeTorneo, anno, true));
+        pb.add(new Partita(ID6, s1, s2, b, "Cagliari", StatoPartita.PROGRAMMATA, nomeTorneo, anno, true));
+        pb.add(new Partita(ID7, s1, s3, a, "Pavia", StatoPartita.RIGORI, nomeTorneo, anno, true));
 
-        EliminazioneDiretta torneoED = new EliminazioneDiretta("Calcio 1", pa);
-        Italiana torneoIT = new Italiana("Calcio 2", pb);
+        EliminazioneDiretta torneoED = new EliminazioneDiretta(nomeTorneo, anno, pa, true);
+        Italiana torneoIT = new Italiana(nomeTorneo, anno, pb, true);
         
         List<Torneo> tornei = new ArrayList<>();
         tornei.add(torneoED);
