@@ -117,7 +117,7 @@ public class EliminazioneDiretta extends Torneo {
         for(Squadra s : squadreNelTorneo){
             try {
                 Test.q.makeTorneoEliminazionedirettaTable().updateFaseTorneoTorneoEliminazionediretta(s.getNome(), s.getCittaProvenienza(), fase, nome, anno, squadreNelTorneo.size());
-                Test.q.makeTorneoEliminazionedirettaTable().updateEliminazioneTorneoEliminazionediretta(s.getNome(), s.getCittaProvenienza(), squadreNelTorneo.size(), nome, anno, 1);
+                Test.q.makeTorneoEliminazionedirettaTable().updatePassaggioFaseTorneoEliminazionediretta(s.getNome(), s.getCittaProvenienza(), squadreNelTorneo.size(), nome, anno, 1);
             } catch (RemoteException ex) {
                 Logger.getLogger(Giocatore.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -125,7 +125,7 @@ public class EliminazioneDiretta extends Torneo {
         
         for(Squadra s : squadreDaRimuovere){
             try {
-                Test.q.makeTorneoEliminazionedirettaTable().updateEliminazioneTorneoEliminazionediretta(s.getNome(), s.getCittaProvenienza(), fase, nome, anno, 0);
+                Test.q.makeTorneoEliminazionedirettaTable().updatePassaggioFaseTorneoEliminazionediretta(s.getNome(), s.getCittaProvenienza(), fase, nome, anno, 0);
             } catch (RemoteException ex) {
                 Logger.getLogger(Giocatore.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -161,7 +161,7 @@ public class EliminazioneDiretta extends Torneo {
         for(Squadra s : squadreNelTorneo){
             try {
                 Test.q.makeTorneoEliminazionedirettaTable().updateFaseTorneoTorneoEliminazionediretta(s.getNome(), s.getCittaProvenienza(), fase, nome, anno, squadreNelTorneo.size());
-                Test.q.makeTorneoEliminazionedirettaTable().updateEliminazioneTorneoEliminazionediretta(s.getNome(), s.getCittaProvenienza(), squadreNelTorneo.size(), nome, anno, 1);
+                Test.q.makeTorneoEliminazionedirettaTable().updatePassaggioFaseTorneoEliminazionediretta(s.getNome(), s.getCittaProvenienza(), squadreNelTorneo.size(), nome, anno, 1);
             } catch (RemoteException ex) {
                 Logger.getLogger(Giocatore.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -169,7 +169,7 @@ public class EliminazioneDiretta extends Torneo {
         
         for(Squadra s : squadreDaRimuovere){
             try {
-                Test.q.makeTorneoEliminazionedirettaTable().updateEliminazioneTorneoEliminazionediretta(s.getNome(), s.getCittaProvenienza(), fase, nome, anno, 0);
+                Test.q.makeTorneoEliminazionedirettaTable().updatePassaggioFaseTorneoEliminazionediretta(s.getNome(), s.getCittaProvenienza(), fase, nome, anno, 0);
             } catch (RemoteException ex) {
                 Logger.getLogger(Giocatore.class.getName()).log(Level.SEVERE, null, ex);
             }
