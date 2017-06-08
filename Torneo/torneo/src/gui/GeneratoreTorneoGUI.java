@@ -6,6 +6,7 @@
 package gui;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -37,6 +38,10 @@ public class GeneratoreTorneoGUI extends JFrame {
     private GeneratoreTorneo gentorneo;
     private List<Squadra> squadre;
     private List<Arbitro> arbitri;
+    
+    // liste degli elementi selezionati nella GUI
+    List<Squadra> squadregen = new ArrayList<>();
+    List<Arbitro> arbitrigen = new ArrayList<>();
     
     private JLabel stringagen;
     private JLabel stringalogin;
@@ -104,7 +109,7 @@ public class GeneratoreTorneoGUI extends JFrame {
         tipofield = new JComboBox(tipologie);
         
         stringagen = new JLabel("AREA GENERAZIONE TORNEO");
-        stringalogin = new JLabel("AREA LOG IN ORGANIZZATORE");
+        stringalogin = new JLabel("AREA LOG IN GENERATORE");
         blankspaceuno = new JLabel("");
         blankspacedue = new JLabel("");
         
@@ -115,9 +120,10 @@ public class GeneratoreTorneoGUI extends JFrame {
         final JList jlistSQUADRE = new JList(modelSQUADRE);
         jlistSQUADRE.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
         jlistSQUADRE.setSelectedIndex(0);
+        jlistSQUADRE.setSelectionBackground(Color.cyan);
         JScrollPane SQUADREscroll = new JScrollPane(jlistSQUADRE);
         SQUADREscroll.setVisible(true);
-        SQUADREscroll.setBorder(BorderFactory.createTitledBorder("LISTA SQUADRE"));
+        SQUADREscroll.setBorder(BorderFactory.createTitledBorder("LISTA SQUADRE - Selezionare più squadre"));
         
         DefaultListModel modelARBITRI = new DefaultListModel();
         for( Arbitro a : arbitri ) {
@@ -126,6 +132,7 @@ public class GeneratoreTorneoGUI extends JFrame {
         final JList jlistARBITRI = new JList(modelARBITRI);
         jlistARBITRI.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
         jlistARBITRI.setSelectedIndex(0);
+        jlistARBITRI.setSelectionBackground(Color.yellow);
         JScrollPane ARBITRIscroll = new JScrollPane(jlistARBITRI);
         ARBITRIscroll.setVisible(true);
         ARBITRIscroll.setBorder(BorderFactory.createTitledBorder("LISTA ARBITRI"));
@@ -137,17 +144,21 @@ public class GeneratoreTorneoGUI extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 int[] potenzedidue = {2, 4, 8, 16, 32, 64, 128, 256, 512, 1024};
                 int counter = 0;
+                squadregen.clear();
+                arbitrigen.clear();
+                System.out.println(squadregen);
+                System.out.println(arbitrigen);
                 if( gentorneo.getAutenticazione().equals("AUTENTICATO") ) {
                     String nometorneo = nometorneofield.getText();
-                    List<Squadra> squadregen = new ArrayList<>();
-                    List<Arbitro> arbitrigen = new ArrayList<>();
                     for( int i : jlistSQUADRE.getSelectedIndices() ) {
                         squadregen.add(squadre.get(i));
                     }
                     for( int i : jlistARBITRI.getSelectedIndices() ) {
                         arbitrigen.add(arbitri.get(i));
                     }
-                    if( !(nometorneo.equals(null)) && (squadregen.size() != 0) && (arbitrigen.size() != 0) ) {
+                    System.out.println(squadregen);
+                    System.out.println(arbitrigen);
+                    if( (!(nometorneo.equals(""))) && (squadregen.size() != 0) && (arbitrigen.size() != 0) ) {
                         if( tipofield.getSelectedItem().toString().equals("ELIMINAZIONE DIRETTA") ) {
                             for( int i = 0; i < potenzedidue.length; i++ ) {
                                 if( (squadregen.size() == potenzedidue[i]) && (arbitrigen.size() >= 2) ) {
@@ -159,9 +170,13 @@ public class GeneratoreTorneoGUI extends JFrame {
                             if( (arbitrigen.size() < 2) || (counter == potenzedidue.length) )
                                 JOptionPane.showMessageDialog(null, "IL TORNEO AD ELEMINAZIONE DIRETTA NECESSITA UN NUMERO DI SQUADRE CHE SIA POTENZA DI DUE E DI ALMENO 2 ARBITRI!", "Attenzione", JOptionPane.ERROR_MESSAGE);
                         } 
-                        if( tipofield.getSelectedItem().toString().equals("ITALIANA") ) {
-                            gentorneo.italiana(nometorneo, squadregen, arbitrigen);
-                            stringagen.setText("AREA GENERAZIONE TORNEO - TORNEO ALL'ITALIANA CREATO");
+                        else if( tipofield.getSelectedItem().toString().equals("ITALIANA") ) {
+                            if( squadregen.size() >= 2 ) {
+                                gentorneo.italiana(nometorneo, squadregen, arbitrigen);
+                                stringagen.setText("AREA GENERAZIONE TORNEO - TORNEO ALL'ITALIANA CREATO");
+                            } else {
+                                JOptionPane.showMessageDialog(null, "IL TORNEO DEVE AVERE ALMENO DUE SQUADRE PARTECIPANTI!", "Attenzione", JOptionPane.ERROR_MESSAGE);                                
+                            }
                         }
                     } else {
                         JOptionPane.showMessageDialog(null, "INFORMAZIONI MANCANTI!", "Attenzione", JOptionPane.ERROR_MESSAGE);
@@ -199,7 +214,7 @@ public class GeneratoreTorneoGUI extends JFrame {
                 String code = cffield.getText();
                 String password = passwordfield.getText();
                 if( gentorneo.getCf().equals(code) && gentorneo.getPassword().equals(password) ) {
-                    stringalogin.setText("AREA LOG IN ORGANIZZATORE - "+gentorneo.logOut(code, password)+"\n\n");
+                    stringalogin.setText("AREA LOG IN GENERATORE - "+gentorneo.logOut(code, password)+"\n\n");
                     nomefield.setText("");
                     cognomefield.setText("");
                     cffield.setText("");

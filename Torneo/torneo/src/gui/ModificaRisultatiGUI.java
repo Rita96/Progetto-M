@@ -28,6 +28,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
+import torneo.Arbitro;
 import torneo.EliminazioneDiretta;
 import torneo.Giocatore;
 import torneo.Goal;
@@ -44,7 +45,7 @@ public class ModificaRisultatiGUI extends JFrame {
     
     private Partita partita;
     private Torneo torneo;
-    private List a = new ArrayList<>();
+    private List<Arbitro> a = new ArrayList<>();
     
     private JButton setNOMESQCASA;
     private JButton setNOMESQOSPITE;
@@ -97,18 +98,14 @@ public class ModificaRisultatiGUI extends JFrame {
     private JList jlistGOALCASA;
     private JList jlistGOALOSPITE;
     
-    public ModificaRisultatiGUI(Partita partita, Torneo torneo) {
+    public ModificaRisultatiGUI(Partita partita, Torneo torneo, List<Arbitro> arbitri) {
         this.partita= partita;
         this.torneo = torneo;
+        this.a = arbitri;
         if( torneo instanceof EliminazioneDiretta ) {
             ((EliminazioneDiretta) torneo).andata(partita);
         } else if( torneo instanceof Italiana ) {
             ((Italiana) torneo).setItaliana();
-        }
-        for( Partita p : torneo.getPartite() ) {
-            if(!(a.contains(p.getArbitro()))) {
-                a.add(p.getArbitro());
-            }
         }
         setTitle("Descrizione partita "+partita.getSquadraCasa().getNome()+" VS "+partita.getSquadraOspite().getNome());
         initComponents();
@@ -338,9 +335,25 @@ public class ModificaRisultatiGUI extends JFrame {
                 @Override
                 public void actionPerformed(ActionEvent e) {
                     if( partita.getArbitro().getAutenticazione().equals("AUTENTICATO") ) {
-                        String input = JOptionPane.showInputDialog(null, "Inserire modifica: ", "Modifica dati partita", JOptionPane.QUESTION_MESSAGE);
-                        if( input != null && input.length() != 0 )
-                            ARBITROfield.setText(input);
+                        JLabel nomelabel = new JLabel("Nome: ");
+                        JTextField nomefield = new JTextField();
+                        JLabel cognomelabel = new JLabel("Cognome: ");
+                        JTextField cognomefield = new JTextField();
+                        JPanel panelinformazioni = new JPanel();
+                        panelinformazioni.setLayout(new GridLayout(2, 2, 0, 0));
+                        panelinformazioni.add(nomelabel, BorderLayout.WEST);
+                        panelinformazioni.add(nomefield, BorderLayout.EAST);
+                        panelinformazioni.add(cognomelabel, BorderLayout.WEST);
+                        panelinformazioni.add(cognomefield, BorderLayout.EAST);
+                        int input = JOptionPane.showConfirmDialog(null, panelinformazioni, "Modifica dati partita", JOptionPane.OK_CANCEL_OPTION);
+                        String nome = nomefield.getText();
+                        String cognome = cognomefield.getText();
+                        for( Arbitro arbitro : a ) {
+                            if( arbitro.getNome().equals(nome) && arbitro.getCognome().equals(cognome) ) {
+                                partita.setArbitro(arbitro);
+                                ARBITROfield.setText(nome+" "+cognome);
+                            }
+                        }
                     } else if(partita.getArbitro().getAutenticazione().equals("NONAUTENTICATO")) {
                         int reply = JOptionPane.showConfirmDialog(null, "E' necessario autenticarsi come arbitro per modificare i dati!", "Attenzione!", JOptionPane.YES_NO_OPTION);
                         if (reply == JOptionPane.YES_OPTION)
@@ -362,8 +375,10 @@ public class ModificaRisultatiGUI extends JFrame {
                 public void actionPerformed(ActionEvent e) {
                     if( partita.getArbitro().getAutenticazione().equals("AUTENTICATO") ) {
                         String input = JOptionPane.showInputDialog(null, "Inserire modifica: ", "Modifica dati partita", JOptionPane.QUESTION_MESSAGE);
-                        if( input != null && input.length() != 0 )
+                        if( input != null && input.length() != 0 ) {
+                            partita.ModifcaCitta(input);
                             CITTAfield.setText(input);
+                        }
                     } else if(partita.getArbitro().getAutenticazione().equals("NONAUTENTICATO")) {
                         int reply = JOptionPane.showConfirmDialog(null, "E' necessario autenticarsi come arbitro per modificare i dati!", "Attenzione!", JOptionPane.YES_NO_OPTION);
                         if (reply == JOptionPane.YES_OPTION)
@@ -385,13 +400,13 @@ public class ModificaRisultatiGUI extends JFrame {
                 public void actionPerformed(ActionEvent e) {
                     if( partita.getArbitro().getAutenticazione().equals("AUTENTICATO") ) {
                         JComboBox jcombo = new JComboBox(StatoPartita.values());
-                        jcombo.setSelectedItem(partita.getStato());
+                        jcombo.setSelectedItem(partita.getStatoPartita());
                         int i = JOptionPane.showConfirmDialog(null, jcombo, "Attenzione!", JOptionPane.YES_NO_OPTION);
                         if( jcombo.getSelectedItem().toString() != null && i == JOptionPane.YES_OPTION ) {
                             STATOPARTITAfield.setText(jcombo.getSelectedItem().toString());
                             String statopartita = STATOPARTITAfield.getText();
-                            partita.getStato().ModificaStato(statopartita);
-                            partita.setStatoPartita(partita.getStato().getStato(statopartita));
+                            StatoPartita stato = partita.getStato(statopartita);
+                            partita.ModificaStatoPartita(stato);
                             jcombo.setVisible(false);
                         }
                         if( i == JOptionPane.NO_OPTION )
@@ -425,9 +440,6 @@ public class ModificaRisultatiGUI extends JFrame {
                     
                     partita.ModificaGoalOspite(partita.getGoalSquadraOspiteList().size());
                     
-                    String arbitro = ARBITROfield.getText();
-                    partita.getArbitro().ModificaArbitro(arbitro);
-                    
                     String citta = CITTAfield.getText();
                     partita.ModifcaCitta(citta);
                     
@@ -453,9 +465,6 @@ public class ModificaRisultatiGUI extends JFrame {
                     partita.ModificaGoalCasa(partita.getGoalSquadraCasaList().size());
                     
                     partita.ModificaGoalOspite(partita.getGoalSquadraOspiteList().size());
-                    
-                    String arbitro = ARBITROfield.getText();
-                    partita.getArbitro().ModificaArbitro(arbitro);
                     
                     String citta = CITTAfield.getText();
                     partita.ModifcaCitta(citta);
@@ -575,35 +584,39 @@ public class ModificaRisultatiGUI extends JFrame {
                 @Override
                 public void actionPerformed(ActionEvent e) {
                     if( partita.getArbitro().getAutenticazione().equals("AUTENTICATO") ) {
-                        JTextField nomefield = new JTextField();
-                        JLabel nomelabel = new JLabel("Nome giocatore:   ");
-                        JTextField cognomefield = new JTextField();
-                        JLabel cognomelabel = new JLabel("Cognome giocatore:   ");
-                        JTextField numerofield = new JTextField();
-                        JLabel numerolabel = new JLabel("Numero giocatore:   ");
-                        JTextField minutofield = new JTextField();
-                        JLabel minutolabel = new JLabel("Minuto:   ");
-                        JPanel panelinformazioni = new JPanel();
-                        panelinformazioni.setLayout(new GridLayout(4, 1, 0, 0));
-                        panelinformazioni.add(nomelabel, BorderLayout.WEST);
-                        panelinformazioni.add(nomefield, BorderLayout.EAST);
-                        panelinformazioni.add(cognomelabel, BorderLayout.WEST);
-                        panelinformazioni.add(cognomefield, BorderLayout.EAST);
-                        panelinformazioni.add(numerolabel, BorderLayout.WEST);
-                        panelinformazioni.add(numerofield, BorderLayout.EAST);
-                        panelinformazioni.add(minutolabel, BorderLayout.WEST);
-                        panelinformazioni.add(minutofield, BorderLayout.EAST);
-                        int reply = JOptionPane.showConfirmDialog(null, panelinformazioni, "Inserire nome, cognome e numero del giocatore e il minuto per aggiungere il goal", JOptionPane.OK_CANCEL_OPTION);
-                        if( reply == JOptionPane.OK_OPTION && nomefield != null && cognomefield != null && numerofield != null && minutofield != null ) {
-                            String nome = nomefield.getText();
-                            String cognome = cognomefield.getText();
-                            int numero = Integer.parseInt(numerofield.getText());
-                            int minuto = Integer.parseInt(minutofield.getText());
-                            for( Giocatore g : partita.getSquadraCasa().getGiocatori() ) {
-                                if( g.getNumero() == numero ) {
-                                    partita.setGoal(minuto, g);
+                        if( !partita.getStatoPartita().equals(StatoPartita.PROGRAMMATA) ) {
+                            JTextField nomefield = new JTextField();
+                            JLabel nomelabel = new JLabel("Nome giocatore:   ");
+                            JTextField cognomefield = new JTextField();
+                            JLabel cognomelabel = new JLabel("Cognome giocatore:   ");
+                            JTextField numerofield = new JTextField();
+                            JLabel numerolabel = new JLabel("Numero giocatore:   ");
+                            JTextField minutofield = new JTextField();
+                            JLabel minutolabel = new JLabel("Minuto:   ");
+                            JPanel panelinformazioni = new JPanel();
+                            panelinformazioni.setLayout(new GridLayout(4, 1, 0, 0));
+                            panelinformazioni.add(nomelabel, BorderLayout.WEST);
+                            panelinformazioni.add(nomefield, BorderLayout.EAST);
+                            panelinformazioni.add(cognomelabel, BorderLayout.WEST);
+                            panelinformazioni.add(cognomefield, BorderLayout.EAST);
+                            panelinformazioni.add(numerolabel, BorderLayout.WEST);
+                            panelinformazioni.add(numerofield, BorderLayout.EAST);
+                            panelinformazioni.add(minutolabel, BorderLayout.WEST);
+                            panelinformazioni.add(minutofield, BorderLayout.EAST);
+                            int reply = JOptionPane.showConfirmDialog(null, panelinformazioni, "Inserire nome, cognome e numero del giocatore e il minuto per aggiungere il goal", JOptionPane.OK_CANCEL_OPTION);
+                            if( reply == JOptionPane.OK_OPTION && nomefield != null && cognomefield != null && numerofield != null && minutofield != null ) {
+                                String nome = nomefield.getText();
+                                String cognome = cognomefield.getText();
+                                int numero = Integer.parseInt(numerofield.getText());
+                                int minuto = Integer.parseInt(minutofield.getText());
+                                for( Giocatore g : partita.getSquadraCasa().getGiocatori() ) {
+                                    if( g.getNumero() == numero ) {
+                                        partita.setGoal(minuto, g);
+                                    }
                                 }
                             }
+                        } else {
+                            JOptionPane.showMessageDialog(null, "IMPOSSIBILE INSERIRE GOAL PERCHE' PARTITA NON IN CORSO!", "Attenzione", JOptionPane.ERROR_MESSAGE);                                                            
                         }
                     } else if( partita.getArbitro().getAutenticazione().equals("NONAUTENTICATO") ) {
                         int reply = JOptionPane.showConfirmDialog(null, "E' necessario autenticarsi come arbitro per modificare i dati!", "Attenzione!", JOptionPane.YES_NO_OPTION);
@@ -625,38 +638,42 @@ public class ModificaRisultatiGUI extends JFrame {
                 @Override
                 public void actionPerformed(ActionEvent e) {
                     if( partita.getArbitro().getAutenticazione().equals("AUTENTICATO") ) {
-                        JTextField nomefield = new JTextField();
-                        JLabel nomelabel = new JLabel("Nome giocatore:   ");
-                        JTextField cognomefield = new JTextField();
-                        JLabel cognomelabel = new JLabel("Cognome giocatore:   ");
-                        JTextField numerofield = new JTextField();
-                        JLabel numerolabel = new JLabel("Numero giocatore:   ");
-                        JTextField minutofield = new JTextField();
-                        JLabel minutolabel = new JLabel("Minuto:   ");
-                        JPanel panelinformazioni = new JPanel();
-                        panelinformazioni.setLayout(new GridLayout(4, 1, 0, 0));
-                        panelinformazioni.add(nomelabel, BorderLayout.WEST);
-                        panelinformazioni.add(nomefield, BorderLayout.EAST);
-                        panelinformazioni.add(Box.createHorizontalStrut(15));
-                        panelinformazioni.add(cognomelabel, BorderLayout.WEST);
-                        panelinformazioni.add(cognomefield, BorderLayout.EAST);
-                        panelinformazioni.add(Box.createHorizontalStrut(15));
-                        panelinformazioni.add(numerolabel, BorderLayout.WEST);
-                        panelinformazioni.add(numerofield, BorderLayout.EAST);
-                        panelinformazioni.add(Box.createHorizontalStrut(15));
-                        panelinformazioni.add(minutolabel, BorderLayout.WEST);
-                        panelinformazioni.add(minutofield, BorderLayout.EAST);
-                        int reply = JOptionPane.showConfirmDialog(null, panelinformazioni, "Inserire nome, cognome e numero del giocatore e il minuto per aggiungere il goal", JOptionPane.OK_CANCEL_OPTION);
-                        if( reply == JOptionPane.OK_OPTION && nomefield != null && cognomefield != null && numerofield != null && minutofield != null ) {
-                            String nome = nomefield.getText();
-                            String cognome = cognomefield.getText();
-                            int numero = Integer.parseInt(numerofield.getText());
-                            int minuto = Integer.parseInt(minutofield.getText());
-                            for( Giocatore g : partita.getSquadraOspite().getGiocatori() ) {
-                                if( g.getNumero() == numero ) {
-                                    partita.setGoal(minuto, g);
+                        if( !partita.getStatoPartita().equals("PROGRAMMATA") ) {
+                            JTextField nomefield = new JTextField();
+                            JLabel nomelabel = new JLabel("Nome giocatore:   ");
+                            JTextField cognomefield = new JTextField();
+                            JLabel cognomelabel = new JLabel("Cognome giocatore:   ");
+                            JTextField numerofield = new JTextField();
+                            JLabel numerolabel = new JLabel("Numero giocatore:   ");
+                            JTextField minutofield = new JTextField();
+                            JLabel minutolabel = new JLabel("Minuto:   ");
+                            JPanel panelinformazioni = new JPanel();
+                            panelinformazioni.setLayout(new GridLayout(4, 1, 0, 0));
+                            panelinformazioni.add(nomelabel, BorderLayout.WEST);
+                            panelinformazioni.add(nomefield, BorderLayout.EAST);
+                            panelinformazioni.add(Box.createHorizontalStrut(15));
+                            panelinformazioni.add(cognomelabel, BorderLayout.WEST);
+                            panelinformazioni.add(cognomefield, BorderLayout.EAST);
+                            panelinformazioni.add(Box.createHorizontalStrut(15));
+                            panelinformazioni.add(numerolabel, BorderLayout.WEST);
+                            panelinformazioni.add(numerofield, BorderLayout.EAST);
+                            panelinformazioni.add(Box.createHorizontalStrut(15));
+                            panelinformazioni.add(minutolabel, BorderLayout.WEST);
+                            panelinformazioni.add(minutofield, BorderLayout.EAST);
+                            int reply = JOptionPane.showConfirmDialog(null, panelinformazioni, "Inserire nome, cognome e numero del giocatore e il minuto per aggiungere il goal", JOptionPane.OK_CANCEL_OPTION);
+                            if( reply == JOptionPane.OK_OPTION && nomefield != null && cognomefield != null && numerofield != null && minutofield != null ) {
+                                String nome = nomefield.getText();
+                                String cognome = cognomefield.getText();
+                                int numero = Integer.parseInt(numerofield.getText());
+                                int minuto = Integer.parseInt(minutofield.getText());
+                                for( Giocatore g : partita.getSquadraOspite().getGiocatori() ) {
+                                    if( g.getNumero() == numero ) {
+                                        partita.setGoal(minuto, g);
+                                    }
                                 }
                             }
+                        } else {
+                            JOptionPane.showMessageDialog(null, "IMPOSSIBILE INSERIRE GOAL PERCHE' PARTITA NON IN CORSO!", "Attenzione", JOptionPane.ERROR_MESSAGE);                                
                         }
                     } else if(partita.getArbitro().getAutenticazione().equals("NONAUTENTICATO")) {
                         int reply = JOptionPane.showConfirmDialog(null, "E' necessario autenticarsi come arbitro per modificare i dati!", "Attenzione!", JOptionPane.YES_NO_OPTION);

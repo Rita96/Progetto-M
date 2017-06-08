@@ -9,6 +9,7 @@ import java.awt.BorderLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import java.util.List;
 import javax.swing.BorderFactory;
 import javax.swing.DefaultListModel;
@@ -38,7 +39,7 @@ public class GiocatoreGUI extends JFrame {
     private Partita partita;
     private Giocatore giocatore;
     private Torneo torneo;
-    private List<Arbitro> a;
+    private List<Arbitro> a = new ArrayList<>();
     
     private JPanel panelDATI;
     private JPanel panelBOTTONI;
@@ -170,7 +171,7 @@ public class GiocatoreGUI extends JFrame {
                         int reply = JOptionPane.showConfirmDialog(null, "E' necessario autenticarsi come arbitro per modificare i dati!", "Attenzione!", JOptionPane.YES_NO_OPTION);
                         if (reply == JOptionPane.YES_OPTION) {
                             JFrame arbitroGUI = new ArbitroGUI(a);
-                            arbitroGUI.setSize(1000, 610);
+                            arbitroGUI.setSize(1000, 655);
                             arbitroGUI.setLocation(400, 250);
                             arbitroGUI.setVisible(true);
                         }
@@ -202,7 +203,7 @@ public class GiocatoreGUI extends JFrame {
                         int reply = JOptionPane.showConfirmDialog(null, "E' necessario autenticarsi come arbitro per modificare i dati!", "Attenzione!", JOptionPane.YES_NO_OPTION);
                         if (reply == JOptionPane.YES_OPTION) {
                             JFrame arbitroGUI = new ArbitroGUI(a);
-                            arbitroGUI.setSize(1000, 610);
+                            arbitroGUI.setSize(1000, 655);
                             arbitroGUI.setLocation(400, 250);
                             arbitroGUI.setVisible(true);
                         }

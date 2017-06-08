@@ -49,11 +49,20 @@ public class Partita { // Manca il metodo che faccia settare all'arbitro i goal 
     public String ModificaTipo(String stringa) {
         return tipo = stringa;
     }
+    public int getID() {
+        return ID;
+    }
     public String getTipo() {
         return tipo;
     }
     public StatoPartita getStatoPartita(){
         return stato;
+    }
+    public StatoPartita ModificaStatoPartita(StatoPartita statopartita) {
+        return stato = statopartita;
+    }
+    public StatoPartita getStato(String s) {
+        return StatoPartita.valueOf(s);
     }
     public List<Goal> getGoalSquadraCasaList(){
         return goalSquadraCasaList;
@@ -105,11 +114,8 @@ public class Partita { // Manca il metodo che faccia settare all'arbitro i goal 
         int sommaOspite = goalSquadraOspiteRegolare+goalSquadraOspiteSupplementari+goalSquadraOspiteRigori;
         return sommaOspite = goal;
     }
-    public String ModifcaCitta(String s) {
-        return cittaDoveSiSvolge = s;
-    }
-    public StatoPartita getStato() {
-        return stato;
+    public String ModifcaCitta(String citta) {
+        return cittaDoveSiSvolge = citta;
     }
     public void setPuntiSquadra(int punti, String nameSquadra){
         if(arbitro.getAutenticazione().equals("AUTENTICATO")){
@@ -184,40 +190,42 @@ public class Partita { // Manca il metodo che faccia settare all'arbitro i goal 
     public void setGoal(int minuto, Giocatore giocatore){
         try{
             if(arbitro.getAutenticazione().equals("AUTENTICATO")){
-                if(squadraCasa.getGiocatori().contains(giocatore)){
-                    goalSquadraCasaList.add(new Goal(minuto, giocatore));
-                    switch (this.getStatoPartita()) {
-                        case REGOLAMENTARE:
-                            goalSquadraCasaRegolare++;
-                        break;
-                        case SUPPLEMENTARI:
-                            goalSquadraCasaSupplementari++;
-                        break;
-                        case RIGORI:
-                            goalSquadraCasaRigori++;
-                        break;
-                        default:
-                        break;
+                if( !this.getStatoPartita().equals("PROGRAMMATA") ) { // INSERITO CONTROLLO IN MODO CHE NON SI POSSANO AGGUNGERE GOAL IN STATO PROGRAMMATA
+                    if(squadraCasa.getGiocatori().contains(giocatore)){
+                        goalSquadraCasaList.add(new Goal(minuto, giocatore));
+                        switch (this.getStatoPartita()) {
+                            case REGOLAMENTARE:
+                                goalSquadraCasaRegolare++;
+                            break;
+                            case SUPPLEMENTARI:
+                                goalSquadraCasaSupplementari++;
+                            break;
+                            case RIGORI:
+                                goalSquadraCasaRigori++;
+                            break;
+                            default:
+                            break;
+                        }
                     }
-                }
-                else if(squadraOspite.getGiocatori().contains(giocatore)){
-                    goalSquadraOspiteList.add(new Goal(minuto, giocatore));
-                    switch (this.getStatoPartita()) {
-                        case REGOLAMENTARE:
-                            goalSquadraOspiteRegolare++;
-                        break;
-                        case SUPPLEMENTARI:
-                            goalSquadraOspiteSupplementari++;
-                        break;
-                        case RIGORI:
-                            goalSquadraOspiteRigori++;
-                        break;
-                        default:
-                        break;
+                    else if(squadraOspite.getGiocatori().contains(giocatore)){
+                        goalSquadraOspiteList.add(new Goal(minuto, giocatore));
+                        switch (this.getStatoPartita()) {
+                            case REGOLAMENTARE:
+                                goalSquadraOspiteRegolare++;
+                            break;
+                            case SUPPLEMENTARI:
+                                goalSquadraOspiteSupplementari++;
+                            break;
+                            case RIGORI:
+                                goalSquadraOspiteRigori++;
+                            break;
+                            default:
+                            break;
+                        }
                     }
-                }
-                else{
-                    throw new GiocatoreInesistenteException("Il giocatore " + giocatore.getNome() + " " + giocatore.getCognome() + " non gioca in nessuna di queste squadre!");
+                    else{
+                        throw new GiocatoreInesistenteException("Il giocatore " + giocatore.getNome() + " " + giocatore.getCognome() + " non gioca in nessuna di queste squadre!");
+                    }
                 }
             }
             else{
@@ -298,15 +306,18 @@ public class Partita { // Manca il metodo che faccia settare all'arbitro i goal 
             ex.getMessage();
         }
     }
+    public void setArbitro(Arbitro arbitro) {
+        this.arbitro = arbitro;
+    }
     @Override
     public String toString() {
         int sommaCasa = goalSquadraCasaRegolare+goalSquadraCasaSupplementari+goalSquadraCasaRigori;
         int sommaOspite = goalSquadraOspiteRegolare+goalSquadraOspiteSupplementari+goalSquadraOspiteRigori;
         if( tipo.equals("italiana") ) {
-            return squadraCasa+" ( goal = "+sommaCasa+" ) VS "+squadraOspite+" ( goal = "+sommaOspite+" ) - in stato "+stato+" arbitro "+arbitro+" in "+cittaDoveSiSvolge+" (PUNTI SQ CASA "+punteggioSquadraCasa+" - PUNTI SQ OSPITE "+punteggioSquadraOspite+")\n\n";
+            return squadraCasa+" ( goal = "+sommaCasa+" ) VS "+squadraOspite+" ( goal = "+sommaOspite+" ) - in stato "+stato+" arbitro "+arbitro.toString()+" in "+cittaDoveSiSvolge+" (PUNTI SQ CASA "+punteggioSquadraCasa+" - PUNTI SQ OSPITE "+punteggioSquadraOspite+")\n\n";
         }
         else if( tipo.equals("eliminazione diretta") ) {
-            return squadraCasa+" ( goal = "+sommaCasa+" ) VS "+squadraOspite+" ( goal = "+sommaOspite+" ) - in stato "+stato+" arbitro "+arbitro+" in "+cittaDoveSiSvolge+"\n\n";
+            return squadraCasa+" ( goal = "+sommaCasa+" ) VS "+squadraOspite+" ( goal = "+sommaOspite+" ) - in stato "+stato+" arbitro "+arbitro.toString()+" in "+cittaDoveSiSvolge+"\n\n";
         }
         return null;
     }

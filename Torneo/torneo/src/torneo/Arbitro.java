@@ -5,7 +5,11 @@
  */
 package torneo;
 
+import databaseinterface.DatabaseInterfaceArbitro;
 import exception.EccezioneLogIn;
+import java.rmi.RemoteException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -20,6 +24,14 @@ public class Arbitro extends Utente{
         super(nome, cognome);
         this.codiceFiscale = codice;
         this.password = password;
+        
+        //saving in DB
+        
+        try {
+            Test.q.makeArbitroTable().putArbitro(codice, nome, cognome, password);
+        } catch (RemoteException ex) {
+            Logger.getLogger(Arbitro.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
     public String getAutenticazione(){
         return autenticazione;

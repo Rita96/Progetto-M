@@ -3,9 +3,10 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/Users/paolacarulli/Desktop/Paola/Torneo1/src/torneo/EliminazioneDiretta.java</file>
-            <file>file:/Users/paolacarulli/Desktop/Paola/Torneo1/src/torneo/ClassificaItaliana.java</file>
-            <file>file:/Users/paolacarulli/Desktop/Paola/Torneo1/src/torneo/Torneo.java</file>
+            <file>file:/home/nautilus/NetBeansProjects/Progetto-M_RMI/Torneo/torneo/src/torneo/DatabaseInterfaceFactory.java</file>
+            <file>file:/home/nautilus/NetBeansProjects/Progetto-M_RMI/Torneo/torneo/src/torneo/Arbitro.java</file>
+            <file>file:/home/nautilus/NetBeansProjects/Progetto-M_RMI/Torneo/torneo/src/torneo/Test.java</file>
+            <file>file:/home/nautilus/NetBeansProjects/Progetto-M_RMI/Torneo/torneo/src/torneo/EliminazioneDiretta.java</file>
         </group>
     </open-files>
 </project-private>

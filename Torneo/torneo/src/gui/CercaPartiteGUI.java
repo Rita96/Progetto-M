@@ -16,6 +16,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.util.List;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -26,6 +27,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
+import torneo.Arbitro;
 import torneo.EliminazioneDiretta;
 import torneo.Italiana;
 import torneo.Torneo;
@@ -36,7 +38,8 @@ import torneo.Torneo;
  */
 public class CercaPartiteGUI extends JFrame {
     
-    public Torneo torneo;
+    private Torneo torneo;
+    private List<Arbitro> arbitri;
     private JPanel panelcampi;
     private JPanel panelbottoni;
     private JButton cerca;
@@ -49,8 +52,9 @@ public class CercaPartiteGUI extends JFrame {
     private JList list;
     private JScrollPane listscrollpane;
     
-    public CercaPartiteGUI(Torneo torneo) {
+    public CercaPartiteGUI(Torneo torneo, List<Arbitro> arbitri) {
         this.torneo = torneo;
+        this.arbitri = arbitri;
         this.setTitle("PARTITE TORNEO "+torneo.getNome());
         initComponents();
     }
@@ -90,12 +94,12 @@ public class CercaPartiteGUI extends JFrame {
             list = new JList(torneo.getPartite().toArray());
             list.setVisible(true);
             list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-            list.setSelectedIndex(0);
             list.setVisibleRowCount(torneo.getPartite().size());
             listscrollpane = new JScrollPane(list);
             listscrollpane.setVisible(true);
             listscrollpane.setBorder(BorderFactory.createEmptyBorder(0, 100, 0, 100));
         }
+        
         if(torneo instanceof EliminazioneDiretta) {
             for(int i=0; i<torneo.getPartite().size(); i++) {
                 torneo.getPartite().get(i).ModificaTipo("eliminazione diretta");
@@ -103,7 +107,6 @@ public class CercaPartiteGUI extends JFrame {
             list = new JList(torneo.getPartite().toArray());
             list.setVisible(true);
             list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-            list.setSelectedIndex(0);
             list.setVisibleRowCount(torneo.getPartite().size());
             listscrollpane = new JScrollPane(list);
             listscrollpane.setVisible(true);
@@ -118,7 +121,7 @@ public class CercaPartiteGUI extends JFrame {
                 JList theList = (JList) e.getSource();
                 if (e.getClickCount() == 2) {
                     int index = theList.locationToIndex(e.getPoint());
-                    JFrame modificarisGUI = new ModificaRisultatiGUI(torneo.getPartite().get(index), torneo);
+                    JFrame modificarisGUI = new ModificaRisultatiGUI(torneo.getPartite().get(index), torneo, arbitri);
                     modificarisGUI.setSize(1000, 655);
                     modificarisGUI.setLocation(400, 250);
                     modificarisGUI.setVisible(true);
