@@ -380,20 +380,15 @@ public class ManagerPartita extends UnicastRemoteObject implements DatabaseInter
      * @throws RemoteException 
      */
     @Override
-    public ArrayList<Arbitro> getArbitroPartita(int idPartita) throws RemoteException {
-        ArrayList<Arbitro> arbitro = new ArrayList<>();
+    public Arbitro getArbitroPartita(int idPartita) throws RemoteException {
+        Arbitro arbitro = null;
         
         try{
             query = "SELECT * FROM PARTITA JOIN ARBITRO\n "
                     + "WHERE IDPARTITA = '" + idPartita +"' ;";
             PreparedStatement statement = DatabaseConnection.connection.prepareStatement(query);
             resSet = statement.executeQuery();
-           
-            while(resSet.next()){
-                Arbitro addArbitro = new Arbitro(resSet.getString("NOMEARBITRO"), resSet.getString("COGNOMEARBITRO"), resSet.getString("CFARBITRO"), resSet.getString("PASSWORD"), false);
-                arbitro.add(addArbitro);
-                resSet.next();
-            }
+            arbitro = new Arbitro(resSet.getString("NOMEARBITRO"), resSet.getString("COGNOMEARBITRO"), resSet.getString("CFARBITRO"), resSet.getString("PASSWORD"), false);
         }catch(SQLException ex){
             System.out.println("ERROR:" + ex);
         } 

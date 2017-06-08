@@ -53,8 +53,6 @@ public class ManagerTorneoEliminazionediretta extends UnicastRemoteObject implem
             } 
         }
         
-        //updateEliminazioneTorneoEliminazionediretta
-        
         @Override
         public void updateFaseTorneoTorneoEliminazionediretta(String nomeSquadra, String cittaSquadra, int faseTorneo, String nomeTorneo, int annoTorneo, int nuoviPunti) throws RemoteException {
             try{
