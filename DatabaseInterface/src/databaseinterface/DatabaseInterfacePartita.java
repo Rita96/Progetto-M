@@ -37,7 +37,7 @@ public interface DatabaseInterfacePartita extends Remote{
     void updateCittaPartita(int idPartita, String nomeTorneo, int annoTorneo, String nuovaCitta) throws RemoteException;
     
     ArrayList<Goal> getGoalPartita(int idPartita) throws RemoteException;
-    ArrayList<Arbitro> getArbitroPartita(int idPartita) throws RemoteException;
+    Arbitro getArbitroPartita(int idPartita) throws RemoteException;
     ArrayList<Cartellino> getCartellinoPartita(int idPartita) throws RemoteException;
     
     void deletePartita(int idPartita, String nomeTorneo, int annoTorneo) throws RemoteException;
