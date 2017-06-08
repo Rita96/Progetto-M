@@ -82,10 +82,10 @@ public class ManagerPartita extends UnicastRemoteObject implements DatabaseInter
     
     
     @Override
-    public void putPartita(int idPartita, String squadraCasa, String squadraOspite, String statoPartita, String cfArbitro, String nomeTorneo, int annoTorneo) throws RemoteException {
+    public void putPartita(int idPartita, String squadraCasa, String squadraOspite, String statoPartita, String cfArbitro, String nomeTorneo, int annoTorneo, String cittaPartita) throws RemoteException {
         try{
             query= "INSERT INTO PARTITA\n "
-                    + "VALUES ( '" + idPartita + "' , '" + squadraCasa + "' , '" + squadraOspite + "' , '" + statoPartita + "' , '" + cfArbitro + "' , '" + nomeTorneo + annoTorneo +"' );";
+                    + "VALUES ( '" + idPartita + "' , '" + squadraCasa + "' , '" + squadraOspite + "' , '" + statoPartita + "' , '" + cfArbitro + "' , '" + nomeTorneo + "' , '" + annoTorneo + "' , '" + cittaPartita + "' );";
             PreparedStatement posted = DatabaseConnection.connection.prepareStatement(query);
             posted.executeUpdate(query);
         }catch(SQLException ex){
@@ -376,7 +376,7 @@ public class ManagerPartita extends UnicastRemoteObject implements DatabaseInter
             resSet = statement.executeQuery();
            
             while(resSet.next()){
-                Arbitro addArbitro = new Arbitro(resSet.getString("NOMEARBITRO"), resSet.getString("COGNOMEARBITRO"), resSet.getString("CFARBITRO"), resSet.getString("PASSWORD"));
+                Arbitro addArbitro = new Arbitro(resSet.getString("NOMEARBITRO"), resSet.getString("COGNOMEARBITRO"), resSet.getString("CFARBITRO"), resSet.getString("PASSWORD"), false);
                 arbitro.add(addArbitro);
                 resSet.next();
             }

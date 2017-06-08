@@ -116,7 +116,7 @@ public class ManagerArbitro extends UnicastRemoteObject implements DatabaseInter
             resSet = statement.executeQuery();
            
             while(resSet.next()){
-                Arbitro addArbitro = new Arbitro(resSet.getString("NOMEARBITRO"), resSet.getString("COGNOMEARBITRO"), resSet.getString("CFARBITRO"), resSet.getString("PASSWORD"));
+                Arbitro addArbitro = new Arbitro(resSet.getString("NOMEARBITRO"), resSet.getString("COGNOMEARBITRO"), resSet.getString("CFARBITRO"), resSet.getString("PASSWORD"), false);
                 arbitro.add(addArbitro);
                 resSet.next();
             }

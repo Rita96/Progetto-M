@@ -42,7 +42,7 @@ public class ManagerTorneoEliminazionediretta extends UnicastRemoteObject implem
         }
         
         @Override
-        public void putTorneoEliminazionediretta(String nomeSquadra, String cittaSquadra, int faseTorneo, boolean eliminazione, String nomeTorneo, int annoTorneo) throws RemoteException {
+        public void putTorneoEliminazionediretta(String nomeSquadra, String cittaSquadra, int faseTorneo, int eliminazione, String nomeTorneo, int annoTorneo) throws RemoteException {
             try{
                 query= "INSERT INTO TORNEO_ELIMINAZIONEDIRETTA\n "
                         + "VALUES ( '" +  nomeSquadra + "' , '" + cittaSquadra + "' , '" + faseTorneo + "' , '" + eliminazione + "' , '" + nomeTorneo + "' , '" + annoTorneo + "' );";
@@ -53,8 +53,10 @@ public class ManagerTorneoEliminazionediretta extends UnicastRemoteObject implem
             } 
         }
         
+        //updateEliminazioneTorneoEliminazionediretta
+        
         @Override
-        public void updateFaseTorneoTorneoEliminazionediretta(String nomeSquadra, String cittaSquadra, int faseTorneo, String nomeTorneo, String annoTorneo, int nuoviPunti) throws RemoteException {
+        public void updateFaseTorneoTorneoEliminazionediretta(String nomeSquadra, String cittaSquadra, int faseTorneo, String nomeTorneo, int annoTorneo, int nuoviPunti) throws RemoteException {
             try{
                 query= "UPDATE TORNEO_ELIMINAZIONEDIRETTA\n "
                         + "SET FASETORNEO = '" + nuoviPunti + "'\n "
@@ -67,7 +69,7 @@ public class ManagerTorneoEliminazionediretta extends UnicastRemoteObject implem
         }
 
         @Override
-        public void updateNomeTorneoEliminazionediretta(String nomeSquadra, String cittaSquadra, int faseTorneo, String nomeTorneo, String annoTorneo, String nuovoNome) throws RemoteException {
+        public void updateNomeTorneoEliminazionediretta(String nomeSquadra, String cittaSquadra, int faseTorneo, String nomeTorneo, int annoTorneo, String nuovoNome) throws RemoteException {
             try{
                 query= "UPDATE TORNEO_ELIMINAZIONEDIRETTA\n "
                         + "SET NOMETORNEO = '" + nuovoNome + "'\n "
@@ -80,7 +82,7 @@ public class ManagerTorneoEliminazionediretta extends UnicastRemoteObject implem
         }
 
         @Override
-        public void updateAnnoTorneoEliminazionediretta(String nomeSquadra, String cittaSquadra, int faseTorneo, String nomeTorneo, String annoTorneo, int nuovoAnno) throws RemoteException {
+        public void updateAnnoTorneoEliminazionediretta(String nomeSquadra, String cittaSquadra, int faseTorneo, String nomeTorneo, int annoTorneo, int nuovoAnno) throws RemoteException {
             try{
                 query= "UPDATE TORNEO_ELIMINAZIONEDIRETTA\n "
                         + "SET ANNOTORNEO = '" + annoTorneo + "'\n "
@@ -93,7 +95,7 @@ public class ManagerTorneoEliminazionediretta extends UnicastRemoteObject implem
         }
 
         @Override
-        public void updateNomeSquadraTorneoEliminazionediretta(String nomeSquadra, String cittaSquadra, int faseTorneo, String nomeTorneo, String annoTorneo, String nuovoNomeSquadra) throws RemoteException {
+        public void updateNomeSquadraTorneoEliminazionediretta(String nomeSquadra, String cittaSquadra, int faseTorneo, String nomeTorneo, int annoTorneo, String nuovoNomeSquadra) throws RemoteException {
             try{
                 query= "UPDATE TORNEO_ELIMINAZIONEDIRETTA\n "
                         + "SET NOMESQUADRA = '" + nuovoNomeSquadra + "'\n "
@@ -106,7 +108,7 @@ public class ManagerTorneoEliminazionediretta extends UnicastRemoteObject implem
         }
 
         @Override
-        public void updateCittaSquadraTorneoEliminazionediretta(String nomeSquadra, String cittaSquadra, int faseTorneo, String nomeTorneo, String annoTorneo, String nuovaCittaSquadra) throws RemoteException {
+        public void updateCittaSquadraTorneoEliminazionediretta(String nomeSquadra, String cittaSquadra, int faseTorneo, String nomeTorneo, int annoTorneo, String nuovaCittaSquadra) throws RemoteException {
             try{
                 query= "UPDATE TORNEO_ELIMINAZIONEDIRETTA\n "
                         + "SET CITTASQUADRA = '" + nuovaCittaSquadra + "'\n "

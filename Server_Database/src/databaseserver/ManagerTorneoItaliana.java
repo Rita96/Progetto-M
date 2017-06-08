@@ -40,7 +40,7 @@ public class ManagerTorneoItaliana extends UnicastRemoteObject implements Databa
         }
         
         @Override
-        public void updatePuntiTorneoItaliana(String nomeSquadra, String cittaSquadra, int punti, String nomeTorneo, String annoTorneo, int nuoviPunti) throws RemoteException {
+        public void updatePuntiTorneoItaliana(String nomeSquadra, String cittaSquadra, int punti, String nomeTorneo, int annoTorneo, int nuoviPunti) throws RemoteException {
             try{
                 query= "UPDATE TORNEO_ITALIANA\n "
                         + "SET PUNTI = '" + nuoviPunti + "'\n "
@@ -53,7 +53,7 @@ public class ManagerTorneoItaliana extends UnicastRemoteObject implements Databa
         }
 
         @Override
-        public void updateNomeTorneoItaliana(String nomeSquadra, String cittaSquadra, int punti, String nomeTorneo, String annoTorneo, String nuovoNome) throws RemoteException {
+        public void updateNomeTorneoItaliana(String nomeSquadra, String cittaSquadra, int punti, String nomeTorneo, int annoTorneo, String nuovoNome) throws RemoteException {
             try{
                 query= "UPDATE TORNEO_ITALIANA\n "
                         + "SET NOMETORNEO = '" + nuovoNome + "'\n "
@@ -66,7 +66,7 @@ public class ManagerTorneoItaliana extends UnicastRemoteObject implements Databa
         }
 
         @Override
-        public void updateAnnoTorneoItaliana(String nomeSquadra, String cittaSquadra, int punti, String nomeTorneo, String annoTorneo, int nuovoAnno) throws RemoteException {
+        public void updateAnnoTorneoItaliana(String nomeSquadra, String cittaSquadra, int punti, String nomeTorneo, int annoTorneo, int nuovoAnno) throws RemoteException {
             try{
                 query= "UPDATE TORNEO_ITALIANA\n "
                         + "SET ANNOTORNEO = '" + annoTorneo + "'\n "
@@ -79,7 +79,7 @@ public class ManagerTorneoItaliana extends UnicastRemoteObject implements Databa
         }
 
         @Override
-        public void updateNomeSquadraTorneoItaliana(String nomeSquadra, String cittaSquadra, int punti, String nomeTorneo, String annoTorneo, String nuovoNomeSquadra) throws RemoteException {
+        public void updateNomeSquadraTorneoItaliana(String nomeSquadra, String cittaSquadra, int punti, String nomeTorneo, int annoTorneo, String nuovoNomeSquadra) throws RemoteException {
             try{
                 query= "UPDATE TORNEO_ITALIANA\n "
                         + "SET NOMESQUADRA = '" + nuovoNomeSquadra + "'\n "
@@ -92,7 +92,7 @@ public class ManagerTorneoItaliana extends UnicastRemoteObject implements Databa
         }
 
         @Override
-        public void updateCittaSquadraTorneoItaliana(String nomeSquadra, String cittaSquadra, int punti, String nomeTorneo, String annoTorneo, String nuovaCittaSquadra) throws RemoteException {
+        public void updateCittaSquadraTorneoItaliana(String nomeSquadra, String cittaSquadra, int punti, String nomeTorneo, int annoTorneo, String nuovaCittaSquadra) throws RemoteException {
             try{
                 query= "UPDATE TORNEO_ITALIANA\n "
                         + "SET CITTASQUADRA = '" + nuovaCittaSquadra + "'\n "

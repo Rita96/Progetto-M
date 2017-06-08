@@ -124,7 +124,7 @@ public class ManagerSquadra extends UnicastRemoteObject implements DatabaseInter
             resSet = statement.executeQuery();
            
             while(resSet.next()){
-                Squadra addSquadra = new Squadra(resSet.getString("NOMESQUADRA"), resSet.getString("CITTASQUADRA"), resSet.getString("COLORESQUADRA"), getGiocatoreSquadra(resSet.getString("NOMESQUADRA"), resSet.getString("CITTASQUADRA")));
+                Squadra addSquadra = new Squadra(resSet.getString("NOMESQUADRA"), resSet.getString("CITTASQUADRA"), resSet.getString("COLORESQUADRA"), getGiocatoreSquadra(resSet.getString("NOMESQUADRA"), resSet.getString("CITTASQUADRA")), false);
                 squadra.add(addSquadra);
                 resSet.next();
             }
