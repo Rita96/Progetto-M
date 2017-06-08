@@ -21,7 +21,7 @@ import torneo.Partita;
 public interface DatabaseInterfacePartita extends Remote{
     
     void putPartita(int idPartita, String nomeTorneo, int annoTorneo) throws RemoteException;
-    void putPartita(int idPartita, String squadraCasa, String squadraOspite, String statoPartita, String cfArbitro, String nomeTorneo, int annoTorneo) throws RemoteException;
+    void putPartita(int idPartita, String squadraCasa, String squadraOspite, String statoPartita, String cfArbitro, String nomeTorneo, int annoTorneo, String cittaPartita) throws RemoteException;
     void putPartita(int idPartita, String squadraCasa, String squadraOspite, String cfArbitro, String nomeTorneo, int annoTorneo) throws RemoteException;
   
     void updateIdPartita(int idPartita, String nomeTorneo, int annoTorneo, int nuovoId) throws RemoteException;

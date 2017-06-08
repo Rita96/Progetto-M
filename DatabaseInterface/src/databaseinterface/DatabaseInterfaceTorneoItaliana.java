@@ -16,11 +16,11 @@ public interface DatabaseInterfaceTorneoItaliana extends Remote{
     
     void putTorneoItaliana(String nomeSquadra, String cittaSquadra, int punti, String nomeTorneo, int annoTorneo) throws RemoteException;
     
-    void updatePuntiTorneoItaliana(String nomeSquadra, String cittaSquadra, int punti, String nomeTorneo, String annoTorneo, int nuoviPunti) throws RemoteException;
-    void updateNomeTorneoItaliana(String nomeSquadra, String cittaSquadra, int punti, String nomeTorneo, String annoTorneo, String nuovoNome) throws RemoteException;
-    void updateAnnoTorneoItaliana(String nomeSquadra, String cittaSquadra, int punti, String nomeTorneo, String annoTorneo, int nuovoAnno) throws RemoteException;
-    void updateNomeSquadraTorneoItaliana(String nomeSquadra, String cittaSquadra, int punti, String nomeTorneo, String annoTorneo, String nuovoNomeSquadra) throws RemoteException;
-    void updateCittaSquadraTorneoItaliana(String nomeSquadra, String cittaSquadra, int punti, String nomeTorneo, String annoTorneo, String nuovaCittaSquadra) throws RemoteException;
+    void updatePuntiTorneoItaliana(String nomeSquadra, String cittaSquadra, int punti, String nomeTorneo, int annoTorneo, int nuoviPunti) throws RemoteException;
+    void updateNomeTorneoItaliana(String nomeSquadra, String cittaSquadra, int punti, String nomeTorneo, int annoTorneo, String nuovoNome) throws RemoteException;
+    void updateAnnoTorneoItaliana(String nomeSquadra, String cittaSquadra, int punti, String nomeTorneo, int annoTorneo, int nuovoAnno) throws RemoteException;
+    void updateNomeSquadraTorneoItaliana(String nomeSquadra, String cittaSquadra, int punti, String nomeTorneo, int annoTorneo, String nuovoNomeSquadra) throws RemoteException;
+    void updateCittaSquadraTorneoItaliana(String nomeSquadra, String cittaSquadra, int punti, String nomeTorneo, int annoTorneo, String nuovaCittaSquadra) throws RemoteException;
     
     String getTorneoItaliana() throws RemoteException;
     

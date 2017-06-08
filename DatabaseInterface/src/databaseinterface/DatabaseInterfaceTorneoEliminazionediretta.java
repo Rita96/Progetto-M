@@ -14,13 +14,13 @@ import java.rmi.RemoteException;
  */
 public interface DatabaseInterfaceTorneoEliminazionediretta extends Remote{
     void putTorneoEliminazionediretta(String nomeSquadra, String cittaSquadra, int faseTorneo, String nomeTorneo, int annoTorneo) throws RemoteException;
-    void putTorneoEliminazionediretta(String nomeSquadra, String cittaSquadra, int faseTorneo, boolean eliminazione, String nomeTorneo, int annoTorneo) throws RemoteException;
+    void putTorneoEliminazionediretta(String nomeSquadra, String cittaSquadra, int faseTorneo, int eliminazione, String nomeTorneo, int annoTorneo) throws RemoteException;
     
-    void updateFaseTorneoTorneoEliminazionediretta(String nomeSquadra, String cittaSquadra, int faseTorneo, String nomeTorneo, String annoTorneo, int nuoviPunti) throws RemoteException;
-    void updateNomeTorneoEliminazionediretta(String nomeSquadra, String cittaSquadra, int faseTorneo, String nomeTorneo, String annoTorneo, String nuovoNome) throws RemoteException;
-    void updateAnnoTorneoEliminazionediretta(String nomeSquadra, String cittaSquadra, int faseTorneo, String nomeTorneo, String annoTorneo, int nuovoAnno) throws RemoteException;
-    void updateNomeSquadraTorneoEliminazionediretta(String nomeSquadra, String cittaSquadra, int faseTorneo, String nomeTorneo, String annoTorneo, String nuovoNomeSquadra) throws RemoteException;
-    void updateCittaSquadraTorneoEliminazionediretta(String nomeSquadra, String cittaSquadra, int faseTorneo, String nomeTorneo, String annoTorneo, String nuovaCittaSquadra) throws RemoteException;
+    void updateFaseTorneoTorneoEliminazionediretta(String nomeSquadra, String cittaSquadra, int faseTorneo, String nomeTorneo, int annoTorneo, int nuoviPunti) throws RemoteException;
+    void updateNomeTorneoEliminazionediretta(String nomeSquadra, String cittaSquadra, int faseTorneo, String nomeTorneo, int annoTorneo, String nuovoNome) throws RemoteException;
+    void updateAnnoTorneoEliminazionediretta(String nomeSquadra, String cittaSquadra, int faseTorneo, String nomeTorneo, int annoTorneo, int nuovoAnno) throws RemoteException;
+    void updateNomeSquadraTorneoEliminazionediretta(String nomeSquadra, String cittaSquadra, int faseTorneo, String nomeTorneo, int annoTorneo, String nuovoNomeSquadra) throws RemoteException;
+    void updateCittaSquadraTorneoEliminazionediretta(String nomeSquadra, String cittaSquadra, int faseTorneo, String nomeTorneo, int annoTorneo, String nuovaCittaSquadra) throws RemoteException;
     
     String getTorneoEliminazionediretta() throws RemoteException;
     
