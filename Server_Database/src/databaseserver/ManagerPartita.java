@@ -302,7 +302,21 @@ public class ManagerPartita extends UnicastRemoteObject implements DatabaseInter
             System.out.println("ERROR:" + ex);
         }
     }
-
+    
+    
+     @Override
+    public void updateCittaPartita(int idPartita, String nomeTorneo, int annoTorneo, String nuovaCitta) throws RemoteException {
+        try{
+            query= "UPDATE PARTITA\n "
+                    + "SET CITTAPARTITA = '" + nuovaCitta + "'\n "
+                    + "WHERE IDPARTITA = '" + idPartita + "' AND NOMETORNEO = '" + nomeTorneo + "' AND ANNOTORNEO = '" + annoTorneo + "' ;";
+            PreparedStatement posted = DatabaseConnection.connection.prepareStatement(query);
+            posted.executeUpdate(query);
+        }catch(SQLException ex){
+            System.out.println("ERROR:" + ex);
+        }
+    }
+    
     /**
      * 
      * @param idPartita

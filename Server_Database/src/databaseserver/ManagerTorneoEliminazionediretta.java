@@ -42,10 +42,10 @@ public class ManagerTorneoEliminazionediretta extends UnicastRemoteObject implem
         }
         
         @Override
-        public void putTorneoEliminazionediretta(String nomeSquadra, String cittaSquadra, int faseTorneo, int eliminazione, String nomeTorneo, int annoTorneo) throws RemoteException {
+        public void putTorneoEliminazionediretta(String nomeSquadra, String cittaSquadra, int faseTorneo, int passaggioFase, String nomeTorneo, int annoTorneo) throws RemoteException {
             try{
                 query= "INSERT INTO TORNEO_ELIMINAZIONEDIRETTA\n "
-                        + "VALUES ( '" +  nomeSquadra + "' , '" + cittaSquadra + "' , '" + faseTorneo + "' , '" + eliminazione + "' , '" + nomeTorneo + "' , '" + annoTorneo + "' );";
+                        + "VALUES ( '" +  nomeSquadra + "' , '" + cittaSquadra + "' , '" + faseTorneo + "' , '" + passaggioFase + "' , '" + nomeTorneo + "' , '" + annoTorneo + "' );";
                 PreparedStatement posted = DatabaseConnection.connection.prepareStatement(query);
                 posted.executeUpdate(query);
             }catch(SQLException ex){
@@ -112,6 +112,19 @@ public class ManagerTorneoEliminazionediretta extends UnicastRemoteObject implem
             try{
                 query= "UPDATE TORNEO_ELIMINAZIONEDIRETTA\n "
                         + "SET CITTASQUADRA = '" + nuovaCittaSquadra + "'\n "
+                        + "WHERE NOMESQUADRA = '" + nomeSquadra + "' AND CITTASQUADRA = '" + cittaSquadra + "' AND FASETORNEO = '" + faseTorneo + "' AND NOMETORNEO = '" + nomeTorneo + "' AND ANNOTORNEO = '" + annoTorneo + "' ;";
+                PreparedStatement posted = DatabaseConnection.connection.prepareStatement(query);
+                posted.executeUpdate(query);
+            }catch(SQLException ex){
+                System.out.println("ERROR:" + ex);
+            }
+        }
+        
+        @Override
+        public void updatePassaggioFaseTorneoEliminazionediretta(String nomeSquadra, String cittaSquadra, int faseTorneo, String nomeTorneo, int annoTorneo, int nuovoPassaggioFase) throws RemoteException {
+            try{
+                query= "UPDATE TORNEO_ELIMINAZIONEDIRETTA\n "
+                        + "SET PASSAGGIOFASE = '" + nuovoPassaggioFase + "'\n "
                         + "WHERE NOMESQUADRA = '" + nomeSquadra + "' AND CITTASQUADRA = '" + cittaSquadra + "' AND FASETORNEO = '" + faseTorneo + "' AND NOMETORNEO = '" + nomeTorneo + "' AND ANNOTORNEO = '" + annoTorneo + "' ;";
                 PreparedStatement posted = DatabaseConnection.connection.prepareStatement(query);
                 posted.executeUpdate(query);
