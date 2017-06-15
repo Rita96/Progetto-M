@@ -109,10 +109,10 @@ public class SceltaTorneoGUI extends JFrame {
         chiudibutton = new JButton("Chiudi");
         
         panelLIST = new JPanel();
-        panelLIST.setLayout(new GridLayout(1, 2, 0, 0));
+        panelLIST.setLayout(new GridLayout(1, 2, 2, 2));
         panelLIST.setBorder(BorderFactory.createEmptyBorder(0, 100, 10, 100));
         panelBOTTONI = new JPanel();
-        panelBOTTONI.setLayout(new GridLayout(2, 4, 0, 0));
+        panelBOTTONI.setLayout(new GridLayout(2, 4, 2, 2));
         panelBOTTONI.setBorder(BorderFactory.createEmptyBorder(0, 100, 10, 100));
         
         listmodelTORNEI = new DefaultListModel();
@@ -155,7 +155,7 @@ public class SceltaTorneoGUI extends JFrame {
                 if( e.getClickCount() == 2 ) {
                     int index = listTORNEI.getSelectedIndex();
                     Torneo t = tornei.get(index);
-                    JFrame cercapartitegui = new CercaPartiteGUI(t, arbitri);
+                    JFrame cercapartitegui = new CercaPartiteGUI(t, gentorneo, squadre, arbitri);
                     cercapartitegui.setSize(1000, 655);
                     cercapartitegui.setLocation(400, 250);
                     cercapartitegui.setVisible(true);
@@ -171,7 +171,7 @@ public class SceltaTorneoGUI extends JFrame {
                 if( e.getClickCount() == 2 ) {
                     int index = listTORNEICREATI.getSelectedIndex();
                     Torneo t = gentorneo.getTorneiCreati().get(index);
-                    JFrame cercapartitegui = new CercaPartiteGUI(t, arbitri);
+                    JFrame cercapartitegui = new CercaPartiteGUI(t, gentorneo, squadre, arbitri);
                     cercapartitegui.setSize(1000, 655);
                     cercapartitegui.setLocation(400, 250);
                     cercapartitegui.setVisible(true);

@@ -59,28 +59,22 @@ public class Italiana extends Torneo {
         
         switch (p.getStatoPartita()) {
             case TERMINATA:
-                if(p.getGoalSquadraCasaRegolare() > p.getGoalSquadraOspiteRegolare()){
-                    p.setPuntiSquadra(3, p.getSquadraCasa().getNome());
-                    p.setPuntiSquadra(0, p.getSquadraOspite().getNome());
+                if(p.getGoalSquadraCasa() > p.getGoalSquadraOspite()){
                     SquadraPunteggioRelativo.put(p.getSquadraCasa(), punteggioCasa+3);
                     SquadraPunteggioRelativo.put(p.getSquadraOspite(), punteggioOspite);
                 }
-                if(p.getGoalSquadraCasaRegolare() < p.getGoalSquadraOspiteRegolare()){
-                    p.setPuntiSquadra(0, p.getSquadraCasa().getNome());
-                    p.setPuntiSquadra(3, p.getSquadraOspite().getNome());
+                if(p.getGoalSquadraCasa() < p.getGoalSquadraOspite()){
                     SquadraPunteggioRelativo.put(p.getSquadraCasa(), punteggioCasa);
                     SquadraPunteggioRelativo.put(p.getSquadraOspite(), punteggioOspite+3);
                 }
-                if(p.getGoalSquadraCasaRegolare() == p.getGoalSquadraOspiteRegolare()){
-                    p.setPuntiSquadra(1, p.getSquadraCasa().getNome());
-                    p.setPuntiSquadra(1, p.getSquadraOspite().getNome());
+                if(p.getGoalSquadraCasa() == p.getGoalSquadraOspite()){
                     SquadraPunteggioRelativo.put(p.getSquadraCasa(), punteggioCasa+1);
                     SquadraPunteggioRelativo.put(p.getSquadraOspite(), punteggioOspite+1);
                 }
                 SquadraPartiteGiocate.put(p.getSquadraCasa(), partiteGiocateCasa+1);
                 SquadraPartiteGiocate.put(p.getSquadraOspite(), partiteGiocateOspite+1);
-                SquadraGoalTotali.put(p.getSquadraCasa(), p.getGoalSquadraCasaRegolare() + goalCasa);
-                SquadraGoalTotali.put(p.getSquadraOspite(), p.getGoalSquadraOspiteRegolare() + goalOspite);
+                SquadraGoalTotali.put(p.getSquadraCasa(), p.getGoalSquadraCasa() + goalCasa);
+                SquadraGoalTotali.put(p.getSquadraOspite(), p.getGoalSquadraOspite() + goalOspite);
             break;
             case PROGRAMMATA:
                 SquadraPunteggioRelativo.put(p.getSquadraCasa(), punteggioCasa);
@@ -138,7 +132,7 @@ public class Italiana extends Torneo {
     
     public Map<Squadra,Integer> getClassifica(){
         Map<Squadra, Integer> sortedMapDesc = sortByComparator(SquadraPunteggioRelativo, false);
-//        if(finita()){
+        if(finita()){
             List<Squadra> SquadrePunteggioMassimo = new ArrayList<>();
             int MaxPunteggio = 0;
             for (Map.Entry<Squadra, Integer> entry : sortedMapDesc.entrySet())
@@ -163,15 +157,15 @@ public class Italiana extends Torneo {
                         vOspite = PareggioSquadre.get(p.getSquadraOspite());
                     }
                     if(SquadrePunteggioMassimo.contains(p.getSquadraCasa()) && SquadrePunteggioMassimo.contains(p.getSquadraOspite())){
-                        if(p.getGoalSquadraCasaRegolare()>p.getGoalSquadraOspiteRegolare())
+                        if(p.getGoalSquadraCasa()>p.getGoalSquadraOspite())
                         {   PareggioSquadre.put(p.getSquadraCasa(), vCasa+3);
                             PareggioSquadre.put(p.getSquadraOspite(), vOspite);
                         }
-                        if(p.getGoalSquadraCasaRegolare()<p.getGoalSquadraOspiteRegolare()){
+                        if(p.getGoalSquadraCasa()<p.getGoalSquadraOspite()){
                             PareggioSquadre.put(p.getSquadraCasa(), vCasa);
                             PareggioSquadre.put(p.getSquadraOspite(), vOspite+3);
                         }
-                        if(p.getGoalSquadraCasaRegolare() == p.getGoalSquadraOspiteRegolare()){
+                        if(p.getGoalSquadraCasa() == p.getGoalSquadraOspite()){
                             PareggioSquadre.put(p.getSquadraCasa(), vCasa+1);
                             PareggioSquadre.put(p.getSquadraOspite(), vOspite+1);
                         }
@@ -215,7 +209,7 @@ public class Italiana extends Torneo {
                 sortedMapDesc.clear();
                 sortedMapDesc.putAll(Ordinato);
             }
-  //      }
+        }
         return sortedMapDesc;
     }
     

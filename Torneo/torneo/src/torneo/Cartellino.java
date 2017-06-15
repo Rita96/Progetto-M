@@ -15,10 +15,12 @@ public class Cartellino {
     private ColoreCartellino colore;
     private String descrizione;
     private Giocatore giocatore;
+    private int minuto;
     
-    public Cartellino(ColoreCartellino colore, Giocatore giocatore/*, int minuto*/){
+    public Cartellino(ColoreCartellino colore, Giocatore giocatore, int minuto){
         this.giocatore = giocatore;
         this.colore = colore;
+        this.minuto = minuto;
         
         switch(colore){
             case GIALLO: descrizione = "Giocatore ammonito";

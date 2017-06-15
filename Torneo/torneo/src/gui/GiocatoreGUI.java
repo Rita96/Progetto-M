@@ -85,11 +85,11 @@ public class GiocatoreGUI extends JFrame {
         RIMUOVICARTbutton = new JButton("Rimuovi cartellino");
         
         panelDATI = new JPanel();
-        panelDATI.setLayout(new GridLayout(5, 2, 0, 0));
+        panelDATI.setLayout(new GridLayout(5, 2, 2, 2));
         panelDATI.setBorder(BorderFactory.createEmptyBorder(10, 100, 0, 100));
         
         panelBOTTONI = new JPanel();
-        panelBOTTONI.setLayout(new GridLayout(1, 2, 0, 0));
+        panelBOTTONI.setLayout(new GridLayout(1, 2, 2, 2));
         panelBOTTONI.setBorder(BorderFactory.createEmptyBorder(0, 100, 10, 100));
         
         NOMElabel = new JLabel("Nome:   ");
@@ -154,17 +154,27 @@ public class GiocatoreGUI extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 if( partita.getArbitro().getAutenticazione().equals("AUTENTICATO") ) {
                     JComboBox jcombo = new JComboBox(ColoreCartellino.values());
-                    int i = JOptionPane.showConfirmDialog(null, jcombo, "Inserire colore cartellino:", JOptionPane.YES_NO_OPTION);
-                    if( jcombo.getSelectedItem() == ColoreCartellino.GIALLO && i == JOptionPane.YES_OPTION ) {
-                        Cartellino cartellinoGIALLO = new Cartellino(ColoreCartellino.GIALLO, giocatore);
+                    JPanel panelinformazioni = new JPanel();
+                    panelinformazioni.setLayout(new GridLayout(2, 1, 2, 2));
+                    JPanel panellabel = new JPanel();
+                    panellabel.setLayout(new GridLayout(1, 2, 2, 2));
+                    JLabel minutolabel = new JLabel("Minuto: ");
+                    JTextField minutofield = new JTextField();
+                    panellabel.add(minutolabel, BorderLayout.WEST);
+                    panellabel.add(minutofield, BorderLayout.EAST);
+                    panelinformazioni.add(jcombo, BorderLayout.NORTH);
+                    panelinformazioni.add(panellabel, BorderLayout.SOUTH);
+                    int i = JOptionPane.showConfirmDialog(null, panelinformazioni, "Inserire colore cartellino:", JOptionPane.YES_NO_OPTION);
+                    if( jcombo.getSelectedItem() == ColoreCartellino.GIALLO && !minutofield.getText().equals("") && i == JOptionPane.YES_OPTION ) {
+                        int minuto = Integer.valueOf(minutofield.getText());
+                        Cartellino cartellinoGIALLO = new Cartellino(ColoreCartellino.GIALLO, giocatore, minuto);
                         modelCARTELLINI.addElement(cartellinoGIALLO);
-                        // aggiungere il minuto
                         partita.setCartellino(ColoreCartellino.GIALLO, giocatore, minuto);
                         jcombo.setVisible(false);
-                    } else if( jcombo.getSelectedItem() == ColoreCartellino.ROSSO && i == JOptionPane.YES_OPTION ) {
-                        Cartellino cartellinoROSSO = new Cartellino(ColoreCartellino.ROSSO, giocatore);
+                    } else if( jcombo.getSelectedItem() == ColoreCartellino.ROSSO && !minutofield.getText().equals("") && i == JOptionPane.YES_OPTION ) {
+                        int minuto = Integer.valueOf(minutofield.getText());
+                        Cartellino cartellinoROSSO = new Cartellino(ColoreCartellino.ROSSO, giocatore, minuto);
                         modelCARTELLINI.addElement(cartellinoROSSO);
-                        // aggiungere il minuto
                         partita.setCartellino(ColoreCartellino.ROSSO, giocatore, minuto);
                         jcombo.setVisible(false);
                     } else if( i == JOptionPane.NO_OPTION )

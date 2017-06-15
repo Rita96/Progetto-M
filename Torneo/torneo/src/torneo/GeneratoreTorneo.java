@@ -24,6 +24,9 @@ public class GeneratoreTorneo extends Utente {
     private String autenticazione = "NONAUTENTICATO";
     private List<Partita> partite = new ArrayList<>();
     private List<Torneo> tornei = new ArrayList<>();
+    private List<Arbitro> arbitri = new ArrayList<>();
+    private List<Squadra> squadre = new ArrayList<>();
+    private List<Giocatore> giocatori = new ArrayList<>();
     
     public GeneratoreTorneo(String nome, String cognome, String cf, String password){
         super(nome, cognome);

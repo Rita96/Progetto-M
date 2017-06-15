@@ -47,12 +47,10 @@ public class GeneratoreTorneoGUI extends JFrame {
     private JLabel stringalogin;
     private JLabel blankspaceuno;
     private JLabel blankspacedue;
-    private JLabel nomelabel;
-    private JTextField nomefield;
-    private JLabel cognomelabel;
-    private JTextField cognomefield;
     private JLabel nometorneolabel;
     private JTextField nometorneofield;
+    private JLabel annotorneolabel;
+    private JTextField annotorneofield;
     private JLabel cflabel;
     private JTextField cffield;
     private JLabel passwordlabel;
@@ -94,12 +92,11 @@ public class GeneratoreTorneoGUI extends JFrame {
         panelbasso.setLayout(new GridLayout(1, 4, 0, 0));
         panelbasso.setBorder(BorderFactory.createEmptyBorder(0, 100, 10, 100));
         
-        nomelabel = new JLabel("Nome: ");
-        nomefield = new JTextField();
-        cognomelabel = new JLabel("Cognome: ");
-        cognomefield = new JTextField();
+       
         nometorneolabel = new JLabel("Nome torneo: ");
         nometorneofield = new JTextField();
+        annotorneolabel = new JLabel("Anno torneo: ");
+        annotorneofield = new JTextField();
         cflabel = new JLabel("Codice fiscale: ");
         cffield = new JTextField();
         passwordlabel = new JLabel("Password: ");
@@ -158,11 +155,11 @@ public class GeneratoreTorneoGUI extends JFrame {
                     }
                     System.out.println(squadregen);
                     System.out.println(arbitrigen);
-                    if( (!(nometorneo.equals(""))) && (squadregen.size() != 0) && (arbitrigen.size() != 0) ) {
+                    if( (!(nometorneo.equals(""))) && (!(annotorneofield.getText().equals("")) && squadregen.size() != 0) && (arbitrigen.size() != 0) ) {
                         if( tipofield.getSelectedItem().toString().equals("ELIMINAZIONE DIRETTA") ) {
                             for( int i = 0; i < potenzedidue.length; i++ ) {
                                 if( (squadregen.size() == potenzedidue[i]) && (arbitrigen.size() >= 2) ) {
-                                    // aggiungere anno
+                                    int anno = Integer.valueOf(annotorneofield.getText());
                                     gentorneo.eliminazioneDiretta(nometorneo, anno, squadregen, arbitrigen);
                                     stringagen.setText("AREA GENERAZIONE TORNEO - TORNEO AD EL. DIRETTA CREATO");
                                 } else
@@ -173,7 +170,7 @@ public class GeneratoreTorneoGUI extends JFrame {
                         } 
                         else if( tipofield.getSelectedItem().toString().equals("ITALIANA") ) {
                             if( squadregen.size() >= 2 ) {
-                                // aggiungere anno
+                                int anno = Integer.valueOf(annotorneofield.getText());
                                 gentorneo.italiana(nometorneo, anno, squadregen, arbitrigen);
                                 stringagen.setText("AREA GENERAZIONE TORNEO - TORNEO ALL'ITALIANA CREATO");
                             } else {
@@ -217,8 +214,6 @@ public class GeneratoreTorneoGUI extends JFrame {
                 String password = passwordfield.getText();
                 if( gentorneo.getCf().equals(code) && gentorneo.getPassword().equals(password) ) {
                     stringalogin.setText("AREA LOG IN GENERATORE - "+gentorneo.logOut(code, password)+"\n\n");
-                    nomefield.setText("");
-                    cognomefield.setText("");
                     cffield.setText("");
                     passwordfield.setText("");
                 }
@@ -245,14 +240,12 @@ public class GeneratoreTorneoGUI extends JFrame {
         panelcentrale.add(blankspaceuno, BorderLayout.EAST);
         panelcentrale.add(nometorneolabel, BorderLayout.WEST);
         panelcentrale.add(nometorneofield, BorderLayout.EAST);
+        panelcentrale.add(annotorneolabel, BorderLayout.WEST);
+        panelcentrale.add(annotorneofield, BorderLayout.EAST);
         panelcentrale.add(tipolabel, BorderLayout.WEST);
         panelcentrale.add(tipofield, BorderLayout.EAST);
         panelcentrale.add(stringalogin, BorderLayout.WEST);
         panelcentrale.add(blankspacedue, BorderLayout.EAST);
-        panelcentrale.add(nomelabel, BorderLayout.WEST);
-        panelcentrale.add(nomefield, BorderLayout.EAST);
-        panelcentrale.add(cognomelabel, BorderLayout.WEST);
-        panelcentrale.add(cognomefield, BorderLayout.EAST);
         panelcentrale.add(cflabel, BorderLayout.WEST);
         panelcentrale.add(cffield, BorderLayout.EAST);
         panelcentrale.add(passwordlabel, BorderLayout.WEST);

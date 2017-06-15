@@ -120,16 +120,6 @@ public class Partita { // Manca il metodo che faccia settare all'arbitro i goal 
         return cartelliniSquadraOspite;
     }
     
-    // da togliere?
-    public int ModificaGoalCasa(int goal) {
-        int sommaCasa = goalSquadraCasaRegolare+goalSquadraCasaSupplementari+goalSquadraCasaRigori; 
-        return sommaCasa = goal;
-    }
-    // da togliere, piuttosto un getSommaGoal
-    public int ModificaGoalOspite(int goal) {
-        int sommaOspite = goalSquadraOspiteRegolare+goalSquadraOspiteSupplementari+goalSquadraOspiteRigori;
-        return sommaOspite = goal;
-    }
     public String ModificaCitta(String citta) {
         try {
             Test.q.makePartitaTable().updateCittaPartita(ID, nomeTorneo, annoTorneo, citta);
@@ -138,6 +128,15 @@ public class Partita { // Manca il metodo che faccia settare all'arbitro i goal 
         }
         return cittaDoveSiSvolge = citta;
     }
+    
+    public int getGoalSquadraCasa(){ 
+        return goalSquadraCasaRegolare+goalSquadraCasaSupplementari+goalSquadraCasaRigori;
+    }
+    
+    public int getGoalSquadraOspite() {
+        return goalSquadraOspiteRegolare+goalSquadraOspiteSupplementari+goalSquadraOspiteRigori;
+    }
+    
     public void setPuntiSquadra(int punti, String nameSquadra){
         if(arbitro.getAutenticazione().equals("AUTENTICATO")){
             if(nameSquadra.equals(squadraCasa.getNome()) && punti >= 0){
@@ -168,14 +167,14 @@ public class Partita { // Manca il metodo che faccia settare all'arbitro i goal 
         try{
             if(arbitro.getAutenticazione().equals("AUTENTICATO")){
                 if(squadraCasa.getGiocatori().contains(giocatore)){
-                    cartelliniSquadraCasa.add(new Cartellino(colore, giocatore));
+                    cartelliniSquadraCasa.add(new Cartellino(colore, giocatore, minuto));
                     try {
                         Test.q.makeCartellinoTable().putCartellino(ID, colore.toString(), minuto, giocatore.getNumero(), squadraCasa.getNome(), squadraCasa.getCittaProvenienza(), nomeTorneo, annoTorneo);
                     } catch (RemoteException ex) {
                         Logger.getLogger(Cartellino.class.getName()).log(Level.SEVERE, null, ex);
                     }
                 } else if(squadraOspite.getGiocatori().contains(giocatore)){
-                    cartelliniSquadraOspite.add(new Cartellino(colore, giocatore));
+                    cartelliniSquadraOspite.add(new Cartellino(colore, giocatore, minuto));
                     try {
                         Test.q.makeCartellinoTable().putCartellino(ID, colore.toString(), minuto, giocatore.getNumero(), squadraOspite.getNome(), squadraOspite.getCittaProvenienza(), nomeTorneo, annoTorneo);
                     } catch (RemoteException ex) {

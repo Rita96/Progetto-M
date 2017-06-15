@@ -29,7 +29,9 @@ import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
 import torneo.Arbitro;
 import torneo.EliminazioneDiretta;
+import torneo.GeneratoreTorneo;
 import torneo.Italiana;
+import torneo.Squadra;
 import torneo.Torneo;
 
 /**
@@ -39,7 +41,9 @@ import torneo.Torneo;
 public class CercaPartiteGUI extends JFrame {
     
     private Torneo torneo;
+    private GeneratoreTorneo gentorneo;
     private List<Arbitro> arbitri;
+    private List<Squadra> squadre;
     private JPanel panelcampi;
     private JPanel panelbottoni;
     private JButton cerca;
@@ -52,9 +56,11 @@ public class CercaPartiteGUI extends JFrame {
     private JList list;
     private JScrollPane listscrollpane;
     
-    public CercaPartiteGUI(Torneo torneo, List<Arbitro> arbitri) {
+    public CercaPartiteGUI(Torneo torneo, GeneratoreTorneo gentorneo, List<Squadra> squadre, List<Arbitro> arbitri) {
         this.torneo = torneo;
+        this.gentorneo = gentorneo;
         this.arbitri = arbitri;
+        this.squadre = squadre;
         this.setTitle("PARTITE TORNEO "+torneo.getNome());
         initComponents();
     }
@@ -121,7 +127,7 @@ public class CercaPartiteGUI extends JFrame {
                 JList theList = (JList) e.getSource();
                 if (e.getClickCount() == 2) {
                     int index = theList.locationToIndex(e.getPoint());
-                    JFrame modificarisGUI = new ModificaRisultatiGUI(torneo.getPartite().get(index), torneo, arbitri);
+                    JFrame modificarisGUI = new ModificaRisultatiGUI(torneo.getPartite().get(index), torneo, squadre, arbitri, gentorneo);
                     modificarisGUI.setSize(1000, 655);
                     modificarisGUI.setLocation(400, 250);
                     modificarisGUI.setVisible(true);
