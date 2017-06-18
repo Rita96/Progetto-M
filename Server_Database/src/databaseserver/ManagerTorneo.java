@@ -220,7 +220,7 @@ public class ManagerTorneo extends UnicastRemoteObject implements DatabaseInterf
         ArrayList<Squadra> squadra = new ArrayList<>();
         
         try{
-            query = "SELECT * FROM GIOCATORE;";
+            query = "SELECT * FROM SQUADRA;";
             PreparedStatement statement = DatabaseConnection.connection.prepareStatement(query);
             resSet = statement.executeQuery();
            
