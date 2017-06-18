@@ -157,7 +157,7 @@ public class ManagerCartellino extends UnicastRemoteObject implements DatabaseIn
            
             while(resSet.next()){
                 Giocatore giocatore = new Giocatore(resSet.getString("NOMEGIOCATORE"), resSet.getString("COGNOMEGIOCATORE"), resSet.getInt("NUMEROGIOCATORE"));
-                Cartellino addCartellino = new Cartellino(ColoreCartellino.valueOf(resSet.getString("COLORECARTELLINO")), giocatore);
+                Cartellino addCartellino = new Cartellino(ColoreCartellino.valueOf(resSet.getString("COLORECARTELLINO")), giocatore, resSet.getInt("MINUTO"));
                 cartellino.add(addCartellino);
                 resSet.next();
             }
