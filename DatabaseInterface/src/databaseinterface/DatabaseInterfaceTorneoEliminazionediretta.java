@@ -7,6 +7,8 @@ package databaseinterface;
 
 import java.rmi.Remote;
 import java.rmi.RemoteException;
+import java.util.ArrayList;
+import torneo.EliminazioneDiretta;
 
 /**
  *
@@ -23,7 +25,7 @@ public interface DatabaseInterfaceTorneoEliminazionediretta extends Remote{
     void updateCittaSquadraTorneoEliminazionediretta(String nomeSquadra, String cittaSquadra, int faseTorneo, String nomeTorneo, int annoTorneo, String nuovaCittaSquadra) throws RemoteException;
     void updatePassaggioFaseTorneoEliminazionediretta(String nomeSquadra, String cittaSquadra, int faseTorneo, String nomeTorneo, int annoTorneo, int nuovoPassaggioFase) throws RemoteException;
     
-    String getTorneoEliminazionediretta() throws RemoteException;
+    ArrayList<EliminazioneDiretta> getTorneoEliminazionediretta() throws RemoteException;
     
     void deleteTorneoEliminazionediretta(String nomeSquadra, String cittaSquadra, int faseTorneo, String nomeTorneo, int annoTorneo) throws RemoteException;
      
