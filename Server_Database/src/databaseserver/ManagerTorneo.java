@@ -18,6 +18,7 @@ import torneo.Cartellino;
 import torneo.ColoreCartellino;
 import torneo.Giocatore;
 import torneo.Goal;
+import torneo.Italiana;
 import torneo.Partita;
 import torneo.Squadra;
 import torneo.StatoPartita;
@@ -174,7 +175,8 @@ public class ManagerTorneo extends UnicastRemoteObject implements DatabaseInterf
            
             while(resSet.next()){
                 Giocatore giocatore = new Giocatore(resSet.getString("NOMEGIOCATORE"), resSet.getString("COGNOMEGIOCATORE"), resSet.getInt("NUMEROGIOCATORE"));
-                Cartellino addCartellino = new Cartellino(ColoreCartellino.valueOf(resSet.getString("COLORECARTELLINO")), giocatore, resSet.getInt("MINUTO"));                cartellino.add(addCartellino);
+                Cartellino addCartellino = new Cartellino(ColoreCartellino.valueOf(resSet.getString("COLORECARTELLINO")), giocatore, resSet.getInt("MINUTO"));
+                cartellino.add(addCartellino);
                 resSet.next();
             }
         }catch(SQLException ex){
