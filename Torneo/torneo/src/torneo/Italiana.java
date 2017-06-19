@@ -28,8 +28,27 @@ public class Italiana extends Torneo {
     
     public Italiana(String nome, int anno, List<Partita> p, boolean putInDatabase) {
         super(nome, anno, p, putInDatabase);
-        if(p.size()>0){
+        if(putInDatabase){
             setItaliana();
+        } else {
+            Map<String, Integer> squadre = new HashMap<>();
+            try {
+                squadre = Test.q.makeTorneoItalianaTable().getTorneoItaliana(nome, anno);
+            } catch (RemoteException ex) {
+                Logger.getLogger(EliminazioneDiretta.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            for(Map.Entry<String, Integer> entry : squadre.entrySet()){
+                for(Partita pa : p){
+                    if((entry.getKey().equals(pa.getSquadraCasa().getNome()))){
+                        SquadraPunteggioRelativo.put(pa.getSquadraCasa(), entry.getValue());
+                        break;
+                    }
+                    if((entry.getKey().equals(pa.getSquadraOspite().getNome()))){
+                        SquadraPunteggioRelativo.put(pa.getSquadraOspite(), entry.getValue());
+                        break;
+                    }
+                }
+            }
         }
     }
     

@@ -20,20 +20,18 @@ public class EliminazioneDiretta extends Torneo {
     
     public EliminazioneDiretta(String nome, int anno, List<Partita> p, boolean putInDatabase) {
         super(nome, anno, p, putInDatabase);
-        for(Partita pa : this.getPartite()){
-            if(!(squadreNelTorneo.contains(pa.getSquadraCasa()))){
-                squadreNelTorneo.add(pa.getSquadraCasa());
-                if(putInDatabase){
+        if(putInDatabase){
+            for(Partita pa : this.getPartite()){
+                if(!(squadreNelTorneo.contains(pa.getSquadraCasa()))){
+                    squadreNelTorneo.add(pa.getSquadraCasa());
                     try {
                         Test.q.makeTorneoEliminazionedirettaTable().putTorneoEliminazionediretta(pa.getSquadraCasa().getNome(), pa.getSquadraCasa().getCittaProvenienza(), 0, nome, anno);
                     } catch (RemoteException ex) {
-                        Logger.getLogger(Giocatore.class.getName()).log(Level.SEVERE, null, ex);
+                        Logger.getLogger(EliminazioneDiretta.class.getName()).log(Level.SEVERE, null, ex);
                     }
                 }
-            }
-            if(!(squadreNelTorneo.contains(pa.getSquadraOspite()))){
-                squadreNelTorneo.add(pa.getSquadraOspite());
-                if(putInDatabase){
+                if(!(squadreNelTorneo.contains(pa.getSquadraOspite()))){
+                    squadreNelTorneo.add(pa.getSquadraOspite());
                     try {
                         Test.q.makeTorneoEliminazionedirettaTable().putTorneoEliminazionediretta(pa.getSquadraOspite().getNome(), pa.getSquadraOspite().getCittaProvenienza(), 0, nome, anno);
                     } catch (RemoteException ex) {
@@ -41,17 +39,30 @@ public class EliminazioneDiretta extends Torneo {
                     }
                 }
             }
-        }
-        
-        for(Squadra s : squadreNelTorneo){
-        if(putInDatabase){
-            try {
-                Test.q.makeTorneoEliminazionedirettaTable().updateFaseTorneoTorneoEliminazionediretta(s.getNome(), s.getCittaProvenienza(), 0, nome, anno, squadreNelTorneo.size());
-            } catch (RemoteException ex) {
-                Logger.getLogger(Giocatore.class.getName()).log(Level.SEVERE, null, ex);
+            for(Squadra s : squadreNelTorneo){
+                try {
+                    Test.q.makeTorneoEliminazionedirettaTable().updateFaseTorneoTorneoEliminazionediretta(s.getNome(), s.getCittaProvenienza(), 0, nome, anno, squadreNelTorneo.size());
+                } catch (RemoteException ex) {
+                    Logger.getLogger(Giocatore.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
-        }}
-        setEliminazioneDiretta();
+            setEliminazioneDiretta();
+        } else {
+            List<String> squadre = new ArrayList<>();
+            try {
+                squadre = Test.q.makeTorneoEliminazionedirettaTable().getTorneoEliminazionediretta(nome, anno);
+            } catch (RemoteException ex) {
+                Logger.getLogger(EliminazioneDiretta.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            for(Partita pa : this.getPartite()){
+                if((squadre.contains(pa.getSquadraCasa().getNome())) && !(squadreNelTorneo.contains(pa.getSquadraCasa()))){
+                    squadreNelTorneo.add(pa.getSquadraCasa());
+                } 
+                if((squadre.contains(pa.getSquadraOspite().getNome())) && !(squadreNelTorneo.contains(pa.getSquadraOspite()))){
+                    squadreNelTorneo.add(pa.getSquadraOspite());
+                }
+            }
+        }
     }
     public List<Squadra> getSquadreNelTorneo(){
         return squadreNelTorneo;
