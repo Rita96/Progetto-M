@@ -139,23 +139,23 @@ public class ManagerTorneoEliminazionediretta extends UnicastRemoteObject implem
         }
         
         @Override
-        public ArrayList<EliminazioneDiretta> getTorneoEliminazionediretta() throws RemoteException {
-            ArrayList<EliminazioneDiretta> torneo = new ArrayList<>();
+        public ArrayList<String> getTorneoEliminazionediretta(String nomeTorneo, int annoTorneo) throws RemoteException {
+            ArrayList<String> squadreNelTorneo = new ArrayList<>();
         
             try{
-                query = "SELECT * FROM TORNEO_ELIMINAZIONEDIRETTA;";
+                query = "SELECT * FROM TORNEO_ELIMINAZIONEDIRETTA\n "
+                        + "WHERE NOMETORNEO = '" + nomeTorneo + "' AND ANNOTORNEO = '" + annoTorneo + "' ;";
                 PreparedStatement statement = DatabaseConnection.connection.prepareStatement(query);
                 resSet = statement.executeQuery();
-
+                Squadra s = null;
                 while(resSet.next()){
-                    EliminazioneDiretta addTorneo = new EliminazioneDiretta(resSet.getString("NOMETORNEO"), resSet.getInt("ANNOTORNEO"), getPartitaTorneo(resSet.getString("NOMETORNEO"), resSet.getInt("ANNOTORNEO")), false);
-                    torneo.add(addTorneo);
+                    squadreNelTorneo.add(resSet.getString("NOMESQUADRA"));
                     resSet.next();
                 }
             }catch(SQLException ex){
                 System.out.println("ERROR:" + ex);
             } 
-            return torneo;  
+            return squadreNelTorneo;  
         }
         
         @Override

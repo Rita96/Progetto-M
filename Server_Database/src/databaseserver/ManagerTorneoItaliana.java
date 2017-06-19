@@ -13,6 +13,8 @@ import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 import torneo.Arbitro;
 import torneo.Giocatore;
 import torneo.Italiana;
@@ -112,23 +114,23 @@ public class ManagerTorneoItaliana extends UnicastRemoteObject implements Databa
         }
         
         @Override
-        public ArrayList<Italiana> getTorneoItaliana() throws RemoteException {
-            ArrayList<Italiana> torneo = new ArrayList<>();
+        public Map<String,Integer> getTorneoItaliana(String nomeTorneo, int annoTorneo) throws RemoteException {
+            Map<String, Integer> SquadraPunteggioRelativo = new HashMap<>();
         
             try{
-                query = "SELECT * FROM TORNEO_ITALIANA;";
+                query = "SELECT * FROM TORNEO_ITALIANA\n "
+                        + "WHERE NOMETORNEO = '" + nomeTorneo + "' AND ANNOTORNEO = '" + annoTorneo + "' ;";
                 PreparedStatement statement = DatabaseConnection.connection.prepareStatement(query);
                 resSet = statement.executeQuery();
 
                 while(resSet.next()){
-                    Italiana addTorneo = new Italiana(resSet.getString("NOMETORNEO"), resSet.getInt("ANNOTORNEO"), getPartitaTorneo(resSet.getString("NOMETORNEO"), resSet.getInt("ANNOTORNEO")), false);
-                    torneo.add(addTorneo);
+                    SquadraPunteggioRelativo.put(resSet.getString("NOMESQUADRA"), resSet.getInt("PUNTI"));
                     resSet.next();
                 }
             }catch(SQLException ex){
                 System.out.println("ERROR:" + ex);
             } 
-            return torneo;    
+            return SquadraPunteggioRelativo;    
         }
         
         @Override

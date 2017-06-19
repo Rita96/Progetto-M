@@ -88,6 +88,7 @@ public class ManagerTorneo extends UnicastRemoteObject implements DatabaseInterf
             query = "SELECT * FROM TORNEO;";
             PreparedStatement statement = DatabaseConnection.connection.prepareStatement(query);
             resSet = statement.executeQuery();
+            
            
             while(resSet.next()){
                 Torneo addTorneo = new Torneo(resSet.getString("NOMETORNEO"), resSet.getInt("ANNOTORNEO"), getPartitaTorneo(resSet.getString("NOMETORNEO"), resSet.getInt("ANNOTORNEO")), false);
