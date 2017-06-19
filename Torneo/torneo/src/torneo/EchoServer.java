@@ -63,6 +63,17 @@ public class EchoServer
             }
         }
         
+        public void chiudiSocket(){
+            try {
+                serverSocket.close();
+                this.connessione = false;
+            }
+            catch(Exception e)
+            {
+                System.out.println("Errore nella chiusura dei socket e degli stream.");
+            }
+        }
+        
         public void splitLine(String line)
         {
             String[] tmp = null; //Separare ogni argomento con uno spazio!!!!!!!

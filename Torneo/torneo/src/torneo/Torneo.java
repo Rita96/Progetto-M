@@ -14,7 +14,7 @@ import java.util.logging.Logger;
  *
  * @author paolacarulli
  */
-public  class Torneo {
+public class Torneo {
     protected String nome;
     protected int anno;
     private List<Partita> partite = new ArrayList<>();
@@ -32,11 +32,11 @@ public  class Torneo {
             }
         }
     }
-    
+       
     public List<Partita> getPartite(){
         return partite;
     }
-    public List getArbitri() {
+    public List<Arbitro> getArbitri() {
         return arbitri;
     }
     public void aggiungiPartita(Partita p){

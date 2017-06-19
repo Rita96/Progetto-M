@@ -7,6 +7,7 @@ package torneo;
 
 import java.rmi.RemoteException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
@@ -231,6 +232,51 @@ public class Italiana extends Torneo {
         }
         return sortedMapDesc;
     }
+    
+    public EliminazioneDiretta misto(){
+        if(finita()){
+            List<Squadra> squadre = new ArrayList<>();
+            Map<Squadra, Integer> classifica = this.getClassifica();
+            int e = 0;
+            // prendo le prime squadre della classifica, non sono sicura dell'ordine purtroppo
+            for (Map.Entry<Squadra, Integer> entry : classifica.entrySet())
+            {   if(e<4){
+                    squadre.add(entry.getKey());
+                    e++;}
+                else{
+                    break;
+                }
+            }
+            int sizeArbitri = this.getArbitri().size();
+            int k = this.getPartite().size() + 1;
+            
+            Integer[] indexSquadre = new Integer[4];
+            for (int i = 0; i < indexSquadre.length; i++) {
+                indexSquadre[i] = i;
+            }
+        
+            Integer[] indexArbitri = new Integer[sizeArbitri];
+            for (int i = 0; i < indexArbitri.length; i++) {
+                indexArbitri[i] = i;
+            }
+            List<Partita> p = new ArrayList<>();
+            Collections.shuffle(Arrays.asList(indexSquadre));
+            for(int i = 0; i < 4; i += 2){
+                Collections.shuffle(Arrays.asList(indexArbitri));
+                int j = 0;
+                p.add(new Partita(k, squadre.get(indexSquadre[i]), squadre.get(indexSquadre[i+1]), this.getArbitri().get(indexArbitri[j]), squadre.get(indexSquadre[i]).getCittaProvenienza(), StatoPartita.PROGRAMMATA, nome, anno, true));
+                j++;
+                k++;
+                p.add(new Partita(k, squadre.get(indexSquadre[i+1]), squadre.get(indexSquadre[i]), this.getArbitri().get(indexArbitri[j]), squadre.get(indexSquadre[i+1]).getCittaProvenienza(), StatoPartita.PROGRAMMATA, nome, anno, true));
+                j++;
+                k++;
+            }
+            return new EliminazioneDiretta(nome, anno, p, true);
+        }
+        return null;
+    }
+    
+    
     
     private static Map<Squadra, Integer> sortByComparator(Map<Squadra, Integer> unsortMap, final boolean order){
         List<Map.Entry<Squadra, Integer>> list = new LinkedList<Map.Entry<Squadra, Integer>>(unsortMap.entrySet());

@@ -48,6 +48,7 @@ public class CercaPartiteGUI extends JFrame {
     private JPanel panelbottoni;
     private JButton cerca;
     private JButton indietro;
+    private JButton misto;
     private JLabel labelNOME;
     private JLabel labelTIPOLOGIA;
     private JTextField fieldNOME;
@@ -75,6 +76,7 @@ public class CercaPartiteGUI extends JFrame {
         
         cerca = new JButton("Cerca Classifica");
         indietro = new JButton("Indietro");
+        misto = new JButton("Misto");
         
         labelNOME = new JLabel("Torneo:");
         fieldNOME = new JTextField();
@@ -180,12 +182,28 @@ public class CercaPartiteGUI extends JFrame {
         
         //------------------------------------------------------------------------
         
+        ActionListener mistolistener = new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if(torneo instanceof Italiana) {
+                    Italiana ita = (Italiana) torneo;
+                    torneo = ita.misto();
+                }
+            }
+            
+        };
+        cerca.addActionListener(cercalistener);
+        
+        //------------------------------------------------------------------------
+        
+        
         panelcampi.add(labelNOME, BorderLayout.WEST);
         panelcampi.add(fieldNOME, BorderLayout.EAST);
         panelcampi.add(labelTIPOLOGIA, BorderLayout.WEST);
         panelcampi.add(fieldTIPOLOGIA, BorderLayout.EAST);
         panelbottoni.add(cerca, BorderLayout.EAST);
         panelbottoni.add(indietro, BorderLayout.WEST);
+        panelbottoni.add(misto, BorderLayout.WEST);
         add(panelcampi, BorderLayout.NORTH);
         add(listscrollpane, BorderLayout.CENTER);
         add(panelbottoni, BorderLayout.SOUTH);
