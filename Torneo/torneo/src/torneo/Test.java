@@ -30,11 +30,11 @@ public class Test {
     public static void main(String[] args) throws FileNotFoundException, IOException {
         q = new DatabaseInterfaceFactory();
         List<Torneo> tornei = new ArrayList<>();
-//        try {
-//            tornei = Test.q.makeTorneoTable().getTorneo();
-//        } catch (RemoteException ex) {
-//            Logger.getLogger(Torneo.class.getName()).log(Level.SEVERE, null, ex);
-//        }
+        try {
+            tornei = Test.q.makeTorneoTable().getTorneo();
+        } catch (RemoteException ex) {
+            Logger.getLogger(Torneo.class.getName()).log(Level.SEVERE, null, ex);
+        }
         GeneratoreTorneo gentorneo = new GeneratoreTorneo("g", "g", "g", "g");
         
         JFrame sceltatorneo = new SceltaTorneoGUI(tornei, gentorneo);
