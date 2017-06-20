@@ -374,6 +374,7 @@ public class SceltaTorneoGUI extends JFrame {
                                 String citta = cittafield.getText();
                                 Squadra squadra = new Squadra(nome, colore, citta, giocatorigen, true);
                                 squadre.add(squadra);
+                                giocatorigen.clear();
                             } else {
                             JOptionPane.showMessageDialog(null, "E' NECESSARIO SELEZIONARE ALMENO DUE GIOCATORI!", "Attenzione", JOptionPane.ERROR_MESSAGE);                                
                             }
