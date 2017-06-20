@@ -16,6 +16,7 @@ import java.util.ArrayList;
 import torneo.Arbitro;
 import torneo.Cartellino;
 import torneo.ColoreCartellino;
+import torneo.EliminazioneDiretta;
 import torneo.Giocatore;
 import torneo.Goal;
 import torneo.Italiana;
@@ -85,13 +86,22 @@ public class ManagerTorneo extends UnicastRemoteObject implements DatabaseInterf
          ArrayList<Torneo> torneo = new ArrayList<>();
         
         try{
-            query = "SELECT * FROM TORNEO;";
+            query = "SELECT * FROM TORNEO_ELIMINAZIONEDIRETTA;";
             PreparedStatement statement = DatabaseConnection.connection.prepareStatement(query);
             resSet = statement.executeQuery();
-            
-           
+
             while(resSet.next()){
-                Torneo addTorneo = new Torneo(resSet.getString("NOMETORNEO"), resSet.getInt("ANNOTORNEO"), getPartitaTorneo(resSet.getString("NOMETORNEO"), resSet.getInt("ANNOTORNEO")), false);
+                EliminazioneDiretta addTorneo = new EliminazioneDiretta(resSet.getString("NOMETORNEO"), resSet.getInt("ANNOTORNEO"), getPartitaTorneo(resSet.getString("NOMETORNEO"), resSet.getInt("ANNOTORNEO")), false);
+                torneo.add(addTorneo);
+                resSet.next();
+            }
+           
+            query = "SELECT * FROM TORNEO_ITALIANA;";
+            statement = DatabaseConnection.connection.prepareStatement(query);
+            resSet = statement.executeQuery();
+
+            while(resSet.next()){
+                Italiana addTorneo = new Italiana(resSet.getString("NOMETORNEO"), resSet.getInt("ANNOTORNEO"), getPartitaTorneo(resSet.getString("NOMETORNEO"), resSet.getInt("ANNOTORNEO")), false);
                 torneo.add(addTorneo);
                 resSet.next();
             }

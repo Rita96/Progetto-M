@@ -45,4 +45,7 @@ public class Torneo {
     public String getNome() {
         return nome;
     }
+    public Integer getAnno() {
+        return anno;
+    }
 }

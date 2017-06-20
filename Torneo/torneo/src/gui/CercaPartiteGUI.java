@@ -18,10 +18,12 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.List;
 import javax.swing.BorderFactory;
+import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JList;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
@@ -31,6 +33,7 @@ import torneo.Arbitro;
 import torneo.EliminazioneDiretta;
 import torneo.GeneratoreTorneo;
 import torneo.Italiana;
+import torneo.Partita;
 import torneo.Squadra;
 import torneo.Torneo;
 
@@ -41,6 +44,8 @@ import torneo.Torneo;
 public class CercaPartiteGUI extends JFrame {
     
     private Torneo torneo;
+    private Italiana torneo1;
+    private EliminazioneDiretta torneo2;
     private GeneratoreTorneo gentorneo;
     private List<Arbitro> arbitri;
     private List<Squadra> squadre;
@@ -185,14 +190,30 @@ public class CercaPartiteGUI extends JFrame {
         ActionListener mistolistener = new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if(torneo instanceof Italiana) {
-                    Italiana ita = (Italiana) torneo;
-                    torneo = ita.misto();
+                 if(torneo instanceof Italiana) {
+                    Italiana ita = new Italiana(torneo.getNome(), torneo.getAnno(), torneo.getPartite(), false);
+                    ita.setItaliana();
+                    torneo1 = ita;
+                    torneo2 = ita.misto();
+                    for(int i=0; i<torneo2.getPartite().size(); i++) {
+                        torneo2.getPartite().get(i).ModificaTipo("eliminazione diretta");
+                    }
+                    for(Partita p : torneo2.getPartite()){
+                        torneo.aggiungiPartita(p);
+                    }
+                    DefaultListModel NUOVOmodeltornei = new DefaultListModel();
+                    for( Partita p : torneo.getPartite() ) {
+                        NUOVOmodeltornei.addElement(p);
+                    }
+                    list.setModel(NUOVOmodeltornei);
+                  
+                } else{
+                    JOptionPane.showMessageDialog(null, "E' possibile creare un torneo misto solo da un torneo all'italiana", "Attenzione!", JOptionPane.ERROR_MESSAGE);
                 }
             }
             
         };
-        cerca.addActionListener(cercalistener);
+        misto.addActionListener(mistolistener);
         
         //------------------------------------------------------------------------
         
