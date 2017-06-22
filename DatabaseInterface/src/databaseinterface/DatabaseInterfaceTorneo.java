@@ -24,8 +24,6 @@ public interface DatabaseInterfaceTorneo extends Remote{
     void updateNomeTorneo(String nome, int annoTorneo, String nuovoNome) throws RemoteException;
     void updateAnnoTorneo(String nome, int annoTorneo, int nuovoAnno) throws RemoteException;
     
-    ArrayList<Torneo> getTorneo() throws RemoteException;
-    ArrayList<Partita> getPartitaTorneo(String nomeTorneo, int annoTorneo) throws RemoteException;
     ArrayList<Goal> getGoalTorneo(String nomeTorneo, int annoTorneo) throws RemoteException;
     ArrayList<Cartellino> getCartellinoTorneo(String nomeTorneo, int annoTorneo) throws RemoteException;
     

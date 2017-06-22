@@ -7,7 +7,9 @@ package databaseinterface;
 
 import java.rmi.Remote;
 import java.rmi.RemoteException;
+import java.util.ArrayList;
 import java.util.Map;
+import torneo.PartitaItaliana;
 
 /**
  *
@@ -23,8 +25,8 @@ public interface DatabaseInterfaceTorneoItaliana extends Remote{
     void updateNomeSquadraTorneoItaliana(String nomeSquadra, String cittaSquadra, int punti, String nomeTorneo, int annoTorneo, String nuovoNomeSquadra) throws RemoteException;
     void updateCittaSquadraTorneoItaliana(String nomeSquadra, String cittaSquadra, int punti, String nomeTorneo, int annoTorneo, String nuovaCittaSquadra) throws RemoteException;
     
+    ArrayList<PartitaItaliana> getPartitaTorneoItaliana(String nomeTorneo, int annoTorneo) throws RemoteException;
     Map<String,Integer> getTorneoItaliana(String nomeTorneo, int annoTorneo) throws RemoteException;
-
     
     void deleteTorneoItaliana(String nomeSquadra, String cittaSquadra, int punti, String nomeTorneo, int annoTorneo) throws RemoteException;
     
