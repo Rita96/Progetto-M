@@ -12,6 +12,12 @@ package torneo;
 public class Giocatore extends Utente{
     private int numero;
 
+    /**
+     * 
+     * @param nome
+     * @param cognome
+     * @param numero 
+     */
     public Giocatore(String nome, String cognome, int numero) {
         super(nome, cognome);
         this.numero = numero;
@@ -20,6 +26,7 @@ public class Giocatore extends Utente{
         return numero;
     }
 
+    @Override
     public String toString() {
         return this.getNome()+" "+this.getCognome()+" "+numero+"\n";
     }

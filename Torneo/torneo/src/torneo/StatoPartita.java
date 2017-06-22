@@ -13,15 +13,23 @@ public enum StatoPartita {
     REGOLAMENTARE("REGOLAMENTARE"), SUPPLEMENTARI("SUPPLEMENTARI"), RIGORI("RIGORI"), TERMINATA("TERMINATA"), PROGRAMMATA("PROGRAMMATA"); // I tempi di recupero di eliminazione diretta contano come regolamentare
     
     String name;
+    
+    /**
+     * 
+     * @param s 
+     */
         StatoPartita(String s) {
             name = s;
         }
+    
         public String ModificaStato(String s) {
             return name = s;
         }
+    
         public StatoPartita getStato(String s) {
             return StatoPartita.valueOf(s);
         }
+    
     @Override 
         public String toString(){ 
             return name; 

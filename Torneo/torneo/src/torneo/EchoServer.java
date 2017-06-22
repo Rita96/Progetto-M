@@ -14,8 +14,7 @@ import java.util.*;
  *
  * @author giadamarconi
  */
-public class EchoServer 
-{
+public class EchoServer {
     private boolean connessione = false;
     private Socket socket;
     private int port;
@@ -24,14 +23,15 @@ public class EchoServer
     private String messaggio;
     PrintWriter out;
     
-    
-    public EchoServer(int port) 
-    {
+    /**
+     * 
+     * @param port 
+     */
+    public EchoServer(int port) {
         this.port = port; 
     }
     
-       public boolean startServer()  
-       {
+    public boolean startServer() {
            try
            {
                 serverSocket = new ServerSocket(port); // apro una porta TCP
@@ -46,9 +46,13 @@ public class EchoServer
                return this.connessione = false;
            }    
        }
-            
-        public void chiudiSocket(Socket socket, Scanner in, PrintWriter out) 
-        {
+    /**
+     * 
+     * @param socket
+     * @param in
+     * @param out 
+     */
+    public void chiudiSocket(Socket socket, Scanner in, PrintWriter out) {
             try {
             System.out.println("I socket stanno per chiudersi.."); 
             in.close();
@@ -63,7 +67,7 @@ public class EchoServer
             }
         }
         
-        public void chiudiSocket(){
+    public void chiudiSocket() {
             try {
                 serverSocket.close();
                 this.connessione = false;
@@ -73,9 +77,11 @@ public class EchoServer
                 System.out.println("Errore nella chiusura dei socket e degli stream.");
             }
         }
-        
-        public void splitLine(String line)
-        {
+    /**
+     * 
+     * @param line 
+     */
+    public void splitLine(String line) {
             String[] tmp = null; //Separare ogni argomento con uno spazio!!!!!!!
             tmp = line.split(" "); //Passo da un array normale ad una collection per comodità personale
             this.parametri.clear();
@@ -85,9 +91,12 @@ public class EchoServer
                 System.out.println(this.parametri.get(i));
             }
         }
-        
-        public boolean controllaSocket() throws IOException
-        {
+    /**
+     * 
+     * @return
+     * @throws IOException 
+     */
+    public boolean controllaSocket() throws IOException {
             Scanner in = new Scanner(socket.getInputStream()); // apro gli stream di input e output per leggere
             out = new PrintWriter(socket.getOutputStream());
             while (true) 
@@ -108,19 +117,19 @@ public class EchoServer
                 }
             }
         }
-
-        public List<String> getParametri() 
-        {
+    /**
+     * 
+     * @return 
+     */
+    public List<String> getParametri() {
             return parametri;
         } 
 
-        public void setMessaggio(String messaggio) 
-        {
+    public void setMessaggio(String messaggio) {
             this.messaggio = messaggio;
         }
         
-        public void mandaMessaggio() throws IOException
-        {
+    public void mandaMessaggio() throws IOException {
             out = new PrintWriter(socket.getOutputStream());    
             out.println(this.messaggio);
             out.flush();

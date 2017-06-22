@@ -21,21 +21,30 @@ public class GeneratoreTorneo extends Utente {
     private String cf;
     private String password;
     private String nomeTorneo;
-    private String autenticazione = "NONAUTENTICATO";
+    private Autenticazione autenticazione = Autenticazione.NONAUTENTICATO;
     private List<Partita> partite = new ArrayList<>();
     private List<Torneo> tornei = new ArrayList<>();
     private List<Arbitro> arbitri = new ArrayList<>();
     private List<Squadra> squadre = new ArrayList<>();
     private List<Giocatore> giocatori = new ArrayList<>();
     
+    /**
+     * 
+     * @param nome
+     * @param cognome
+     * @param cf username organizzatore del torneo
+     * @param password password organizzatore
+     */
     public GeneratoreTorneo(String nome, String cognome, String cf, String password){
         super(nome, cognome);
         this.cf = cf;
         this.password = password;
     }
-    public String getAutenticazione() {
+    
+    public Autenticazione getAutenticazione() {
         return autenticazione;
     }
+    
     public List<Torneo> getTorneiCreati() {
         return tornei;
     }
@@ -47,17 +56,23 @@ public class GeneratoreTorneo extends Utente {
     public String getPassword() {
         return password;
     }
+    /**
+     * metodo di login per l'organizzatore del torneo
+     * @param cf username
+     * @param p password
+     * @return 
+     */
     public String logIn(String cf, String p){
         try{
             if( cf.equals(this.cf) && p.equals(password) ) {
-                autenticazione = "AUTENTICATO";
+                autenticazione = Autenticazione.AUTENTICATO;
                 return "CREDENZIALI CORRETTE";
             }
             else if( cf == null || p == null ) {
                 return "NULL";
             }
             else{
-                autenticazione = "NONAUTENTICATO";
+                autenticazione = Autenticazione.NONAUTENTICATO;
                 throw new EccezioneLogIn("CREDENZIALI SCORRETTE");
             }
         }
@@ -65,15 +80,28 @@ public class GeneratoreTorneo extends Utente {
             return e.getMessage();
         }
     }
+    /**
+     * metodo logout dell'organizzatore
+     * @param cf
+     * @param p
+     * @return 
+     */
     public String logOut(String cf, String p) {
         if( autenticazione.equals("AUTENTICATO") ) {
-            autenticazione = "NONAUTENTICATO";
+            autenticazione = Autenticazione.NONAUTENTICATO;
             return "Log out effettuato";
         } else if( autenticazione.equals("NONAUTENTICATO") ) {
             return "Log out già effetuato!";
         }
         return null;
     }
+    /**
+     * metodo per creare un nuovo torneo a eliminazione diretta
+     * @param nomeTorneo
+     * @param anno
+     * @param squadre squadre che disputeranno il torneo
+     * @param arbitri 
+     */
     public void eliminazioneDiretta(String nomeTorneo, int anno, List<Squadra> squadre, List<Arbitro> arbitri){
         
         int sizeSquadre = squadre.size();
@@ -94,10 +122,10 @@ public class GeneratoreTorneo extends Utente {
             for(int i = 0; i < sizeSquadre; i += 2){
                 Collections.shuffle(Arrays.asList(indexArbitri));
                 int j = 0;
-                partite.add(new Partita(k, squadre.get(indexSquadre[i]), squadre.get(indexSquadre[i+1]), arbitri.get(indexArbitri[j]), squadre.get(indexSquadre[i]).getCittaProvenienza(), StatoPartita.PROGRAMMATA, nomeTorneo, anno, true));
+                partite.add(new PartitaEliminazioneDiretta(k, squadre.get(indexSquadre[i]), squadre.get(indexSquadre[i+1]), arbitri.get(indexArbitri[j]), squadre.get(indexSquadre[i]).getCittaProvenienza(), StatoPartita.PROGRAMMATA, nomeTorneo, anno, true));
                 j++;
                 k++;
-                partite.add(new Partita(k, squadre.get(indexSquadre[i+1]), squadre.get(indexSquadre[i]), arbitri.get(indexArbitri[j]), squadre.get(indexSquadre[i+1]).getCittaProvenienza(), StatoPartita.PROGRAMMATA, nomeTorneo, anno, true));
+                partite.add(new PartitaEliminazioneDiretta(k, squadre.get(indexSquadre[i+1]), squadre.get(indexSquadre[i]), arbitri.get(indexArbitri[j]), squadre.get(indexSquadre[i+1]).getCittaProvenienza(), StatoPartita.PROGRAMMATA, nomeTorneo, anno, true));
                 j++;
                 k++;
             }
@@ -113,7 +141,13 @@ public class GeneratoreTorneo extends Utente {
             System.out.println("Mi dispiace, non è possibile creare un torneo ad eliminazione diretta, serve che il numero delle squadre sia una potenza di due");
         }
     }
-    
+    /**
+     * metodo per creare un nuovo torneo all'italiana.
+     * @param nomeTorneo 
+     * @param anno
+     * @param squadre squadre che disputeranno il torneo
+     * @param arbitri 
+     */
     public void italiana(String nomeTorneo, int anno, List<Squadra> squadre, List<Arbitro> arbitri){
         int sizeArbitri = arbitri.size();
         Integer[] indexArbitri = new Integer[sizeArbitri];
@@ -125,7 +159,7 @@ public class GeneratoreTorneo extends Utente {
             for(Squadra s2 : squadre){
                     if(s1 != s2){
                         Collections.shuffle(Arrays.asList(indexArbitri));
-                        partite.add(new Partita(k, s1, s2, arbitri.get(indexArbitri[0]), s1.getCittaProvenienza(), StatoPartita.PROGRAMMATA, nomeTorneo, anno, true));
+                        partite.add(new PartitaItaliana(k, s1, s2, arbitri.get(indexArbitri[0]), s1.getCittaProvenienza(), StatoPartita.PROGRAMMATA, nomeTorneo, anno, true));
                         k++;
                     }
             }
@@ -140,6 +174,7 @@ public class GeneratoreTorneo extends Utente {
         torneo = new Italiana(nomeTorneo, anno, partite, true);
         tornei.add(torneo);
     }
+    
     public void RimuoviTorneo(Torneo t) {
         tornei.remove(t);
     }

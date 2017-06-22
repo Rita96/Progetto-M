@@ -20,6 +20,14 @@ public class Squadra {
     private String cittaProvenienza;
     private List<Giocatore> giocatori = new ArrayList<>();
     
+    /**
+     * 
+     * @param nome
+     * @param colore
+     * @param cittaProvenienza
+     * @param g giocatori che compongono la squadra
+     * @param putInDatabase 
+     */
     public Squadra(String nome, String colore, String cittaProvenienza, List<Giocatore> g, boolean putInDatabase){
         this.nome = nome;
         this.colore = colore; 
@@ -43,9 +51,11 @@ public class Squadra {
             }
         }
     }
+    
     public String getNome(){
         return nome;
     }
+    
     public String ModificaNome(String s) {
         try {
             Test.q.makeSquadraTable().updateNomeSquadra(nome, cittaProvenienza, s);
@@ -54,15 +64,19 @@ public class Squadra {
         }
         return nome = s;
     }
+    
     public String getColore(){
         return colore;
     }
+    
     public String getCittaProvenienza(){
         return cittaProvenienza;
     }
+    
     public List<Giocatore> getGiocatori(){
         return giocatori;
     }
+    
     @Override
     public String toString() {
         return nome;

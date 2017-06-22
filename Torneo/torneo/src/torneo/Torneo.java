@@ -20,6 +20,13 @@ public class Torneo {
     private List<Partita> partite = new ArrayList<>();
     private List<Arbitro> arbitri = new ArrayList<>();
     
+    /**
+     * 
+     * @param nome
+     * @param anno
+     * @param p partite che compongono il torneo
+     * @param putInDatabase 
+     */
     public Torneo(String nome, int anno, List <Partita> p, boolean putInDatabase){
         this.nome = nome;
         this.anno = anno;
@@ -36,15 +43,19 @@ public class Torneo {
     public List<Partita> getPartite(){
         return partite;
     }
+    
     public List<Arbitro> getArbitri() {
         return arbitri;
     }
+    
     public void aggiungiPartita(Partita p){
         this.partite.add(p);
     }
+    
     public String getNome() {
         return nome;
     }
+    
     public Integer getAnno() {
         return anno;
     }

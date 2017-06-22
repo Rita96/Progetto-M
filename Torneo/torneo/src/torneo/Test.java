@@ -30,11 +30,14 @@ public class Test {
     public static void main(String[] args) throws FileNotFoundException, IOException {
         q = new DatabaseInterfaceFactory();
         List<Torneo> tornei = new ArrayList<>();
-        try {
-            tornei = Test.q.makeTorneoTable().getTorneo();
-        } catch (RemoteException ex) {
-            Logger.getLogger(Torneo.class.getName()).log(Level.SEVERE, null, ex);
-        }
+//        try {
+//            tornei = Test.q.makeTorneoTable().getTorneo();
+//        } catch (RemoteException ex) {
+//            Logger.getLogger(Torneo.class.getName()).log(Level.SEVERE, null, ex);
+//        }
+        List<Partita> p = new ArrayList<>();
+        Torneo addTorneo = new EliminazioneDiretta("Prova",2017, p, true);
+        tornei.add(addTorneo);
         GeneratoreTorneo gentorneo = new GeneratoreTorneo("g", "g", "g", "g");
         
         JFrame sceltatorneo = new SceltaTorneoGUI(tornei, gentorneo);
@@ -64,7 +67,7 @@ public class Test {
         
         System.out.println("Stato di connessione:"+connessione);
         
-        if(gentorneo.getAutenticazione().equals("AUTENTICATO")){
+        if(gentorneo.getAutenticazione().equals(Autenticazione.AUTENTICATO)){
 
             
             server.setMessaggio("Inserire numero per indicare scelta: 1: aggiungi arbitro 2: rimuovi arbitro");

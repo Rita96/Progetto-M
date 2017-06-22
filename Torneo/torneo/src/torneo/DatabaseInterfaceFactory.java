@@ -44,9 +44,10 @@ public class DatabaseInterfaceFactory {
                 TorneoTable = (DatabaseInterfaceTorneo)myReg.lookup("DBTorneo");
                 TorneoEliminazionedirettaTable = (DatabaseInterfaceTorneoEliminazionediretta)myReg.lookup("DBTorneoEliminazionediretta");
                 TorneoItalianaTable = (DatabaseInterfaceTorneoItaliana)myReg.lookup("DBTorneoItaliana");
-                
-                }catch(Exception e){e.getMessage();}
+        } catch(Exception e){
+            e.getMessage();
         }
+    }
     
     public DatabaseInterfaceArbitro makeArbitroTable(){       
         return ArbitroTable;

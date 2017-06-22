@@ -14,10 +14,18 @@ import java.util.*;
 public class ClassificaItaliana {
     private Italiana torneoItaliana;
     
+    /**
+     * 
+     * @param torneoItaliana 
+     */
     public ClassificaItaliana(Italiana torneoItaliana){
         this.torneoItaliana = torneoItaliana;
     }
     
+    /**
+     * 
+     * @return 
+     */
     public Map<String, Integer> printRisultato(){
         Map<String, Integer> classifica = new HashMap<>();
         for(Map.Entry<Squadra, Integer> entry: torneoItaliana.getClassifica().entrySet()){
@@ -26,7 +34,10 @@ public class ClassificaItaliana {
         return classifica;
     }
     
-    //per comodità, poi in caso non serva si può anche togliere
+    /**
+     * 
+     * @return 
+     */
     @Override
     public String toString(){
         String testo = "";

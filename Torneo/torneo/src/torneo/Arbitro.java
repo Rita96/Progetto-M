@@ -16,10 +16,18 @@ import java.util.logging.Logger;
  * @author paolacarulli
  */
 public class Arbitro extends Utente{
-    private String autenticazione = "NONAUTENTICATO"; // boolean o enum = topquality, no String 
+    private Autenticazione autenticazione = Autenticazione.NONAUTENTICATO; 
     private String codiceFiscale;
     private String password;
     
+    /**
+     * 
+     * @param nome
+     * @param cognome
+     * @param codice codice fiscale dell'arbitro che fa da username
+     * @param password
+     * @param putInDatabase 
+     */
     public Arbitro(String nome, String cognome, String codice, String password, boolean putInDatabase) {
         super(nome, cognome);
         this.codiceFiscale = codice;
@@ -34,20 +42,27 @@ public class Arbitro extends Utente{
             }
         }
     }
-    public String getAutenticazione(){
+    
+    public Autenticazione getAutenticazione(){
         return autenticazione;
     }
+    /**
+     * metodo login per l'arbitro
+     * @param cf
+     * @param p
+     * @return 
+     */
     public String logIn(String cf, String p){
         try{
             if( cf.equals(codiceFiscale) && p.equals(password) ) {
-                autenticazione = "AUTENTICATO";
+                autenticazione = Autenticazione.AUTENTICATO;
                 return "CREDENZIALI CORRETTE";
             }
             else if( cf == null || p == null ) {
                 return "NULL";
             }
             else{
-                autenticazione = "NONAUTENTICATO";
+                autenticazione = Autenticazione.NONAUTENTICATO;
                 throw new EccezioneLogIn("CREDENZIALI SCORRETTE");
             }
         }
@@ -55,9 +70,15 @@ public class Arbitro extends Utente{
             return e.getMessage();
         }
     }
+    /**
+     * metodo logout per l'arbitro
+     * @param cf
+     * @param p
+     * @return 
+     */
     public String logOut(String cf, String p) {
         if( autenticazione.equals("AUTENTICATO") ) {
-            autenticazione = "NONAUTENTICATO";
+            autenticazione = Autenticazione.NONAUTENTICATO;
             return "Log out effettuato";
         } else if( autenticazione.equals("NONAUTENTICATO") ) {
             return "Log out già effetuato!";

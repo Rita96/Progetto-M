@@ -27,6 +27,13 @@ public class Italiana extends Torneo {
     private Map<Squadra, Integer> SquadraPartiteGiocate = new HashMap<>();
     private Map<Squadra, Integer> SquadraGoalTotali = new HashMap<>();
     
+    /**
+     * 
+     * @param nome
+     * @param anno
+     * @param p
+     * @param putInDatabase 
+     */
     public Italiana(String nome, int anno, List<Partita> p, boolean putInDatabase) {
         super(nome, anno, p, putInDatabase);
         if(putInDatabase){
@@ -53,13 +60,18 @@ public class Italiana extends Torneo {
         }
     }
     
-    //metodo da invocare se la lista partite P nel costruttore non era vuota.
+    /**
+     * metodo da invocare se la lista partite P nel costruttore non era vuota
+     */
     public void setItaliana(){
         for(Partita p: this.getPartite()){
             this.aggiornaClassifica(p);
         }
     }
-    
+    /**
+     * 
+     * @param p 
+     */
     public void aggiornaClassifica(Partita p){
         int punteggioCasa = 0, punteggioOspite = 0, partiteGiocateCasa = 0, partiteGiocateOspite = 0, goalCasa = 0, goalOspite = 0;
         boolean esisteCasa = false, esisteOspite = false;
@@ -79,22 +91,22 @@ public class Italiana extends Torneo {
         
         switch (p.getStatoPartita()) {
             case TERMINATA:
-                if(p.getGoalSquadraCasa() > p.getGoalSquadraOspite()){
+                if(((PartitaItaliana)p).getGoalSquadraCasa() > ((PartitaItaliana)p).getGoalSquadraOspite()){
                     SquadraPunteggioRelativo.put(p.getSquadraCasa(), punteggioCasa+3);
                     SquadraPunteggioRelativo.put(p.getSquadraOspite(), punteggioOspite);
                 }
-                if(p.getGoalSquadraCasa() < p.getGoalSquadraOspite()){
+                if(((PartitaItaliana)p).getGoalSquadraCasa() < ((PartitaItaliana)p).getGoalSquadraOspite()){
                     SquadraPunteggioRelativo.put(p.getSquadraCasa(), punteggioCasa);
                     SquadraPunteggioRelativo.put(p.getSquadraOspite(), punteggioOspite+3);
                 }
-                if(p.getGoalSquadraCasa() == p.getGoalSquadraOspite()){
+                if(((PartitaItaliana)p).getGoalSquadraCasa() == ((PartitaItaliana)p).getGoalSquadraOspite()){
                     SquadraPunteggioRelativo.put(p.getSquadraCasa(), punteggioCasa+1);
                     SquadraPunteggioRelativo.put(p.getSquadraOspite(), punteggioOspite+1);
                 }
                 SquadraPartiteGiocate.put(p.getSquadraCasa(), partiteGiocateCasa+1);
                 SquadraPartiteGiocate.put(p.getSquadraOspite(), partiteGiocateOspite+1);
-                SquadraGoalTotali.put(p.getSquadraCasa(), p.getGoalSquadraCasa() + goalCasa);
-                SquadraGoalTotali.put(p.getSquadraOspite(), p.getGoalSquadraOspite() + goalOspite);
+                SquadraGoalTotali.put(p.getSquadraCasa(), ((PartitaItaliana)p).getGoalSquadraCasa() + goalCasa);
+                SquadraGoalTotali.put(p.getSquadraOspite(), ((PartitaItaliana)p).getGoalSquadraOspite() + goalOspite);
             break;
             case PROGRAMMATA:
                 SquadraPunteggioRelativo.put(p.getSquadraCasa(), punteggioCasa);
@@ -135,6 +147,10 @@ public class Italiana extends Torneo {
         }
     }
     
+    /**
+     * 
+     * @return 
+     */
     public boolean finita(){
         // SquadraPartiteGiocate deve essere per tutti (n-1)*2 (n Squadre)
         int i = 0;
@@ -149,7 +165,10 @@ public class Italiana extends Torneo {
         }
         return f == i;
     }
-    
+    /**
+     * 
+     * @return 
+     */
     public Map<Squadra,Integer> getClassifica(){
         Map<Squadra, Integer> sortedMapDesc = sortByComparator(SquadraPunteggioRelativo, false);
         if(finita()){
@@ -177,15 +196,15 @@ public class Italiana extends Torneo {
                         vOspite = PareggioSquadre.get(p.getSquadraOspite());
                     }
                     if(SquadrePunteggioMassimo.contains(p.getSquadraCasa()) && SquadrePunteggioMassimo.contains(p.getSquadraOspite())){
-                        if(p.getGoalSquadraCasa()>p.getGoalSquadraOspite())
+                        if(((PartitaItaliana)p).getGoalSquadraCasa()>((PartitaItaliana)p).getGoalSquadraOspite())
                         {   PareggioSquadre.put(p.getSquadraCasa(), vCasa+3);
                             PareggioSquadre.put(p.getSquadraOspite(), vOspite);
                         }
-                        if(p.getGoalSquadraCasa()<p.getGoalSquadraOspite()){
+                        if(((PartitaItaliana)p).getGoalSquadraCasa()<((PartitaItaliana)p).getGoalSquadraOspite()){
                             PareggioSquadre.put(p.getSquadraCasa(), vCasa);
                             PareggioSquadre.put(p.getSquadraOspite(), vOspite+3);
                         }
-                        if(p.getGoalSquadraCasa() == p.getGoalSquadraOspite()){
+                        if(((PartitaItaliana)p).getGoalSquadraCasa() == ((PartitaItaliana)p).getGoalSquadraOspite()){
                             PareggioSquadre.put(p.getSquadraCasa(), vCasa+1);
                             PareggioSquadre.put(p.getSquadraOspite(), vOspite+1);
                         }
@@ -232,7 +251,10 @@ public class Italiana extends Torneo {
         }
         return sortedMapDesc;
     }
-    
+    /**
+     * 
+     * @return 
+     */
     public EliminazioneDiretta misto(){
         if(finita()){
             List<Squadra> squadre = new ArrayList<>();
@@ -264,10 +286,10 @@ public class Italiana extends Torneo {
             for(int i = 0; i < 4; i += 2){
                 Collections.shuffle(Arrays.asList(indexArbitri));
                 int j = 0;
-                p.add(new Partita(k, squadre.get(indexSquadre[i]), squadre.get(indexSquadre[i+1]), this.getArbitri().get(indexArbitri[j]), squadre.get(indexSquadre[i]).getCittaProvenienza(), StatoPartita.PROGRAMMATA, nome, anno, true));
+                p.add(new PartitaItaliana(k, squadre.get(indexSquadre[i]), squadre.get(indexSquadre[i+1]), this.getArbitri().get(indexArbitri[j]), squadre.get(indexSquadre[i]).getCittaProvenienza(), StatoPartita.PROGRAMMATA, nome, anno, true));
                 j++;
                 k++;
-                p.add(new Partita(k, squadre.get(indexSquadre[i+1]), squadre.get(indexSquadre[i]), this.getArbitri().get(indexArbitri[j]), squadre.get(indexSquadre[i+1]).getCittaProvenienza(), StatoPartita.PROGRAMMATA, nome, anno, true));
+                p.add(new PartitaItaliana(k, squadre.get(indexSquadre[i+1]), squadre.get(indexSquadre[i]), this.getArbitri().get(indexArbitri[j]), squadre.get(indexSquadre[i+1]).getCittaProvenienza(), StatoPartita.PROGRAMMATA, nome, anno, true));
                 j++;
                 k++;
             }
@@ -276,8 +298,12 @@ public class Italiana extends Torneo {
         return null;
     }
     
-    
-    
+    /**
+     * 
+     * @param unsortMap
+     * @param order
+     * @return 
+     */
     private static Map<Squadra, Integer> sortByComparator(Map<Squadra, Integer> unsortMap, final boolean order){
         List<Map.Entry<Squadra, Integer>> list = new LinkedList<Map.Entry<Squadra, Integer>>(unsortMap.entrySet());
 
@@ -306,6 +332,8 @@ public class Italiana extends Torneo {
         }
         return sortedMap;
     }
+    
+    @Override
     public String toString() {
         return "Torneo "+this.getNome()+" del tipo Italiana";
     }

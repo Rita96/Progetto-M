@@ -14,9 +14,17 @@ import java.util.*;
 public class ClassificaEliminazioneDiretta {
     private EliminazioneDiretta torneoElDir;
     
+    /**
+     * 
+     * @param torneoElDir 
+     */
     public ClassificaEliminazioneDiretta(EliminazioneDiretta torneoElDir){
         this.torneoElDir = torneoElDir;
     }
+    /**
+     * 
+     * @return lista di squadre ancora presenti nel torneo 
+     */
     public List<Squadra> printRisultato(){
         return torneoElDir.getSquadreNelTorneo();
     }

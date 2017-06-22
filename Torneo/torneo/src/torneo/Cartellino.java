@@ -17,6 +17,12 @@ public class Cartellino {
     private Giocatore giocatore;
     private int minuto;
     
+    /**
+     * 
+     * @param colore
+     * @param giocatore
+     * @param minuto
+     */
     public Cartellino(ColoreCartellino colore, Giocatore giocatore, int minuto){
         this.giocatore = giocatore;
         this.colore = colore;
@@ -28,9 +34,12 @@ public class Cartellino {
             case ROSSO: descrizione = "Giocatore espulso";        
         }
     }
+    
     public Giocatore getGiocatore() {
         return giocatore;
     }
+    
+    @Override
     public String toString() {
         return "Cartellino "+colore;
     }
