@@ -19,6 +19,7 @@ import torneo.Arbitro;
 import torneo.Giocatore;
 import torneo.Italiana;
 import torneo.Partita;
+import torneo.PartitaItaliana;
 import torneo.Squadra;
 import torneo.StatoPartita;
 
@@ -114,6 +115,46 @@ public class ManagerTorneoItaliana extends UnicastRemoteObject implements Databa
         }
         
         @Override
+        public ArrayList<PartitaItaliana> getPartitaTorneoItaliana(String nomeTorneo, int annoTorneo) throws RemoteException {
+            ArrayList<Squadra> squadra = getSquadra();
+            ArrayList<PartitaItaliana> partita = new ArrayList<>();
+            Squadra squadraCasa = null;
+            Squadra squadraOspite = null;
+
+            try{
+                query = "SELECT * FROM PARTITA JOIN TORNEO_ITALIANA\n "
+                        + "WHERE NOMETORNEO = '" + nomeTorneo + "' AND ANNOTORNEO = '" + annoTorneo + "' ;";
+                PreparedStatement statement = DatabaseConnection.connection.prepareStatement(query);
+                resSet = statement.executeQuery();
+
+                while(resSet.next()){
+                    int i = 0;
+                    boolean squadraCasaFound = false, squadraOspiteFound = false;
+
+                    while(!squadraCasaFound || !squadraOspiteFound){
+                        Squadra squadraConfronto = squadra.get(i);
+                        if(squadraConfronto.getNome().equals(resSet.getString("NOMESQUADRACASA"))){
+                            squadraCasa = squadraConfronto;
+                            squadraCasaFound = true;
+                        }
+                        if(squadraConfronto.getNome().equals(resSet.getString("NOMESQUADRAOSPITE"))){
+                            squadraOspite = squadraConfronto;
+                            squadraOspiteFound = true;
+                        }
+                        i++;
+                    }
+                    PartitaItaliana addPartita = new PartitaItaliana(resSet.getInt("IDPARTITA"), squadraCasa, squadraOspite, getArbitroPartita(resSet.getInt("IDPARTITA")), resSet.getString("CITTAPARTITA"), StatoPartita.valueOf(resSet.getString("STATOPARTITA")), nomeTorneo, annoTorneo, false);
+                    partita.add(addPartita);
+                    resSet.next();
+                }
+            }catch(SQLException ex){
+                System.out.println("ERROR:" + ex);
+            } 
+        
+            return partita;
+        }
+        
+        @Override
         public Map<String,Integer> getTorneoItaliana(String nomeTorneo, int annoTorneo) throws RemoteException {
             Map<String, Integer> SquadraPunteggioRelativo = new HashMap<>();
         
@@ -144,46 +185,6 @@ public class ManagerTorneoItaliana extends UnicastRemoteObject implements Databa
                 System.out.println("ERROR:" + ex);
             } 
         }
-        
-        private ArrayList<Partita> getPartitaTorneo(String nomeTorneo, int annoTorneo) throws RemoteException {
-            ArrayList<Squadra> squadra = getSquadra();
-            ArrayList<Partita> partita = new ArrayList<>();
-            Squadra squadraCasa = null;
-            Squadra squadraOspite = null;
-
-            try{
-                query = "SELECT * FROM PARTITA\n "
-                        + "WHERE NOMETORNEO = '" + nomeTorneo + "' AND ANNOTORNEO = '" + annoTorneo + "' ;";
-                PreparedStatement statement = DatabaseConnection.connection.prepareStatement(query);
-                resSet = statement.executeQuery();
-
-                while(resSet.next()){
-                    int i = 0;
-                    boolean squadraCasaFound = false, squadraOspiteFound = false;
-
-                    while(!squadraCasaFound || !squadraOspiteFound){
-                        Squadra squadraConfronto = squadra.get(i);
-                        if(squadraConfronto.getNome().equals(resSet.getString("NOMESQUADRACASA"))){
-                            squadraCasa = squadraConfronto;
-                            squadraCasaFound = true;
-                        }
-                        if(squadraConfronto.getNome().equals(resSet.getString("NOMESQUADRAOSPITE"))){
-                            squadraOspite = squadraConfronto;
-                            squadraOspiteFound = true;
-                        }
-                        i++;
-                    }
-                    Partita addPartita = new Partita(resSet.getInt("IDPARTITA"), squadraCasa, squadraOspite, getArbitroPartita(resSet.getInt("IDPARTITA")), resSet.getString("CITTAPARTITA"), StatoPartita.valueOf(resSet.getString("STATOPARTITA")), nomeTorneo, annoTorneo, false);
-                    partita.add(addPartita);
-                    resSet.next();
-                }
-            }catch(SQLException ex){
-                System.out.println("ERROR:" + ex);
-            } 
-        
-            return partita;
-        }
-    
         
         private ArrayList<Giocatore> getGiocatoreSquadra(String nomeSquadra, String cittaSquadra) throws RemoteException {
             ArrayList<Giocatore> giocatore = new ArrayList<>();

@@ -80,76 +80,6 @@ public class ManagerTorneo extends UnicastRemoteObject implements DatabaseInterf
             System.out.println("ERROR:" + ex);
         } 
     }
-
-    @Override
-    public ArrayList<Torneo> getTorneo() throws RemoteException {
-         ArrayList<Torneo> torneo = new ArrayList<>();
-        
-        try{
-            query = "SELECT * FROM TORNEO_ELIMINAZIONEDIRETTA;";
-            PreparedStatement statement = DatabaseConnection.connection.prepareStatement(query);
-            resSet = statement.executeQuery();
-
-            while(resSet.next()){
-                EliminazioneDiretta addTorneo = new EliminazioneDiretta(resSet.getString("NOMETORNEO"), resSet.getInt("ANNOTORNEO"), getPartitaTorneo(resSet.getString("NOMETORNEO"), resSet.getInt("ANNOTORNEO")), false);
-                torneo.add(addTorneo);
-                resSet.next();
-            }
-           
-            query = "SELECT * FROM TORNEO_ITALIANA;";
-            statement = DatabaseConnection.connection.prepareStatement(query);
-            resSet = statement.executeQuery();
-
-            while(resSet.next()){
-                Italiana addTorneo = new Italiana(resSet.getString("NOMETORNEO"), resSet.getInt("ANNOTORNEO"), getPartitaTorneo(resSet.getString("NOMETORNEO"), resSet.getInt("ANNOTORNEO")), false);
-                torneo.add(addTorneo);
-                resSet.next();
-            }
-        }catch(SQLException ex){
-            System.out.println("ERROR:" + ex);
-        } 
-        return torneo;    
-    }
-    
-    @Override
-    public ArrayList<Partita> getPartitaTorneo(String nomeTorneo, int annoTorneo) throws RemoteException {
-        ArrayList<Squadra> squadra = getSquadra();
-        ArrayList<Partita> partita = new ArrayList<>();
-        Squadra squadraCasa = null;
-        Squadra squadraOspite = null;
-        
-        try{
-            query = "SELECT * FROM PARTITA\n "
-                    + "WHERE NOMETORNEO = '" + nomeTorneo + "' AND ANNOTORNEO = '" + annoTorneo + "' ;";
-            PreparedStatement statement = DatabaseConnection.connection.prepareStatement(query);
-            resSet = statement.executeQuery();
-           
-            while(resSet.next()){
-                int i = 0;
-                boolean squadraCasaFound = false, squadraOspiteFound = false;
-                
-                while(!squadraCasaFound || !squadraOspiteFound){
-                    Squadra squadraConfronto = squadra.get(i);
-                    if(squadraConfronto.getNome().equals(resSet.getString("NOMESQUADRACASA"))){
-                        squadraCasa = squadraConfronto;
-                        squadraCasaFound = true;
-                    }
-                    if(squadraConfronto.getNome().equals(resSet.getString("NOMESQUADRAOSPITE"))){
-                        squadraOspite = squadraConfronto;
-                        squadraOspiteFound = true;
-                    }
-                    i++;
-                }
-                Partita addPartita = new Partita(resSet.getInt("IDPARTITA"), squadraCasa, squadraOspite, getArbitroPartita(resSet.getInt("IDPARTITA")), resSet.getString("CITTAPARTITA"), StatoPartita.valueOf(resSet.getString("STATOPARTITA")), nomeTorneo, annoTorneo, false);
-                partita.add(addPartita);
-                resSet.next();
-            }
-        }catch(SQLException ex){
-            System.out.println("ERROR:" + ex);
-        } 
-        
-        return partita;
-    }
     
     @Override
     public ArrayList<Goal> getGoalTorneo(String nomeTorneo, int annoTorneo) throws RemoteException {
@@ -208,57 +138,59 @@ public class ManagerTorneo extends UnicastRemoteObject implements DatabaseInterf
         } 
     }
     
-    private ArrayList<Giocatore> getGiocatoreSquadra(String nomeSquadra, String cittaSquadra) throws RemoteException {
-        ArrayList<Giocatore> giocatore = new ArrayList<>();
-        
-        try{
-            query = "SELECT * FROM GIOCATORE\n "
-                    + "WHERE NOMESQUADRA = '" + nomeSquadra + "' AND CITTASQUADRA = '" + cittaSquadra +"' ;" ;
-            PreparedStatement statement = DatabaseConnection.connection.prepareStatement(query);
-            resSet = statement.executeQuery();
-           
-            while(resSet.next()){
-                Giocatore addGiocatore = new Giocatore(resSet.getString("NOMEGIOCATORE"), resSet.getString("COGNOMEGIOCATORE"), resSet.getInt("NUMEROGIOCATORE"));
-                giocatore.add(addGiocatore);
-                resSet.next();
-            }
-        }catch(SQLException ex){
-            System.out.println("ERROR:" + ex);
-        } 
-        return giocatore;
-    }
+//CODICE INUTILE DOPO LE ULTIME MODIFICHE, RIMANE SOLO NEL CASO SI CAMBI IDEA ALLA FINE
     
-    private ArrayList<Squadra> getSquadra() throws RemoteException {
-        ArrayList<Squadra> squadra = new ArrayList<>();
-        
-        try{
-            query = "SELECT * FROM SQUADRA;";
-            PreparedStatement statement = DatabaseConnection.connection.prepareStatement(query);
-            resSet = statement.executeQuery();
-           
-            while(resSet.next()){
-                Squadra addSquadra = new Squadra(resSet.getString("NOMESQUADRA"), resSet.getString("CITTASQUADRA"), resSet.getString("COLORESQUADRA"), getGiocatoreSquadra(resSet.getString("NOMESQUADRA"), resSet.getString("CITTASQUADRA")), false);
-                squadra.add(addSquadra);
-                resSet.next();
-            }
-        }catch(SQLException ex){
-            System.out.println("ERROR:" + ex);
-        } 
-        return squadra;
-    }
-    
-    private Arbitro getArbitroPartita(int idPartita) throws RemoteException {
-        Arbitro arbitro = null;
-        
-        try{
-            query = "SELECT * FROM PARTITA JOIN ARBITRO\n "
-                    + "WHERE IDPARTITA = '" + idPartita +"' ;";
-            PreparedStatement statement = DatabaseConnection.connection.prepareStatement(query);
-            resSet = statement.executeQuery();
-            arbitro = new Arbitro(resSet.getString("NOMEARBITRO"), resSet.getString("COGNOMEARBITRO"), resSet.getString("CFARBITRO"), resSet.getString("PASSWORD"), false);
-        }catch(SQLException ex){
-            System.out.println("ERROR:" + ex);
-        } 
-        return arbitro;
-    }
+//    private ArrayList<Giocatore> getGiocatoreSquadra(String nomeSquadra, String cittaSquadra) throws RemoteException {
+//        ArrayList<Giocatore> giocatore = new ArrayList<>();
+//        
+//        try{
+//            query = "SELECT * FROM GIOCATORE\n "
+//                    + "WHERE NOMESQUADRA = '" + nomeSquadra + "' AND CITTASQUADRA = '" + cittaSquadra +"' ;" ;
+//            PreparedStatement statement = DatabaseConnection.connection.prepareStatement(query);
+//            resSet = statement.executeQuery();
+//           
+//            while(resSet.next()){
+//                Giocatore addGiocatore = new Giocatore(resSet.getString("NOMEGIOCATORE"), resSet.getString("COGNOMEGIOCATORE"), resSet.getInt("NUMEROGIOCATORE"));
+//                giocatore.add(addGiocatore);
+//                resSet.next();
+//            }
+//        }catch(SQLException ex){
+//            System.out.println("ERROR:" + ex);
+//        } 
+//        return giocatore;
+//    }
+//    
+//    private ArrayList<Squadra> getSquadra() throws RemoteException {
+//        ArrayList<Squadra> squadra = new ArrayList<>();
+//        
+//        try{
+//            query = "SELECT * FROM SQUADRA;";
+//            PreparedStatement statement = DatabaseConnection.connection.prepareStatement(query);
+//            resSet = statement.executeQuery();
+//           
+//            while(resSet.next()){
+//                Squadra addSquadra = new Squadra(resSet.getString("NOMESQUADRA"), resSet.getString("CITTASQUADRA"), resSet.getString("COLORESQUADRA"), getGiocatoreSquadra(resSet.getString("NOMESQUADRA"), resSet.getString("CITTASQUADRA")), false);
+//                squadra.add(addSquadra);
+//                resSet.next();
+//            }
+//        }catch(SQLException ex){
+//            System.out.println("ERROR:" + ex);
+//        } 
+//        return squadra;
+//    }
+//    
+//    private Arbitro getArbitroPartita(int idPartita) throws RemoteException {
+//        Arbitro arbitro = null;
+//        
+//        try{
+//            query = "SELECT * FROM PARTITA JOIN ARBITRO\n "
+//                    + "WHERE IDPARTITA = '" + idPartita +"' ;";
+//            PreparedStatement statement = DatabaseConnection.connection.prepareStatement(query);
+//            resSet = statement.executeQuery();
+//            arbitro = new Arbitro(resSet.getString("NOMEARBITRO"), resSet.getString("COGNOMEARBITRO"), resSet.getString("CFARBITRO"), resSet.getString("PASSWORD"), false);
+//        }catch(SQLException ex){
+//            System.out.println("ERROR:" + ex);
+//        } 
+//        return arbitro;
+//    }
 }
