@@ -32,7 +32,7 @@ public class DatabaseInterfaceFactory {
     
     public DatabaseInterfaceFactory(){    
         
-        try{
+        try{    
                 //myReg = LocateRegistry.getRegistry("127.0.0.1", 1099);
                 
 //                ArbitroTable = (DatabaseInterfaceArbitro)myReg.lookup("DBArbitro");
@@ -46,6 +46,8 @@ public class DatabaseInterfaceFactory {
 //                TorneoEliminazionedirettaTable = (DatabaseInterfaceTorneoEliminazionediretta)myReg.lookup("DBTorneoEliminazionediretta");
 //                TorneoItalianaTable = (DatabaseInterfaceTorneoItaliana)myReg.lookup("DBTorneoItaliana");
 
+
+// TENTATIVO DI FAR FUNZIONARE IL TUTTO ANCHE DA REMOTO MA FUNZIONA SOLO IN UNA RETE LOCALE
                 ArbitroTable = (DatabaseInterfaceArbitro)Naming.lookup("rmi://localhost/DBArbitro");
                 CartellinoTable = (DatabaseInterfaceCartellino)Naming.lookup("rmi://localhost/DBCartellino");
                 GiocatoreTable = (DatabaseInterfaceGiocatore)Naming.lookup("rmi://localhost/DBGiocatore");
