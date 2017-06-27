@@ -14,7 +14,7 @@ public class Goal {
     private Giocatore giocatore;
     
     /**
-     * 
+     * Costruttore
      * @param minuto
      * @param giocatore 
      */
@@ -22,15 +22,21 @@ public class Goal {
         this.minuto = minuto;
         this.giocatore = giocatore;
     }
-    
+    /**
+    ritorna minuto
+     */
     public int getMinuto(){
         return minuto;
     }
-    
+    /**
+    ritorna giocatore
+     */
     public Giocatore getGiocatore(){
         return giocatore;
     }
-    
+    /**
+     converte in testo
+     */
     @Override
     public String toString() {
         return "Goal di "+giocatore.getNome()+" "+giocatore.getCognome()+" ("+giocatore.getNumero()+") al minuto "+minuto;

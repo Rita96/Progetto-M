@@ -11,7 +11,10 @@ import java.net.Socket;
 import java.util.*;
 
 /**
- *
+ * offre una serie di metodi per:
+ * aprire socket
+ * gestire parametri in ingresso/uscita sul socket
+ * chiudere il socket
  * @author giadamarconi
  */
 public class EchoServer {
@@ -24,13 +27,17 @@ public class EchoServer {
     PrintWriter out;
     
     /**
-     * 
+     * Costruttore
      * @param port 
      */
     public EchoServer(int port) {
         this.port = port; 
     }
     
+    /**
+     * crea il socket e stabilisce la connessione con un client a livello trasporto.
+     * @return true se la connessione è avvenuta correttamente, false altrimenti
+     */
     public boolean startServer() {
            try
            {
@@ -47,7 +54,7 @@ public class EchoServer {
            }    
        }
     /**
-     * 
+     * chiude i socket aperti ed informa l'utente
      * @param socket
      * @param in
      * @param out 
@@ -78,7 +85,8 @@ public class EchoServer {
             }
         }
     /**
-     * 
+     * rende fruibili al programma i parametri passati dal client tramite socket.
+     * Si occupa inoltre di dividere il contenuto nei singoli parametri
      * @param line 
      */
     public void splitLine(String line) {
@@ -92,7 +100,9 @@ public class EchoServer {
             }
         }
     /**
-     * 
+     * controlla che il socket sia in esecuzione.
+     * Controlla che la connessione sia ancora instaurata e procede alla chiusura dei socket
+     * nel caso in cui sia riciesta
      * @return
      * @throws IOException 
      */
@@ -119,16 +129,24 @@ public class EchoServer {
         }
     /**
      * 
-     * @return 
+     * @return parametri
      */
     public List<String> getParametri() {
             return parametri;
         } 
-
+    
+    /**
+     * setta il messaggio da inviare al clint
+     * @param messaggio messaggio da inviare
+     */
     public void setMessaggio(String messaggio) {
             this.messaggio = messaggio;
         }
         
+    /**
+     * manda un messaggio al client
+     * @throws IOException 
+     */
     public void mandaMessaggio() throws IOException {
             out = new PrintWriter(socket.getOutputStream());    
             out.println(this.messaggio);

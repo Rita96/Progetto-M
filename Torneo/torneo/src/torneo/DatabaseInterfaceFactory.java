@@ -11,12 +11,12 @@ import java.rmi.registry.Registry;
 import java.rmi.Naming;
 
 /**
- *
+ * 
  * @author nautilus
  */
 public class DatabaseInterfaceFactory {
     
-    //Registry myReg;
+    Registry myReg;
     
     DatabaseInterfaceArbitro ArbitroTable;
     DatabaseInterfaceCartellino CartellinoTable;
@@ -32,9 +32,9 @@ public class DatabaseInterfaceFactory {
     
     public DatabaseInterfaceFactory(){    
         
-        try{    
-                //myReg = LocateRegistry.getRegistry("127.0.0.1", 1099);
-                
+        try{
+//                myReg = LocateRegistry.getRegistry("localhost", 1099);
+//                
 //                ArbitroTable = (DatabaseInterfaceArbitro)myReg.lookup("DBArbitro");
 //                CartellinoTable = (DatabaseInterfaceCartellino)myReg.lookup("DBCartellino");
 //                GiocatoreTable = (DatabaseInterfaceGiocatore)myReg.lookup("DBGiocatore");
@@ -46,8 +46,6 @@ public class DatabaseInterfaceFactory {
 //                TorneoEliminazionedirettaTable = (DatabaseInterfaceTorneoEliminazionediretta)myReg.lookup("DBTorneoEliminazionediretta");
 //                TorneoItalianaTable = (DatabaseInterfaceTorneoItaliana)myReg.lookup("DBTorneoItaliana");
 
-
-// TENTATIVO DI FAR FUNZIONARE IL TUTTO ANCHE DA REMOTO MA FUNZIONA SOLO IN UNA RETE LOCALE
                 ArbitroTable = (DatabaseInterfaceArbitro)Naming.lookup("rmi://localhost/DBArbitro");
                 CartellinoTable = (DatabaseInterfaceCartellino)Naming.lookup("rmi://localhost/DBCartellino");
                 GiocatoreTable = (DatabaseInterfaceGiocatore)Naming.lookup("rmi://localhost/DBGiocatore");

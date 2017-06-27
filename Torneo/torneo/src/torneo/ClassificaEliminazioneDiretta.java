@@ -15,7 +15,7 @@ public class ClassificaEliminazioneDiretta {
     private EliminazioneDiretta torneoElDir;
     
     /**
-     * 
+     * Costruttore
      * @param torneoElDir 
      */
     public ClassificaEliminazioneDiretta(EliminazioneDiretta torneoElDir){

@@ -26,9 +26,10 @@ public class Italiana extends Torneo {
     private Map<Squadra, Integer> SquadraPunteggioRelativo = new HashMap<>();
     private Map<Squadra, Integer> SquadraPartiteGiocate = new HashMap<>();
     private Map<Squadra, Integer> SquadraGoalTotali = new HashMap<>();
+    private EliminazioneDiretta torneo;
     
     /**
-     * 
+     * Costruttore
      * @param nome
      * @param anno
      * @param p
@@ -40,23 +41,23 @@ public class Italiana extends Torneo {
             setItaliana();
         } else {
             Map<String, Integer> squadre = new HashMap<>();
-            try {
-                squadre = Test.q.makeTorneoItalianaTable().getTorneoItaliana(nome, anno);
-            } catch (RemoteException ex) {
-                Logger.getLogger(EliminazioneDiretta.class.getName()).log(Level.SEVERE, null, ex);
-            }
-            for(Map.Entry<String, Integer> entry : squadre.entrySet()){
-                for(Partita pa : p){
-                    if((entry.getKey().equals(pa.getSquadraCasa().getNome()))){
-                        SquadraPunteggioRelativo.put(pa.getSquadraCasa(), entry.getValue());
-                        break;
-                    }
-                    if((entry.getKey().equals(pa.getSquadraOspite().getNome()))){
-                        SquadraPunteggioRelativo.put(pa.getSquadraOspite(), entry.getValue());
-                        break;
-                    }
-                }
-            }
+//            try {
+//                squadre = Test.q.makeTorneoItalianaTable().getTorneoItaliana(nome, anno);
+//            } catch (RemoteException ex) {
+//                Logger.getLogger(EliminazioneDiretta.class.getName()).log(Level.SEVERE, null, ex);
+//            }
+//            for(Map.Entry<String, Integer> entry : squadre.entrySet()){
+//                for(Partita pa : p){
+//                    if((entry.getKey().equals(pa.getSquadraCasa().getNome()))){
+//                        SquadraPunteggioRelativo.put(pa.getSquadraCasa(), entry.getValue());
+//                        break;
+//                    }
+//                    if((entry.getKey().equals(pa.getSquadraOspite().getNome()))){
+//                        SquadraPunteggioRelativo.put(pa.getSquadraOspite(), entry.getValue());
+//                        break;
+//                    }
+//                }
+//            }
         }
     }
     
@@ -69,8 +70,8 @@ public class Italiana extends Torneo {
         }
     }
     /**
-     * 
-     * @param p 
+     * aggiorna la classifica data una partita
+     * @param p partita avvenuta
      */
     public void aggiornaClassifica(Partita p){
         int punteggioCasa = 0, punteggioOspite = 0, partiteGiocateCasa = 0, partiteGiocateOspite = 0, goalCasa = 0, goalOspite = 0;
@@ -120,30 +121,30 @@ public class Italiana extends Torneo {
             break;
         }
         if(esisteCasa){
-            try {
-                Test.q.makeTorneoItalianaTable().updatePuntiTorneoItaliana(p.getSquadraCasa().getNome(), p.getSquadraCasa().getCittaProvenienza(), punteggioCasa, nome, anno, SquadraPunteggioRelativo.get(p.getSquadraCasa()));
-            } catch (RemoteException ex) {
-                Logger.getLogger(Italiana.class.getName()).log(Level.SEVERE, null, ex);
-            }
+//            try {
+//                Test.q.makeTorneoItalianaTable().updatePuntiTorneoItaliana(p.getSquadraCasa().getNome(), p.getSquadraCasa().getCittaProvenienza(), punteggioCasa, nome, anno, SquadraPunteggioRelativo.get(p.getSquadraCasa()));
+//            } catch (RemoteException ex) {
+//                Logger.getLogger(Italiana.class.getName()).log(Level.SEVERE, null, ex);
+//            }
         } else {
-            try {
-                Test.q.makeTorneoItalianaTable().putTorneoItaliana(p.getSquadraCasa().getNome(), p.getSquadraCasa().getCittaProvenienza(), SquadraPunteggioRelativo.get(p.getSquadraCasa()), nome, anno);
-            } catch (RemoteException ex) {
-                Logger.getLogger(Italiana.class.getName()).log(Level.SEVERE, null, ex);
-            }
+//            try {
+//                Test.q.makeTorneoItalianaTable().putTorneoItaliana(p.getSquadraCasa().getNome(), p.getSquadraCasa().getCittaProvenienza(), SquadraPunteggioRelativo.get(p.getSquadraCasa()), nome, anno);
+//            } catch (RemoteException ex) {
+//                Logger.getLogger(Italiana.class.getName()).log(Level.SEVERE, null, ex);
+//            }
         }
         if(esisteOspite){
-            try {
-                Test.q.makeTorneoItalianaTable().updatePuntiTorneoItaliana(p.getSquadraOspite().getNome(), p.getSquadraOspite().getCittaProvenienza(), punteggioOspite, nome, anno, SquadraPunteggioRelativo.get(p.getSquadraOspite()));
-            } catch (RemoteException ex) {
-                Logger.getLogger(Italiana.class.getName()).log(Level.SEVERE, null, ex);
-            }
+//            try {
+//                Test.q.makeTorneoItalianaTable().updatePuntiTorneoItaliana(p.getSquadraOspite().getNome(), p.getSquadraOspite().getCittaProvenienza(), punteggioOspite, nome, anno, SquadraPunteggioRelativo.get(p.getSquadraOspite()));
+//            } catch (RemoteException ex) {
+//                Logger.getLogger(Italiana.class.getName()).log(Level.SEVERE, null, ex);
+//            }
         } else {
-            try {
-                Test.q.makeTorneoItalianaTable().putTorneoItaliana(p.getSquadraOspite().getNome(), p.getSquadraOspite().getCittaProvenienza(), SquadraPunteggioRelativo.get(p.getSquadraOspite()), nome, anno);
-            } catch (RemoteException ex) {
-                Logger.getLogger(Italiana.class.getName()).log(Level.SEVERE, null, ex);
-            }
+//            try {
+//                Test.q.makeTorneoItalianaTable().putTorneoItaliana(p.getSquadraOspite().getNome(), p.getSquadraOspite().getCittaProvenienza(), SquadraPunteggioRelativo.get(p.getSquadraOspite()), nome, anno);
+//            } catch (RemoteException ex) {
+//                Logger.getLogger(Italiana.class.getName()).log(Level.SEVERE, null, ex);
+//            }
         }
     }
     
@@ -293,7 +294,8 @@ public class Italiana extends Torneo {
                 j++;
                 k++;
             }
-            return new EliminazioneDiretta(nome, anno, p, true);
+            torneo = new EliminazioneDiretta(nome, anno, p, true);
+            return torneo;
         }
         return null;
     }

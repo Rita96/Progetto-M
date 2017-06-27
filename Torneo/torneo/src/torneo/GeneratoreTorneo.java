@@ -29,7 +29,7 @@ public class GeneratoreTorneo extends Utente {
     private List<Giocatore> giocatori = new ArrayList<>();
     
     /**
-     * 
+     * Costruttore
      * @param nome
      * @param cognome
      * @param cf username organizzatore del torneo
@@ -41,21 +41,38 @@ public class GeneratoreTorneo extends Utente {
         this.password = password;
     }
     
+    /**
+     * 
+     * @return autenticazione
+     */
     public Autenticazione getAutenticazione() {
         return autenticazione;
     }
     
+    /**
+     * 
+     * @return tornei
+     */
     public List<Torneo> getTorneiCreati() {
         return tornei;
     }
-
+    
+    /**
+     * 
+     * @return codice fiscale organizzatore
+     */
     public String getCf() {
         return cf;
     }
-
+    
+    /**
+     * 
+     * @return password organizzatore
+     */
     public String getPassword() {
         return password;
     }
+    
     /**
      * metodo di login per l'organizzatore del torneo
      * @param cf username
@@ -80,6 +97,7 @@ public class GeneratoreTorneo extends Utente {
             return e.getMessage();
         }
     }
+    
     /**
      * metodo logout dell'organizzatore
      * @param cf
@@ -95,6 +113,7 @@ public class GeneratoreTorneo extends Utente {
         }
         return null;
     }
+    
     /**
      * metodo per creare un nuovo torneo a eliminazione diretta
      * @param nomeTorneo
@@ -141,6 +160,7 @@ public class GeneratoreTorneo extends Utente {
             System.out.println("Mi dispiace, non è possibile creare un torneo ad eliminazione diretta, serve che il numero delle squadre sia una potenza di due");
         }
     }
+    
     /**
      * metodo per creare un nuovo torneo all'italiana.
      * @param nomeTorneo 
@@ -175,6 +195,10 @@ public class GeneratoreTorneo extends Utente {
         tornei.add(torneo);
     }
     
+    /**
+     * rimuove un torneo
+     * @param t torneo da rimuovere
+     */
     public void RimuoviTorneo(Torneo t) {
         tornei.remove(t);
     }

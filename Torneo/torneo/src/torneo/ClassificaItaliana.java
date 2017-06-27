@@ -15,7 +15,7 @@ public class ClassificaItaliana {
     private Italiana torneoItaliana;
     
     /**
-     * 
+     * Costruttore
      * @param torneoItaliana 
      */
     public ClassificaItaliana(Italiana torneoItaliana){

@@ -21,7 +21,7 @@ public class Torneo {
     private List<Arbitro> arbitri = new ArrayList<>();
     
     /**
-     * 
+     * Costruttore
      * @param nome
      * @param anno
      * @param p partite che compongono il torneo
@@ -32,30 +32,49 @@ public class Torneo {
         this.anno = anno;
         this.partite.addAll(p);
         if(putInDatabase){
-            try {
-                Test.q.makeTorneoTable().putTorneo(nome, anno);
-            } catch (RemoteException ex) {
-                Logger.getLogger(Giocatore.class.getName()).log(Level.SEVERE, null, ex);
-            }
+//            try {
+//                Test.q.makeTorneoTable().putTorneo(nome, anno);
+//            } catch (RemoteException ex) {
+//                Logger.getLogger(Giocatore.class.getName()).log(Level.SEVERE, null, ex);
+//            }
         }
     }
-       
+    
+    /**
+     * 
+     * @return partite del torneo
+     */
     public List<Partita> getPartite(){
         return partite;
     }
     
+    /**
+     * 
+     * @return arbitri del torneo
+     */
     public List<Arbitro> getArbitri() {
         return arbitri;
     }
     
+     /**
+     * permette di aggiungere partite
+     */
     public void aggiungiPartita(Partita p){
         this.partite.add(p);
     }
     
+    /**
+     * 
+     * @return nome del torneo
+     */
     public String getNome() {
         return nome;
     }
     
+    /**
+     * 
+     * @return anno del torneo
+     */
     public Integer getAnno() {
         return anno;
     }

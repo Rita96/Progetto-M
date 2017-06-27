@@ -13,7 +13,7 @@ public class Giocatore extends Utente{
     private int numero;
 
     /**
-     * 
+     * Costruttore
      * @param nome
      * @param cognome
      * @param numero 
@@ -22,10 +22,15 @@ public class Giocatore extends Utente{
         super(nome, cognome);
         this.numero = numero;
     }
+    /**
+    ritorna numero 
+     */
     public int getNumero(){
         return numero;
     }
-
+    /**
+    converte in testo 
+     */
     @Override
     public String toString() {
         return this.getNome()+" "+this.getCognome()+" "+numero+"\n";

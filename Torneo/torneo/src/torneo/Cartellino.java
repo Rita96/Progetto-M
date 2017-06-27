@@ -18,7 +18,7 @@ public class Cartellino {
     private int minuto;
     
     /**
-     * 
+     * Costruttore
      * @param colore
      * @param giocatore
      * @param minuto
@@ -34,13 +34,17 @@ public class Cartellino {
             case ROSSO: descrizione = "Giocatore espulso";        
         }
     }
-    
+    /** 
+     * ritorna giocatore
+     */
     public Giocatore getGiocatore() {
         return giocatore;
     }
-    
+    /** 
+     * traduce in testo
+     */
     @Override
     public String toString() {
-        return "Cartellino "+colore;
+        return "Cartellino "+colore+" al minuto "+minuto;
     }
 }
