@@ -16,7 +16,8 @@ import java.util.ArrayList;
 import torneo.Arbitro;
 
 /**
- *
+ * Questa classe rappresenta ciò che verrà messo a disposizione nel registro per agire 
+ * sulla tabella ARBITRO del database
  * @author nautilus
  */
 public class ManagerArbitro extends UnicastRemoteObject implements DatabaseInterfaceArbitro {
@@ -24,11 +25,25 @@ public class ManagerArbitro extends UnicastRemoteObject implements DatabaseInter
     private static String query;       //where the query is written
     private static ResultSet resSet;    //object needed to execute queries, and where the result of queries will be
     private static ResultSetMetaData rsmd;  //object needed mainly to know the number of columns given by a certain query
-        
+    
+    /**
+     * Crea un nuovo oggetto ManagerArbitro dal qaule sarà possibile effettuare 
+     * la chiamata da remoto dei metodi da esso contenuti
+     * @throws RemoteException 
+     */
     public ManagerArbitro() throws RemoteException{
         
     }
     
+    /**
+     * Inserisce una tupla nella tabella ARBITRO contenente come valori
+     * i parametri in ingresso al metodo 
+     * @param codiceFiscale
+     * @param nomeArbitro
+     * @param cognomeArbitro
+     * @param password
+     * @throws RemoteException 
+     */
     @Override
     public void putArbitro(String codiceFiscale, String nomeArbitro, String cognomeArbitro, String password) throws RemoteException {
         try{
@@ -41,6 +56,12 @@ public class ManagerArbitro extends UnicastRemoteObject implements DatabaseInter
         } 
     }
     
+    /**
+     * Aggiorna il codice fiscale di una arbitro dove:
+     * @param codiceFiscale è parte di chiave
+     * @param nuovoCf contiene il nuovo codice fiscale
+     * @throws RemoteException 
+     */
     @Override
     public void updateCfArbitro(String codiceFiscale, String nuovoCf) throws RemoteException {
         try{
@@ -53,7 +74,13 @@ public class ManagerArbitro extends UnicastRemoteObject implements DatabaseInter
             System.out.println("ERROR:" + ex);
         } 
     }
-
+    
+    /**
+     * Aggiorna il nome di una arbitro dove:
+     * @param codiceFiscale è parte di chiave
+     * @param nuovoNome contiene il nuovo nome
+     * @throws RemoteException 
+     */
     @Override
     public void updateNomeArbitro(String codiceFiscale, String nuovoNome) throws RemoteException {
         try{
@@ -66,7 +93,13 @@ public class ManagerArbitro extends UnicastRemoteObject implements DatabaseInter
             System.out.println("ERROR:" + ex);
         } 
     }
-
+    
+    /**
+     * Aggiorna il cognome di una arbitro dove:
+     * @param codiceFiscale è parte di chiave
+     * @param nuovoCognome contiene il nuovo cognome
+     * @throws RemoteException 
+     */
     @Override
     public void updateCognomeArbitro(String codiceFiscale, String nuovoCognome) throws RemoteException {
         try{
@@ -79,7 +112,13 @@ public class ManagerArbitro extends UnicastRemoteObject implements DatabaseInter
             System.out.println("ERROR:" + ex);
         } 
     }
-
+    
+    /**
+     * Aggiorna lo username di un arbitro dove:
+     * @param codiceFiscale è parte di chiave
+     * @param nuovoUsername contiene il nuovo username
+     * @throws RemoteException 
+     */
     @Override
     public void updateUsernameArbitro(String codiceFiscale, String nuovoUsername) throws RemoteException {
         try{
@@ -92,7 +131,13 @@ public class ManagerArbitro extends UnicastRemoteObject implements DatabaseInter
             System.out.println("ERROR:" + ex);
         } 
     }
-
+    
+    /**
+     * Aggiorna la pasword di un arbitro dove:
+     * @param codiceFiscale è parte di chiave
+     * @param nuovaPassword  contiene la nuova password
+     * @throws RemoteException 
+     */
     @Override
     public void updatePasswordArbitro(String codiceFiscale, String nuovaPassword) throws RemoteException {
         try{
@@ -105,7 +150,12 @@ public class ManagerArbitro extends UnicastRemoteObject implements DatabaseInter
             System.out.println("ERROR:" + ex);
         }
     }
-
+    
+    /**
+     * Restituisce tutti gli arbitri
+     * @return
+     * @throws RemoteException 
+     */
     @Override
     public ArrayList<Arbitro> getArbitro() throws RemoteException {
         ArrayList<Arbitro> arbitro = new ArrayList<>();
@@ -126,6 +176,11 @@ public class ManagerArbitro extends UnicastRemoteObject implements DatabaseInter
         return arbitro;
     }
     
+    /**
+     * Elimina una tupla in ARBITRO dove i seguenti parametri sono parte di chiave:
+     * @param arbitro
+     * @throws RemoteException 
+     */
     @Override
     public void deleteArbitro(Arbitro arbitro) throws RemoteException {
         try{

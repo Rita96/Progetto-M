@@ -13,20 +13,11 @@ import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import torneo.Arbitro;
-import torneo.Cartellino;
-import torneo.ColoreCartellino;
-import torneo.EliminazioneDiretta;
-import torneo.Giocatore;
-import torneo.Goal;
-import torneo.Italiana;
-import torneo.Partita;
-import torneo.Squadra;
-import torneo.StatoPartita;
-import torneo.Torneo;
+import torneo.*;
 
 /**
- *
+ * Questa classe rappresenta ciò che verrà messo a disposizione nel registro per agire 
+ * sulla tabella TORNEO del database
  * @author nautilus
  */
 public class ManagerTorneo extends UnicastRemoteObject implements DatabaseInterfaceTorneo{
@@ -36,13 +27,21 @@ public class ManagerTorneo extends UnicastRemoteObject implements DatabaseInterf
     private static ResultSetMetaData rsmd;  //object needed mainly to know the number of columns given by a certain query
         
     /**
-     *
-     * @throws RemoteException
+     * Crea un nuovo oggetto ManagerTorneo dal qaule sarà possibile effettuare 
+     * la chiamata da remoto dei metodi da esso contenuti
+     * @throws RemoteException 
      */
     public ManagerTorneo() throws RemoteException {
             
     }
-
+    
+    /**
+     * Inserisce una tupla nella tabella TORNEO contenente come valori
+     * i parametri in ingresso al metodo 
+     * @param nome
+     * @param annoTorneo
+     * @throws RemoteException 
+     */
     @Override
     public void putTorneo(String nome, int annoTorneo) throws RemoteException {
         try{
@@ -54,7 +53,14 @@ public class ManagerTorneo extends UnicastRemoteObject implements DatabaseInterf
             System.out.println("ERROR:" + ex);
         }
     }
-
+    
+    /**
+     * Aggiorna il nome del torneo in una tupla dove:
+     * @param nome è parte di chiave
+     * @param annoTorneo è parte di chiave
+     * @param nuovoNome contiene il nuovo nome
+     * @throws RemoteException 
+     */
     @Override
     public void updateNomeTorneo(String nome, int annoTorneo, String nuovoNome) throws RemoteException {
         try{
@@ -67,7 +73,14 @@ public class ManagerTorneo extends UnicastRemoteObject implements DatabaseInterf
             System.out.println("ERROR:" + ex);
         } 
     }
-
+    
+    /**
+     * Aggiorna l'anno del torneo in una tupla dove:
+     * @param nome è parte di chiave
+     * @param annoTorneo è parte di chiave
+     * @param nuovoAnno contiene il nuovo anno
+     * @throws RemoteException 
+     */
     @Override
     public void updateAnnoTorneo(String nome, int annoTorneo, int nuovoAnno) throws RemoteException {
         try{
@@ -80,7 +93,25 @@ public class ManagerTorneo extends UnicastRemoteObject implements DatabaseInterf
             System.out.println("ERROR:" + ex);
         } 
     }
+//    @Override
+//    public ArrayList<Torneo>getTorneo() throws RemoteException{
+//        //ArrayList<Torneo> torneoed = getTorneoEliminazionediretta();
+//        ArrayList<Torneo> torneoit = getTorneoItaliana();
+//        ArrayList<Torneo> torneo = new ArrayList<>();
+//        
+//        //torneo.addAll(torneoed);
+//        torneo.addAll( torneoit);
+//        
+//        return torneo;
+//    }
     
+    /**
+     * Restituisce tutti i goal fatti in un torneo
+     * @param nomeTorneo
+     * @param annoTorneo
+     * @return
+     * @throws RemoteException 
+     */
     @Override
     public ArrayList<Goal> getGoalTorneo(String nomeTorneo, int annoTorneo) throws RemoteException {
         ArrayList<Goal> goal = new ArrayList<>();
@@ -104,6 +135,13 @@ public class ManagerTorneo extends UnicastRemoteObject implements DatabaseInterf
         return goal;    
     }
     
+    /**
+     * Restituisce tutti i cartellini ricevuti in un torneo
+     * @param nomeTorneo
+     * @param annoTorneo
+     * @return
+     * @throws RemoteException 
+     */
     public ArrayList<Cartellino> getCartellinoTorneo(String nomeTorneo, int annoTorneo) throws RemoteException {
         ArrayList<Cartellino> cartellino = new ArrayList<>();
         
@@ -126,6 +164,12 @@ public class ManagerTorneo extends UnicastRemoteObject implements DatabaseInterf
         return cartellino;
     }
     
+    /**
+     * Elimina una tupla in TORNEO dove i seguenti parametri sono parte di chiave:
+     * @param nome
+     * @param annoTorneo
+     * @throws RemoteException 
+     */
     @Override
     public void deleteTorneo(String nome, int annoTorneo) throws RemoteException {
         try{
@@ -137,9 +181,8 @@ public class ManagerTorneo extends UnicastRemoteObject implements DatabaseInterf
             System.out.println("ERROR:" + ex);
         } 
     }
-    
-//CODICE INUTILE DOPO LE ULTIME MODIFICHE, RIMANE SOLO NEL CASO SI CAMBI IDEA ALLA FINE
-    
+
+// CODICE ATTUALMENTE INUTILE
 //    private ArrayList<Giocatore> getGiocatoreSquadra(String nomeSquadra, String cittaSquadra) throws RemoteException {
 //        ArrayList<Giocatore> giocatore = new ArrayList<>();
 //        
@@ -193,4 +236,125 @@ public class ManagerTorneo extends UnicastRemoteObject implements DatabaseInterf
 //        } 
 //        return arbitro;
 //    }
+//    
+//    //NON È UGUALE AL METODO CHE C'È IN ManagerTorneoEliminazionediretta
+//    private ArrayList<Torneo> getTorneoEliminazionediretta() throws RemoteException {
+//         ArrayList<Torneo> torneo = new ArrayList<>();
+//        
+//        try{
+//            query = "SELECT * FROM TORNEO_ELIMINAZIONEDIRETTA;";
+//            PreparedStatement statement = DatabaseConnection.connection.prepareStatement(query);
+//            resSet = statement.executeQuery();
+//           
+//            while(resSet.next()){
+//                Torneo addTorneo = new EliminazioneDiretta(resSet.getString("NOMETORNEO"), resSet.getInt("ANNOTORNEO"), getPartitaTorneoEliminazionediretta(resSet.getString("NOMETORNEO"), resSet.getInt("ANNOTORNEO")), false);
+//                torneo.add(addTorneo);
+//                resSet.next();
+//            }
+//        }catch(SQLException ex){
+//            System.out.println("ERROR:" + ex);
+//        } 
+//        return torneo;    
+//    }
+//    
+//    //NON È UGUALE AL METODO CHE C'È IN ManagerTorneoEliminazionediretta
+//    private ArrayList<Partita> getPartitaTorneoEliminazionediretta(String nomeTorneo, int annoTorneo) throws RemoteException {
+//        ArrayList<Squadra> squadra = getSquadra();
+//        ArrayList<Partita> partita = new ArrayList<>();
+//        Squadra squadraCasa = null;
+//        Squadra squadraOspite = null;
+//        
+//        try{
+//            query = "SELECT * FROM PARTITA\n "
+//                    + "WHERE NOMETORNEO = '" + nomeTorneo + "' AND ANNOTORNEO = '" + annoTorneo + "' ;";
+//            PreparedStatement statement = DatabaseConnection.connection.prepareStatement(query);
+//            resSet = statement.executeQuery();
+//           
+//            while(resSet.next()){
+//                int i = 0;
+//                boolean squadraCasaFound = false, squadraOspiteFound = false;
+//                
+//                while(!squadraCasaFound || !squadraOspiteFound){
+//                    Squadra squadraConfronto = squadra.get(i);
+//                    if(squadraConfronto.getNome().equals(resSet.getString("NOMESQUADRACASA"))){
+//                        squadraCasa = squadraConfronto;
+//                        squadraCasaFound = true;
+//                    }
+//                    if(squadraConfronto.getNome().equals(resSet.getString("NOMESQUADRAOSPITE"))){
+//                        squadraOspite = squadraConfronto;
+//                        squadraOspiteFound = true;
+//                    }
+//                    i++;
+//                }
+//                Partita addPartita = new PartitaEliminazioneDiretta(resSet.getInt("IDPARTITA"), squadraCasa, squadraOspite, getArbitroPartita(resSet.getInt("IDPARTITA")), resSet.getString("CITTAPARTITA"), StatoPartita.valueOf(resSet.getString("STATOPARTITA")), nomeTorneo, annoTorneo, false);
+//                partita.add(addPartita);
+//                resSet.next();
+//            }
+//        }catch(SQLException ex){
+//            System.out.println("ERROR:" + ex);
+//        } 
+//        
+//        return partita;
+//    }
+//    
+//     //NON È UGUALE AL METODO CHE C'È IN ManagerTorneoItaliana
+//    private ArrayList<Torneo> getTorneoItaliana() throws RemoteException {
+//         ArrayList<Torneo> torneo = new ArrayList<>();
+//        
+//        try{
+//            query = "SELECT * FROM TORNEO_ELIMINAZIONEDIRETTA;";
+//            PreparedStatement statement = DatabaseConnection.connection.prepareStatement(query);
+//            resSet = statement.executeQuery();
+//           
+//            while(resSet.next()){
+//                Torneo addTorneo = new Italiana(resSet.getString("NOMETORNEO"), resSet.getInt("ANNOTORNEO"), getPartitaTorneoEliminazionediretta(resSet.getString("NOMETORNEO"), resSet.getInt("ANNOTORNEO")), false);
+//                torneo.add(addTorneo);
+//                resSet.next();
+//            }
+//        }catch(SQLException ex){
+//            System.out.println("ERROR:" + ex);
+//        } 
+//        return torneo;    
+//    }
+//    
+//    //NON È UGUALE AL METODO CHE C'È IN ManagerTorneoItaliana
+//    private ArrayList<Partita> getPartitaItaliana(String nomeTorneo, int annoTorneo) throws RemoteException {
+//        ArrayList<Squadra> squadra = getSquadra();
+//        ArrayList<Partita> partita = new ArrayList<>();
+//        Squadra squadraCasa = null;
+//        Squadra squadraOspite = null;
+//        
+//        try{
+//            query = "SELECT * FROM PARTITA\n "
+//                    + "WHERE NOMETORNEO = '" + nomeTorneo + "' AND ANNOTORNEO = '" + annoTorneo + "' ;";
+//            PreparedStatement statement = DatabaseConnection.connection.prepareStatement(query);
+//            resSet = statement.executeQuery();
+//           
+//            while(resSet.next()){
+//                int i = 0;
+//                boolean squadraCasaFound = false, squadraOspiteFound = false;
+//                
+//                while(!squadraCasaFound || !squadraOspiteFound){
+//                    Squadra squadraConfronto = squadra.get(i);
+//                    if(squadraConfronto.getNome().equals(resSet.getString("NOMESQUADRACASA"))){
+//                        squadraCasa = squadraConfronto;
+//                        squadraCasaFound = true;
+//                    }
+//                    if(squadraConfronto.getNome().equals(resSet.getString("NOMESQUADRAOSPITE"))){
+//                        squadraOspite = squadraConfronto;
+//                        squadraOspiteFound = true;
+//                    }
+//                    i++;
+//                }
+//                Partita addPartita = new PartitaItaliana(resSet.getInt("IDPARTITA"), squadraCasa, squadraOspite, getArbitroPartita(resSet.getInt("IDPARTITA")), resSet.getString("CITTAPARTITA"), StatoPartita.valueOf(resSet.getString("STATOPARTITA")), nomeTorneo, annoTorneo, false);
+//                partita.add(addPartita);
+//                resSet.next();
+//            }
+//        }catch(SQLException ex){
+//            System.out.println("ERROR:" + ex);
+//        } 
+//        
+//        return partita;
+//    }
+    
 }

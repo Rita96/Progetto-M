@@ -17,7 +17,8 @@ import torneo.Giocatore;
 import torneo.Squadra;
 
 /**
- *
+ * Questa classe rappresenta ciò che verrà messo a disposizione nel registro per agire 
+ * sulla tabella SQUADRA del database
  * @author nautilus
  */
 public class ManagerSquadra extends UnicastRemoteObject implements DatabaseInterfaceSquadra{
@@ -26,10 +27,22 @@ public class ManagerSquadra extends UnicastRemoteObject implements DatabaseInter
     private static ResultSet resSet;    //object needed to execute queries, and where the result of queries will be
     private static ResultSetMetaData rsmd;  //object needed mainly to know the number of columns given by a certain query
         
+    /**
+     * Crea un nuovo oggetto ManagerSquadra dal qaule sarà possibile effettuare 
+     * la chiamata da remoto dei metodi da esso contenuti
+     * @throws RemoteException 
+     */
     public ManagerSquadra() throws RemoteException {
             
     }
-
+    
+    /**
+     * Inserisce una tupla nella tabella SUQADRA contenente come valori
+     * i parametri in ingresso al metodo 
+     * @param nomeSquadra
+     * @param cittaSquadra
+     * @throws RemoteException 
+     */
     @Override
     public void putSquadra(String nomeSquadra, String cittaSquadra) throws RemoteException {
         try{
@@ -41,7 +54,15 @@ public class ManagerSquadra extends UnicastRemoteObject implements DatabaseInter
             System.out.println("ERROR:" + ex);
         } 
     }
-
+    
+    /**
+     * Inserisce una tupla nella tabella SUQADRA contenente come valori
+     * i parametri in ingresso al metodo 
+     * @param nomeSquadra
+     * @param cittaSquadra
+     * @param coloreSquadra
+     * @throws RemoteException 
+     */
     @Override
     public void putSquadra(String nomeSquadra, String cittaSquadra, String coloreSquadra) throws RemoteException {
         try{
@@ -53,7 +74,14 @@ public class ManagerSquadra extends UnicastRemoteObject implements DatabaseInter
             System.out.println("ERROR:" + ex);
         } 
     }
-
+    
+    /**
+     * Aggiorna il nome di una squadra dove:
+     * @param nomeSquadra è parte di chiave
+     * @param cittaSquadra è parte di chiave
+     * @param nuovoNome contiene il nuovo nome
+     * @throws RemoteException 
+     */
     @Override
     public void updateNomeSquadra(String nomeSquadra, String cittaSquadra, String nuovoNome) throws RemoteException {
         try{
@@ -66,7 +94,14 @@ public class ManagerSquadra extends UnicastRemoteObject implements DatabaseInter
             System.out.println("ERROR:" + ex);
         }
     }
-
+    
+    /**
+     * Aggiorna la città di una squadra dove:
+     * @param nomeSquadra è parte di chiave
+     * @param cittaSquadra è parte di chiave
+     * @param nuovaCitta contiene la nuova città
+     * @throws RemoteException 
+     */
     @Override
     public void updateCittaSquadra(String nomeSquadra, String cittaSquadra, String nuovaCitta) throws RemoteException {
         try{
@@ -79,7 +114,14 @@ public class ManagerSquadra extends UnicastRemoteObject implements DatabaseInter
             System.out.println("ERROR:" + ex);
         }
     }
-
+    
+    /**
+     * Aggiorna il nome di una squadra dove:
+     * @param nomeSquadra è parte di chiave
+     * @param cittaSquadra è parte di chiave
+     * @param nuovoColore contiene il nuovo colore
+     * @throws RemoteException 
+     */
     @Override
     public void updateColoreSquadra(String nomeSquadra, String cittaSquadra, String nuovoColore) throws RemoteException {
         try{
@@ -93,6 +135,13 @@ public class ManagerSquadra extends UnicastRemoteObject implements DatabaseInter
         }
     }
     
+    /**
+     * Restituisce tutti i giocatori militanti in una squadra
+     * @param nomeSquadra
+     * @param cittaSquadra
+     * @return
+     * @throws RemoteException 
+     */
     @Override
     public ArrayList<Giocatore> getGiocatoreSquadra(String nomeSquadra, String cittaSquadra) throws RemoteException {
         ArrayList<Giocatore> giocatore = new ArrayList<>();
@@ -113,7 +162,12 @@ public class ManagerSquadra extends UnicastRemoteObject implements DatabaseInter
         } 
         return giocatore;
     }
-
+    
+    /**
+     * Restituisce tutte le squadre
+     * @return
+     * @throws RemoteException 
+     */
     @Override
     public ArrayList<Squadra> getSquadra() throws RemoteException {
         ArrayList<Squadra> squadra = new ArrayList<>();
@@ -133,7 +187,13 @@ public class ManagerSquadra extends UnicastRemoteObject implements DatabaseInter
         } 
         return squadra;
     }
-
+    
+    /**
+     * Elimina una tupla in SQUADRA dove i seguenti parametri sono parte di chiave:
+     * @param nomeSquadra
+     * @param cittaSquadra
+     * @throws RemoteException 
+     */
     @Override
     public void deleteSquadra(String nomeSquadra, String cittaSquadra) throws RemoteException {
         try{

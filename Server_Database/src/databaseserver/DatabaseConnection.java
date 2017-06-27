@@ -8,7 +8,7 @@ package databaseserver;
 import java.sql.*; 
 
 /**
- *
+ * Questa classe rappresenta la connessione con il database
  * @author nautilus
  */
 public class DatabaseConnection {
@@ -16,6 +16,11 @@ public class DatabaseConnection {
     protected static Connection connection;
     protected static Statement statement;
     
+    /**
+     * Viene creato un oggetto dal quale si può accedere al database
+     * @param username  username per accedere al database
+     * @param password  password associata allo username per accedere al database
+     */
     public DatabaseConnection(String username, String password){
         try{
             Class.forName("com.mysql.jdbc.Driver");

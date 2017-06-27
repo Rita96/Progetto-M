@@ -24,7 +24,8 @@ import torneo.Squadra;
 import torneo.StatoPartita;
 
 /**
- *
+ * Questa classe rappresenta ciò che verrà messo a disposizione nel registro per agire 
+ * sulla tabella TORNEO_ITALIANA del database
  * @author nautilus
  */
 public class ManagerTorneoItaliana extends UnicastRemoteObject implements DatabaseInterfaceTorneoItaliana{
@@ -33,10 +34,25 @@ public class ManagerTorneoItaliana extends UnicastRemoteObject implements Databa
         private static ResultSet resSet;    //object needed to execute queries, and where the result of queries will be
         private static ResultSetMetaData rsmd;  //object needed mainly to know the number of columns given by a certain query
         
+        /**
+     * Crea un nuovo oggetto ManagerTorneoItaliana dal qaule sarà possibile effettuare 
+     * la chiamata da remoto dei metodi da esso contenuti
+     * @throws RemoteException 
+     */
         public ManagerTorneoItaliana() throws RemoteException {
             
         }
         
+        /**
+         * Inserisce una tupla nella tabella TORNEO_ITALIANA contenente come valori
+         * i parametri in ingresso al metodo
+         * @param nomeSquadra
+         * @param cittaSquadra
+         * @param punti
+         * @param nomeTorneo
+         * @param annoTorneo
+         * @throws RemoteException 
+         */
         @Override
         public void putTorneoItaliana(String nomeSquadra, String cittaSquadra, int punti, String nomeTorneo, int annoTorneo) throws RemoteException {
             try{
@@ -49,6 +65,16 @@ public class ManagerTorneoItaliana extends UnicastRemoteObject implements Databa
             } 
         }
         
+        /**
+         * Aggiorna i punti in una tupla dove:
+         * @param nomeSquadra è parte di chiave
+         * @param cittaSquadra è parte di chiave
+         * @param punti è parte di chiave
+         * @param nomeTorneo è parte di chiave
+         * @param annoTorneo è parte di chiave
+         * @param nuoviPunti contiene i nuovi punti
+         * @throws RemoteException 
+         */
         @Override
         public void updatePuntiTorneoItaliana(String nomeSquadra, String cittaSquadra, int punti, String nomeTorneo, int annoTorneo, int nuoviPunti) throws RemoteException {
             try{
@@ -61,7 +87,17 @@ public class ManagerTorneoItaliana extends UnicastRemoteObject implements Databa
                 System.out.println("ERROR:" + ex);
             }
         }
-
+        
+        /**
+         * Aggiorna il nome del torneo in una tupla dove:
+         * @param nomeSquadra è parte di chiave
+         * @param cittaSquadra è parte di chiave
+         * @param punti è parte di chiave
+         * @param nomeTorneo è parte di chiave
+         * @param annoTorneo è parte di chiave
+         * @param nuovoNome contiene il nuovo nome
+         * @throws RemoteException 
+         */
         @Override
         public void updateNomeTorneoItaliana(String nomeSquadra, String cittaSquadra, int punti, String nomeTorneo, int annoTorneo, String nuovoNome) throws RemoteException {
             try{
@@ -74,7 +110,17 @@ public class ManagerTorneoItaliana extends UnicastRemoteObject implements Databa
                 System.out.println("ERROR:" + ex);
             }
         }
-
+        
+        /**
+         * Aggiorna l'anno del torneo in una tupla dove:
+         * @param nomeSquadra è parte di chiave
+         * @param cittaSquadra è parte di chiave
+         * @param punti è parte di chiave
+         * @param nomeTorneo è parte di chiave
+         * @param annoTorneo è parte di chiave
+         * @param nuovoAnno contiene il nuovo anno
+         * @throws RemoteException 
+         */
         @Override
         public void updateAnnoTorneoItaliana(String nomeSquadra, String cittaSquadra, int punti, String nomeTorneo, int annoTorneo, int nuovoAnno) throws RemoteException {
             try{
@@ -87,7 +133,17 @@ public class ManagerTorneoItaliana extends UnicastRemoteObject implements Databa
                 System.out.println("ERROR:" + ex);
             }
         }
-
+        
+        /**
+         * Aggiorna il nome di una squadra nel torneo in una tupla dove:
+         * @param nomeSquadra è parte di chiave
+         * @param cittaSquadra è parte di chiave
+         * @param punti è parte di chiave
+         * @param nomeTorneo è parte di chiave
+         * @param annoTorneo è parte di chiave
+         * @param nuovoNomeSquadra contiene il nuovo nome
+         * @throws RemoteException 
+         */
         @Override
         public void updateNomeSquadraTorneoItaliana(String nomeSquadra, String cittaSquadra, int punti, String nomeTorneo, int annoTorneo, String nuovoNomeSquadra) throws RemoteException {
             try{
@@ -100,7 +156,17 @@ public class ManagerTorneoItaliana extends UnicastRemoteObject implements Databa
                 System.out.println("ERROR:" + ex);
             }
         }
-
+        
+        /**
+         * Aggiorna la città di una squadra nel torneo in una tupla dove:
+         * @param nomeSquadra è parte di chiave
+         * @param cittaSquadra è parte di chiave
+         * @param punti è parte di chiave
+         * @param nomeTorneo è parte di chiave
+         * @param annoTorneo è parte di chiave
+         * @param nuovaCittaSquadra contiene la nuova città
+         * @throws RemoteException 
+         */
         @Override
         public void updateCittaSquadraTorneoItaliana(String nomeSquadra, String cittaSquadra, int punti, String nomeTorneo, int annoTorneo, String nuovaCittaSquadra) throws RemoteException {
             try{
@@ -114,6 +180,13 @@ public class ManagerTorneoItaliana extends UnicastRemoteObject implements Databa
             }
         }
         
+        /**
+         * Restituisce tutte le partite di un torneo all'italiana
+         * @param nomeTorneo
+         * @param annoTorneo
+         * @return
+         * @throws RemoteException 
+         */
         @Override
         public ArrayList<PartitaItaliana> getPartitaTorneoItaliana(String nomeTorneo, int annoTorneo) throws RemoteException {
             ArrayList<Squadra> squadra = getSquadra();
@@ -154,6 +227,13 @@ public class ManagerTorneoItaliana extends UnicastRemoteObject implements Databa
             return partita;
         }
         
+        /**
+         * Restituisce tutti i tornei all'italiana
+         * @param nomeTorneo
+         * @param annoTorneo
+         * @return
+         * @throws RemoteException 
+         */
         @Override
         public Map<String,Integer> getTorneoItaliana(String nomeTorneo, int annoTorneo) throws RemoteException {
             Map<String, Integer> SquadraPunteggioRelativo = new HashMap<>();
@@ -174,6 +254,15 @@ public class ManagerTorneoItaliana extends UnicastRemoteObject implements Databa
             return SquadraPunteggioRelativo;    
         }
         
+        /**
+         * Elimina una tupla in TORNEO_ITALIANA dove i seguenti parametri sono parte di chiave:
+         * @param nomeSquadra
+         * @param cittaSquadra
+         * @param punti
+         * @param nomeTorneo
+         * @param annoTorneo
+         * @throws RemoteException 
+         */
         @Override
         public void deleteTorneoItaliana(String nomeSquadra, String cittaSquadra, int punti, String nomeTorneo, int annoTorneo) throws RemoteException {
             try{
@@ -185,7 +274,7 @@ public class ManagerTorneoItaliana extends UnicastRemoteObject implements Databa
                 System.out.println("ERROR:" + ex);
             } 
         }
-        
+
         private ArrayList<Giocatore> getGiocatoreSquadra(String nomeSquadra, String cittaSquadra) throws RemoteException {
             ArrayList<Giocatore> giocatore = new ArrayList<>();
 

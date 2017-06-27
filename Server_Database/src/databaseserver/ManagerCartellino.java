@@ -17,7 +17,8 @@ import torneo.Giocatore;
 import torneo.Partita;
 
 /**
- *
+ * Questa classe rappresenta ciò che verrà messo a disposizione nel registro per agire 
+ * sulla tabella CARTELLINO del database
  * @author nautilus
  */
 public class ManagerCartellino extends UnicastRemoteObject implements DatabaseInterfaceCartellino{
@@ -26,10 +27,28 @@ public class ManagerCartellino extends UnicastRemoteObject implements DatabaseIn
     private static ResultSet resSet;    //object needed to execute queries, and where the result of queries will be
     private static ResultSetMetaData rsmd;  //object needed mainly to know the number of columns given by a certain query
     
+    /**
+     * Crea un nuovo oggetto ManagerCartellino dal qaule sarà possibile effettuare 
+     * la chiamata da remoto dei metodi da esso contenuti
+     * @throws RemoteException 
+     */
     public ManagerCartellino() throws RemoteException{
         
     }
     
+    /**
+     * Inserisce una tupla nella tabella CARTELLINO contenente come valori
+     * i parametri in ingresso al metodo 
+     * @param idPartita
+     * @param colore
+     * @param minuto
+     * @param numeroGiocatore
+     * @param nomeSquadra
+     * @param cittaSquadra
+     * @param nomeTorneo
+     * @param annoTorneo
+     * @throws RemoteException 
+     */
     @Override
     public void putCartellino(int idPartita, String colore, int minuto, int numeroGiocatore, String nomeSquadra, String cittaSquadra, String nomeTorneo, int annoTorneo) throws RemoteException {
         try{
@@ -42,6 +61,19 @@ public class ManagerCartellino extends UnicastRemoteObject implements DatabaseIn
         } 
     }
     
+    /**
+     * Aggiorna l'ID della partita di un cartellino dove:
+     * @param idPartita è parte di chiave
+     * @param colore è parte di chiave
+     * @param minuto è parte di chiave
+     * @param numeroGiocatore è parte di chiave
+     * @param nomeSquadra è parte di chiave
+     * @param cittaSquadra è parte di chiave
+     * @param nomeTorneo è parte di chiave
+     * @param annoTorneo è parte di chiave
+     * @param nuovoIdPartita contiene il nuovo ID
+     * @throws RemoteException 
+     */
     @Override
     public void updateIdPartitaCartellino(int idPartita, String colore, int minuto, int numeroGiocatore, String nomeSquadra, String cittaSquadra, String nomeTorneo, int annoTorneo, int nuovoIdPartita) throws RemoteException {
         try{
@@ -54,7 +86,20 @@ public class ManagerCartellino extends UnicastRemoteObject implements DatabaseIn
             System.out.println("ERROR:" + ex);
         } 
     }
-
+    
+    /**
+     * Aggiorna il colore di un cartellino dove:
+     * @param idPartita è parte di chiave
+     * @param colore è parte di chiave
+     * @param minuto è parte di chiave
+     * @param numeroGiocatore è parte di chiave
+     * @param nomeSquadra è parte di chiave
+     * @param cittaSquadra è parte di chiave
+     * @param nomeTorneo è parte di chiave
+     * @param annoTorneo è parte di chiave
+     * @param nuovoColore contiene il nuovo colore
+     * @throws RemoteException 
+     */
     @Override
     public void updateColoreCartellino(int idPartita, String colore, int minuto, int numeroGiocatore, String nomeSquadra, String cittaSquadra, String nomeTorneo, int annoTorneo, String nuovoColore) throws RemoteException {
         try{
@@ -67,7 +112,20 @@ public class ManagerCartellino extends UnicastRemoteObject implements DatabaseIn
             System.out.println("ERROR:" + ex);
         }  
     }
-
+    
+    /**
+     * Aggiorna il minuto di un cartellino dove:
+     * @param idPartita è parte di chiave
+     * @param colore è parte di chiave
+     * @param minuto è parte di chiave
+     * @param numeroGiocatore è parte di chiave
+     * @param nomeSquadra è parte di chiave
+     * @param cittaSquadra è parte di chiave
+     * @param nomeTorneo è parte di chiave
+     * @param annoTorneo è parte di chiave
+     * @param nuovoMinuto contiene il nuovo minuto
+     * @throws RemoteException 
+     */
     @Override
     public void updateMinutoCartellino(int idPartita, String colore, int minuto, int numeroGiocatore, String nomeSquadra, String cittaSquadra, String nomeTorneo, int annoTorneo, int nuovoMinuto) throws RemoteException {
         try{
@@ -80,7 +138,20 @@ public class ManagerCartellino extends UnicastRemoteObject implements DatabaseIn
             System.out.println("ERROR:" + ex);
         } 
     }
-
+    
+    /**
+     * Aggiorna il numero del giocatore di un cartellino dove:
+     * @param idPartita è parte di chiave
+     * @param colore è parte di chiave
+     * @param minuto è parte di chiave
+     * @param numeroGiocatore è parte di chiave
+     * @param nomeSquadra è parte di chiave
+     * @param cittaSquadra è parte di chiave
+     * @param nomeTorneo è parte di chiave
+     * @param annoTorneo è parte di chiave
+     * @param nuovoNumeroGiocatore contiene il nuovo numero
+     * @throws RemoteException 
+     */
     @Override
     public void updateNumeroGiocatoreCartellino(int idPartita, String colore, int minuto, int numeroGiocatore, String nomeSquadra, String cittaSquadra, String nomeTorneo, int annoTorneo, int nuovoNumeroGiocatore) throws RemoteException {
         try{
@@ -93,7 +164,20 @@ public class ManagerCartellino extends UnicastRemoteObject implements DatabaseIn
             System.out.println("ERROR:" + ex);
         } 
     }
-
+    
+    /**
+     * Aggiorna il nome della squadra di un cartellino dove:
+     * @param idPartita è parte di chiave
+     * @param colore è parte di chiave
+     * @param minuto è parte di chiave
+     * @param numeroGiocatore è parte di chiave
+     * @param nomeSquadra è parte di chiave
+     * @param cittaSquadra è parte di chiave
+     * @param nomeTorneo è parte di chiave
+     * @param annoTorneo è parte di chiave
+     * @param nuovoNomeSquadra contiene il nuovo nome
+     * @throws RemoteException 
+     */
     @Override
     public void updateNomeSquadraCartellino(int idPartita, String colore, int minuto, int numeroGiocatore, String nomeSquadra, String cittaSquadra, String nomeTorneo, int annoTorneo, String nuovoNomeSquadra) throws RemoteException {
         try{
@@ -106,7 +190,20 @@ public class ManagerCartellino extends UnicastRemoteObject implements DatabaseIn
             System.out.println("ERROR:" + ex);
         } 
     }
-
+    
+    /**
+     * Aggiorna la città della squadra di un cartellino dove:
+     * @param idPartita è parte di chiave
+     * @param colore è parte di chiave
+     * @param minuto è parte di chiave
+     * @param numeroGiocatore è parte di chiave
+     * @param nomeSquadra è parte di chiave
+     * @param cittaSquadra è parte di chiave
+     * @param nomeTorneo è parte di chiave
+     * @param annoTorneo è parte di chiave
+     * @param nuovaCittaSquadra contiene la nuova città
+     * @throws RemoteException 
+     */
     @Override
     public void updateCittaSquadraCartellino(int idPartita, String colore, int minuto, int numeroGiocatore, String nomeSquadra, String cittaSquadra, String nomeTorneo, int annoTorneo, String nuovaCittaSquadra) throws RemoteException {
         try{
@@ -119,7 +216,20 @@ public class ManagerCartellino extends UnicastRemoteObject implements DatabaseIn
             System.out.println("ERROR:" + ex);
         } 
     }
-
+    
+    /**
+     * Aggiorna il nome del torneo di un cartellino dove:
+     * @param idPartita è parte di chiave
+     * @param colore è parte di chiave
+     * @param minuto è parte di chiave
+     * @param numeroGiocatore è parte di chiave
+     * @param nomeSquadra è parte di chiave
+     * @param cittaSquadra è parte di chiave
+     * @param nomeTorneo è parte di chiave
+     * @param annoTorneo è parte di chiave
+     * @param nuovoNomeTorneo contiene il nuovo nome
+     * @throws RemoteException 
+     */
     @Override
     public void updateNomeTorneoCartellino(int idPartita, String colore, int minuto, int numeroGiocatore, String nomeSquadra, String cittaSquadra, String nomeTorneo, int annoTorneo, String nuovoNomeTorneo) throws RemoteException {
         try{
@@ -132,7 +242,20 @@ public class ManagerCartellino extends UnicastRemoteObject implements DatabaseIn
             System.out.println("ERROR:" + ex);
         } 
     }
-
+    
+    /**
+     * Aggiorna l'anno del torneo di un cartellino dove:
+     * @param idPartita è parte di chiave
+     * @param colore è parte di chiave
+     * @param minuto è parte di chiave
+     * @param numeroGiocatore è parte di chiave
+     * @param nomeSquadra è parte di chiave
+     * @param cittaSquadra è parte di chiave
+     * @param nomeTorneo è parte di chiave
+     * @param annoTorneo è parte di chiave
+     * @param nuovoAnnoTorneo contiene il nuovo anno
+     * @throws RemoteException 
+     */
     @Override
     public void updateAnnoTorneoCartellino(int idPartita, String colore, int minuto, int numeroGiocatore, String nomeSquadra, String cittaSquadra, String nomeTorneo, int annoTorneo, int nuovoAnnoTorneo) throws RemoteException {
         try{
@@ -146,6 +269,11 @@ public class ManagerCartellino extends UnicastRemoteObject implements DatabaseIn
         } 
     }
     
+    /**
+     * Restituisce tutti i cartellini
+     * @return
+     * @throws RemoteException 
+     */
     @Override
     public ArrayList<Cartellino> getCartellino() throws RemoteException {
         ArrayList<Cartellino> cartellino = new ArrayList<>();
@@ -167,6 +295,18 @@ public class ManagerCartellino extends UnicastRemoteObject implements DatabaseIn
         return cartellino;
     }
     
+    /**
+     * Elimina un tupla in CARTELLINO dove i seguenti parametri sono parte di chiave:
+     * @param idPartita
+     * @param colore
+     * @param minuto
+     * @param numeroGiocatore
+     * @param nomeSquadra
+     * @param cittaSquadra
+     * @param nomeTorneo
+     * @param annoTorneo
+     * @throws RemoteException 
+     */
     @Override
     public void deleteCartellino(int idPartita, String colore, int minuto, int numeroGiocatore, String nomeSquadra, String cittaSquadra, String nomeTorneo, int annoTorneo) throws RemoteException {
         try{

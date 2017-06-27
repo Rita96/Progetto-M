@@ -24,7 +24,8 @@ import torneo.Squadra;
 import torneo.StatoPartita;
 
 /**
- *
+ * Questa classe rappresenta ciò che verrà messo a disposizione nel registro per agire 
+ * sulla tabella TORNEO_ELIMINAZIONEDIRETTA del database
  * @author nautilus
  */
 public class ManagerTorneoEliminazionediretta extends UnicastRemoteObject implements DatabaseInterfaceTorneoEliminazionediretta{
@@ -33,10 +34,25 @@ public class ManagerTorneoEliminazionediretta extends UnicastRemoteObject implem
         private static ResultSet resSet;    //object needed to execute queries, and where the result of queries will be
         private static ResultSetMetaData rsmd;  //object needed mainly to know the number of columns given by a certain query
         
+        /**
+     * Crea un nuovo oggetto ManagerTorneoEliminazionediretta dal qaule sarà possibile effettuare 
+     * la chiamata da remoto dei metodi da esso contenuti
+     * @throws RemoteException 
+     */
         public ManagerTorneoEliminazionediretta() throws RemoteException {
             
         }
         
+        /**
+         * Inserisce una tupla nella tabella TORNEO_ELIMINAZIONEDIRETTA contenente come valori
+         * i parametri in ingresso al metodo
+         * @param nomeSquadra
+         * @param cittaSquadra
+         * @param faseTorneo
+         * @param nomeTorneo
+         * @param annoTorneo
+         * @throws RemoteException 
+         */
         @Override
         public void putTorneoEliminazionediretta(String nomeSquadra, String cittaSquadra, int faseTorneo, String nomeTorneo, int annoTorneo) throws RemoteException {
             try{
@@ -49,6 +65,17 @@ public class ManagerTorneoEliminazionediretta extends UnicastRemoteObject implem
             } 
         }
         
+        /**
+         * Inserisce una tupla nella tabella TORNEO_ELIMINAZIONEDIRETTA contenente come valori
+         * i parametri in ingresso al metodo 
+         * @param nomeSquadra
+         * @param cittaSquadra
+         * @param faseTorneo
+         * @param passaggioFase
+         * @param nomeTorneo
+         * @param annoTorneo
+         * @throws RemoteException 
+         */
         @Override
         public void putTorneoEliminazionediretta(String nomeSquadra, String cittaSquadra, int faseTorneo, int passaggioFase, String nomeTorneo, int annoTorneo) throws RemoteException {
             try{
@@ -61,11 +88,21 @@ public class ManagerTorneoEliminazionediretta extends UnicastRemoteObject implem
             } 
         }
         
+        /**
+         * Aggiorna la fase in una tupla dove:
+         * @param nomeSquadra è parte di chiave
+         * @param cittaSquadra è parte di chiave
+         * @param faseTorneo è parte di chiave
+         * @param nomeTorneo è parte di chiave
+         * @param annoTorneo è parte di chiave
+         * @param nuoviPunti contiene la nuova fase
+         * @throws RemoteException 
+         */
         @Override
-        public void updateFaseTorneoTorneoEliminazionediretta(String nomeSquadra, String cittaSquadra, int faseTorneo, String nomeTorneo, int annoTorneo, int nuoviPunti) throws RemoteException {
+        public void updateFaseTorneoTorneoEliminazionediretta(String nomeSquadra, String cittaSquadra, int faseTorneo, String nomeTorneo, int annoTorneo, int nuovaFase) throws RemoteException {
             try{
                 query= "UPDATE TORNEO_ELIMINAZIONEDIRETTA\n "
-                        + "SET FASETORNEO = '" + nuoviPunti + "'\n "
+                        + "SET FASETORNEO = '" + nuovaFase + "'\n "
                         + "WHERE NOMESQUADRA = '" + nomeSquadra + "' AND CITTASQUADRA = '" + cittaSquadra + "' AND FASETORNEO = '" + faseTorneo + "' AND NOMETORNEO = '" + nomeTorneo + "' AND ANNOTORNEO = '" + annoTorneo + "' ;";
                 PreparedStatement posted = DatabaseConnection.connection.prepareStatement(query);
                 posted.executeUpdate(query);
@@ -73,7 +110,17 @@ public class ManagerTorneoEliminazionediretta extends UnicastRemoteObject implem
                 System.out.println("ERROR:" + ex);
             }
         }
-
+        
+        /**
+         * Aggiorna il nome del torneo in una tupla dove:
+         * @param nomeSquadra è parte di chiave
+         * @param cittaSquadra è parte di chiave
+         * @param faseTorneo è parte di chiave
+         * @param nomeTorneo è parte di chiave
+         * @param annoTorneo è parte di chiave
+         * @param nuovoNome contiene il nuovo nome
+         * @throws RemoteException 
+         */
         @Override
         public void updateNomeTorneoEliminazionediretta(String nomeSquadra, String cittaSquadra, int faseTorneo, String nomeTorneo, int annoTorneo, String nuovoNome) throws RemoteException {
             try{
@@ -86,7 +133,17 @@ public class ManagerTorneoEliminazionediretta extends UnicastRemoteObject implem
                 System.out.println("ERROR:" + ex);
             }
         }
-
+        
+        /**
+         * Aggiorna l'anno di un torneo in una tupla dove:
+         * @param nomeSquadra è parte di chiave
+         * @param cittaSquadra è parte di chiave
+         * @param faseTorneo è parte di chiave
+         * @param nomeTorneo è parte di chiave
+         * @param annoTorneo è parte di chiave
+         * @param nuovoAnno contiene il nuovo anno
+         * @throws RemoteException 
+         */
         @Override
         public void updateAnnoTorneoEliminazionediretta(String nomeSquadra, String cittaSquadra, int faseTorneo, String nomeTorneo, int annoTorneo, int nuovoAnno) throws RemoteException {
             try{
@@ -99,7 +156,17 @@ public class ManagerTorneoEliminazionediretta extends UnicastRemoteObject implem
                 System.out.println("ERROR:" + ex);
             }
         }
-
+        
+        /**
+         * Aggiorna il nome di una squadra nel torneo in una tupla dove:
+         * @param nomeSquadra è parte di chiave
+         * @param cittaSquadra è parte di chiave
+         * @param faseTorneo è parte di chiave
+         * @param nomeTorneo è parte di chiave
+         * @param annoTorneo è parte di chiave
+         * @param nuovoNomeSquadra contiene il nuovo nome
+         * @throws RemoteException 
+         */
         @Override
         public void updateNomeSquadraTorneoEliminazionediretta(String nomeSquadra, String cittaSquadra, int faseTorneo, String nomeTorneo, int annoTorneo, String nuovoNomeSquadra) throws RemoteException {
             try{
@@ -112,7 +179,17 @@ public class ManagerTorneoEliminazionediretta extends UnicastRemoteObject implem
                 System.out.println("ERROR:" + ex);
             }
         }
-
+        
+        /**
+         * Aggiorna la città di una squadra nel torneo in una tupla dove:
+         * @param nomeSquadra è parte di chiave
+         * @param cittaSquadra è parte di chiave
+         * @param faseTorneo è parte di chiave
+         * @param nomeTorneo è parte di chiave
+         * @param annoTorneo è parte di chiave
+         * @param nuovaCittaSquadra contiene la nuova città
+         * @throws RemoteException 
+         */
         @Override
         public void updateCittaSquadraTorneoEliminazionediretta(String nomeSquadra, String cittaSquadra, int faseTorneo, String nomeTorneo, int annoTorneo, String nuovaCittaSquadra) throws RemoteException {
             try{
@@ -126,6 +203,16 @@ public class ManagerTorneoEliminazionediretta extends UnicastRemoteObject implem
             }
         }
         
+        /**
+         * Aggiorna il passaggio di fase di una squadra nel torneo in una tupla dove:
+         * @param nomeSquadra è parte di chiave
+         * @param cittaSquadra è parte di chiave
+         * @param faseTorneo è parte di chiave
+         * @param nomeTorneo è parte di chiave
+         * @param annoTorneo è parte di chiave
+         * @param nuovoPassaggioFase contiene il nuovo passaggio di fase
+         * @throws RemoteException 
+         */
         @Override
         public void updatePassaggioFaseTorneoEliminazionediretta(String nomeSquadra, String cittaSquadra, int faseTorneo, String nomeTorneo, int annoTorneo, int nuovoPassaggioFase) throws RemoteException {
             try{
@@ -139,6 +226,13 @@ public class ManagerTorneoEliminazionediretta extends UnicastRemoteObject implem
             }
         }
         
+        /**
+         * Restituisce tutte le partite ad eliminazione diretta
+         * @param nomeTorneo
+         * @param annoTorneo
+         * @return
+         * @throws RemoteException 
+         */
         @Override
         public ArrayList<PartitaEliminazioneDiretta> getPartitaTorneoEliminazionediretta(String nomeTorneo, int annoTorneo) throws RemoteException {
             ArrayList<Squadra> squadra = getSquadra();
@@ -179,6 +273,13 @@ public class ManagerTorneoEliminazionediretta extends UnicastRemoteObject implem
             return partita;
         }
         
+        /**
+         * Restituisce tutti i tornei ad eliminazione diretta
+         * @param nomeTorneo
+         * @param annoTorneo
+         * @return
+         * @throws RemoteException 
+         */
         @Override
         public ArrayList<String> getTorneoEliminazionediretta(String nomeTorneo, int annoTorneo) throws RemoteException {
             ArrayList<String> squadreNelTorneo = new ArrayList<>();
@@ -188,7 +289,6 @@ public class ManagerTorneoEliminazionediretta extends UnicastRemoteObject implem
                         + "WHERE NOMETORNEO = '" + nomeTorneo + "' AND ANNOTORNEO = '" + annoTorneo + "' ;";
                 PreparedStatement statement = DatabaseConnection.connection.prepareStatement(query);
                 resSet = statement.executeQuery();
-                Squadra s = null;
                 while(resSet.next()){
                     squadreNelTorneo.add(resSet.getString("NOMESQUADRA"));
                     resSet.next();
@@ -199,6 +299,15 @@ public class ManagerTorneoEliminazionediretta extends UnicastRemoteObject implem
             return squadreNelTorneo;  
         }
         
+        /**
+         * elimina una tupla in TORNEO_ELIMINAZIONEDIRETTA dove i seguenti parametri sono parte di chiave:
+         * @param nomeSquadra
+         * @param cittaSquadra
+         * @param faseTorneo
+         * @param nomeTorneo
+         * @param annoTorneo
+         * @throws RemoteException 
+         */
         @Override
         public void deleteTorneoEliminazionediretta(String nomeSquadra, String cittaSquadra, int faseTorneo, String nomeTorneo, int annoTorneo) throws RemoteException {
             try{
