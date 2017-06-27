@@ -49,6 +49,9 @@ public class ClassificaGUI extends JFrame {
     private JButton backbutton;
     private JButton refreshbutton;
     
+    /**
+     * @param torneo Torneo selezionato
+     */
     public ClassificaGUI(Torneo torneo) {
         this.torneo = torneo;
         if( torneo instanceof EliminazioneDiretta ) {
@@ -59,9 +62,11 @@ public class ClassificaGUI extends JFrame {
         setTitle("CLASSIFICA DEL TORNEO "+torneo.getNome());
         initComponents();
     }
-
-    private void initComponents() {
-        
+    
+    /**
+     * Creazione degli elementi presenti nel frame
+     */
+    public void CreazioneElementi() {
         label = new JLabel("Classifica del torneo");
         backbutton = new JButton("Indietro");
         refreshbutton = new JButton("Aggiorna");
@@ -85,10 +90,35 @@ public class ClassificaGUI extends JFrame {
             scrollpane = new JScrollPane(area);
             scrollpane.setVisible(true);
         }
-        panelarea = new JPanel();
+        
         panelbottone = new JPanel();
         panelbottone.setLayout(new GridLayout(1, 2, 0, 0));
         panelbottone.setBorder(BorderFactory.createEmptyBorder(0, 100, 10, 100));
+    }
+    
+    /**
+     * Inserimento dei vari elementi negli appositi panels 
+     */
+    public void InserimentoElementi() {
+        panellabel.add(label);
+        panelarea.add(scrollpane);
+        panelbottone.add(refreshbutton, BorderLayout.EAST);
+        panelbottone.add(backbutton, BorderLayout.WEST);
+    }
+    
+    /**
+     * Posizionamento dei panels nel frame 
+     */
+    public void PosizionamentoPanels() {
+        add(panellabel, BorderLayout.NORTH);
+        add(panelarea, BorderLayout.CENTER);
+        add(panelbottone, BorderLayout.SOUTH);
+        pack();
+    }
+
+    private void initComponents() {
+        
+        CreazioneElementi();
         
         //---------------------------------------------------------------------------
         
@@ -103,14 +133,7 @@ public class ClassificaGUI extends JFrame {
         
         //-----------------------------------------------------------------------------
         
-        panellabel.add(label);
-        panelarea.add(scrollpane);
-        panelbottone.add(refreshbutton, BorderLayout.EAST);
-        panelbottone.add(backbutton, BorderLayout.WEST);
-        add(panellabel, BorderLayout.NORTH);
-        add(panelarea, BorderLayout.CENTER);
-        add(panelbottone, BorderLayout.SOUTH);
-        pack();
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        InserimentoElementi();
+        PosizionamentoPanels();
     }
 }

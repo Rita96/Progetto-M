@@ -34,6 +34,7 @@ import torneo.EliminazioneDiretta;
 import torneo.GeneratoreTorneo;
 import torneo.Italiana;
 import torneo.Partita;
+import torneo.PartitaItaliana;
 import torneo.Squadra;
 import torneo.Torneo;
 
@@ -44,8 +45,6 @@ import torneo.Torneo;
 public class CercaPartiteGUI extends JFrame {
     
     private Torneo torneo;
-    private Italiana torneo1;
-    private EliminazioneDiretta torneo2;
     private GeneratoreTorneo gentorneo;
     private List<Arbitro> arbitri;
     private List<Squadra> squadre;
@@ -62,6 +61,12 @@ public class CercaPartiteGUI extends JFrame {
     private JList list;
     private JScrollPane listscrollpane;
     
+    /**
+     * @param torneo Torneo selezionato
+     * @param gentorneo Organizzatore dei tornei
+     * @param squadre Squadre partecipanti al torneo
+     * @param arbitri Lista degli arbitri registrati nel database
+     */
     public CercaPartiteGUI(Torneo torneo, GeneratoreTorneo gentorneo, List<Squadra> squadre, List<Arbitro> arbitri) {
         this.torneo = torneo;
         this.gentorneo = gentorneo;
@@ -70,18 +75,21 @@ public class CercaPartiteGUI extends JFrame {
         this.setTitle("PARTITE TORNEO "+torneo.getNome());
         initComponents();
     }
-
-    private void initComponents() {
+    
+    /**
+     * Creazione degli elementi presenti nel frame
+     */
+    public void CreazioneElementi() {
+        cerca = new JButton("Cerca Classifica");
+        indietro = new JButton("Indietro");
+        misto = new JButton("Misto");
+        
         panelcampi = new JPanel();
         panelcampi.setLayout(new GridLayout(2, 1, 2, 2));
         panelcampi.setBorder(BorderFactory.createEmptyBorder(10, 100, 0, 100));
         panelbottoni = new JPanel();
         panelbottoni.setLayout(new GridLayout(1, 2, 2, 2));
         panelbottoni.setBorder(BorderFactory.createEmptyBorder(0, 100, 10, 100));
-        
-        cerca = new JButton("Cerca Classifica");
-        indietro = new JButton("Indietro");
-        misto = new JButton("Misto");
         
         labelNOME = new JLabel("Torneo:");
         fieldNOME = new JTextField();
@@ -125,17 +133,51 @@ public class CercaPartiteGUI extends JFrame {
             listscrollpane.setVisible(true);
             listscrollpane.setBorder(BorderFactory.createEmptyBorder(0, 100, 0, 100));
         }
+    }
+    
+    /**
+     * Inserimento dei vari elementi negli appositi panels 
+     */
+    public void InserimentoElementi() {
+        panelcampi.add(labelNOME, BorderLayout.WEST);
+        panelcampi.add(fieldNOME, BorderLayout.EAST);
+        panelcampi.add(labelTIPOLOGIA, BorderLayout.WEST);
+        panelcampi.add(fieldTIPOLOGIA, BorderLayout.EAST);
+        
+        panelbottoni.add(cerca, BorderLayout.EAST);
+        panelbottoni.add(misto, BorderLayout.WEST);
+        panelbottoni.add(indietro, BorderLayout.WEST);
+    }
+    
+    /**
+     * Posizionamento dei panels nel frame 
+     */
+    public void PosizionamentoPanels() {
+        add(panelcampi, BorderLayout.NORTH);
+        add(listscrollpane, BorderLayout.CENTER);
+        add(panelbottoni, BorderLayout.SOUTH);
+        pack();
+    }
+
+    private void initComponents() {
+        
+        CreazioneElementi();
         
         //------------------------------------------------------------------------
         
         MouseListener m = new MouseAdapter() {
+            
+            /**
+             * 
+             * @param e 
+             */
             @Override
             public void mouseClicked(MouseEvent e) {
                 JList theList = (JList) e.getSource();
                 if (e.getClickCount() == 2) {
                     int index = theList.locationToIndex(e.getPoint());
                     JFrame modificarisGUI = new ModificaRisultatiGUI(torneo.getPartite().get(index), torneo, squadre, arbitri, gentorneo);
-                    modificarisGUI.setSize(1000, 655);
+                    modificarisGUI.setSize(1000, 675);
                     modificarisGUI.setLocation(400, 250);
                     modificarisGUI.setVisible(true);
                 }
@@ -163,6 +205,11 @@ public class CercaPartiteGUI extends JFrame {
         //------------------------------------------------------------------------
         
         ActionListener al = new ActionListener() {
+            
+            /**
+             * 
+             * @param e 
+             */
             @Override
             public void actionPerformed(ActionEvent e) {
                 setVisible(false);
@@ -174,10 +221,15 @@ public class CercaPartiteGUI extends JFrame {
         //------------------------------------------------------------------------
         
         ActionListener cercalistener = new ActionListener() {
+            
+            /**
+             * 
+             * @param e 
+             */
             @Override
             public void actionPerformed(ActionEvent e) {
                 JFrame classificagui = new ClassificaGUI(torneo);
-                classificagui.setSize(1000, 655);
+                classificagui.setSize(1000, 675);
                 classificagui.setLocation(400, 250);
                 classificagui.setVisible(true);
             }
@@ -188,17 +240,22 @@ public class CercaPartiteGUI extends JFrame {
         //------------------------------------------------------------------------
         
         ActionListener mistolistener = new ActionListener() {
+            
+            /**
+             * 
+             * @param e 
+             */
             @Override
             public void actionPerformed(ActionEvent e) {
                  if(torneo instanceof Italiana) {
-                    Italiana ita = new Italiana(torneo.getNome(), torneo.getAnno(), torneo.getPartite(), false);
-                    ita.setItaliana();
-                    torneo1 = ita;
-                    torneo2 = ita.misto();
-                    for(int i=0; i<torneo2.getPartite().size(); i++) {
-                        torneo2.getPartite().get(i).ModificaTipo("eliminazione diretta");
+                    ((Italiana)torneo).setItaliana();
+                    Torneo torneo2 = ((Italiana)torneo).misto(); // eliminazione diretta
+                    if(torneo2 == null){
+                         JOptionPane.showMessageDialog(null, "Il torneo deve essere terminato", "Attenzione!", JOptionPane.ERROR_MESSAGE);
+                         return;
                     }
                     for(Partita p : torneo2.getPartite()){
+                        p.ModificaTipo("ELIMINAZIONE DIRETTA");
                         torneo.aggiungiPartita(p);
                     }
                     DefaultListModel NUOVOmodeltornei = new DefaultListModel();
@@ -207,7 +264,7 @@ public class CercaPartiteGUI extends JFrame {
                     }
                     list.setModel(NUOVOmodeltornei);
                   
-                } else{
+                } else if(torneo instanceof EliminazioneDiretta) {
                     JOptionPane.showMessageDialog(null, "E' possibile creare un torneo misto solo da un torneo all'italiana", "Attenzione!", JOptionPane.ERROR_MESSAGE);
                 }
             }
@@ -217,16 +274,8 @@ public class CercaPartiteGUI extends JFrame {
         
         //------------------------------------------------------------------------
         
+        InserimentoElementi();
+        PosizionamentoPanels();
         
-        panelcampi.add(labelNOME, BorderLayout.WEST);
-        panelcampi.add(fieldNOME, BorderLayout.EAST);
-        panelcampi.add(labelTIPOLOGIA, BorderLayout.WEST);
-        panelcampi.add(fieldTIPOLOGIA, BorderLayout.EAST);
-        panelbottoni.add(cerca, BorderLayout.EAST);
-        panelbottoni.add(indietro, BorderLayout.WEST);
-        panelbottoni.add(misto, BorderLayout.WEST);
-        add(panelcampi, BorderLayout.NORTH);
-        add(listscrollpane, BorderLayout.CENTER);
-        add(panelbottoni, BorderLayout.SOUTH);
     }
 }

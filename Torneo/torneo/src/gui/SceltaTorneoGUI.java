@@ -16,7 +16,6 @@ import java.awt.event.MouseListener;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.BorderFactory;
-import javax.swing.Box;
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -28,9 +27,9 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
 import torneo.Arbitro;
+import torneo.Autenticazione;
 import torneo.GeneratoreTorneo;
 import torneo.Giocatore;
-import torneo.Goal;
 import torneo.Partita;
 import torneo.Squadra;
 import torneo.Torneo;
@@ -69,6 +68,10 @@ public class SceltaTorneoGUI extends JFrame {
     private JButton generasquadra;
     private JButton chiudibutton;
     
+    /**
+     * @param tornei Lista di tutti i tornei registrati o creati
+     * @param gentorneo Organizzatore dei tornei
+     */
     public SceltaTorneoGUI(List<Torneo> tornei, GeneratoreTorneo gentorneo) {
         this.gentorneo = gentorneo;
         this.tornei = tornei;
@@ -96,9 +99,11 @@ public class SceltaTorneoGUI extends JFrame {
         }
         initComponents();
     }
-
-    private void initComponents() {
-        
+    
+    /**
+     * Creazione degli elementi presenti nel frame
+     */
+    public void CreazioneElementi() {
         identificazionearbitro = new JButton("Identificazione arbitro");
         generatorneo = new JButton("Genera torneo");
         aggiorna = new JButton("Aggiorna liste");
@@ -130,19 +135,62 @@ public class SceltaTorneoGUI extends JFrame {
             listmodelTORNEICREATI.addElement(t.toString());
         }
         listTORNEICREATI = new JList(listmodelTORNEICREATI);
+        listTORNEICREATI.setSelectionBackground(Color.YELLOW);
         scrollpaneTORNEICREATI = new JScrollPane(listTORNEICREATI);
         scrollpaneTORNEICREATI.setBorder(BorderFactory.createTitledBorder("TORNEI CREATI DALL'ORGANIZZATORE - ELIMINABILI"));
         scrollpaneTORNEICREATI.setVisible(true);
+    }
+    
+    /**
+     * Inserimento dei vari elementi negli appositi panels 
+     */
+    public void InserimentoElementi() {
+        panelLIST.add(scrollpaneTORNEI, BorderLayout.WEST);
+        panelLIST.add(scrollpaneTORNEICREATI, BorderLayout.EAST);
+        panelBOTTONI.add(identificazionearbitro, BorderLayout.EAST);
+        panelBOTTONI.add(aggiorna, BorderLayout.CENTER);
+        panelBOTTONI.add(eliminatorneo, BorderLayout.CENTER);
+        panelBOTTONI.add(generatorneo, BorderLayout.WEST);
+        panelBOTTONI.add(generaarbitro, BorderLayout.WEST);
+        panelBOTTONI.add(generagiocatore, BorderLayout.CENTER);
+        panelBOTTONI.add(generasquadra, BorderLayout.CENTER);
+        panelBOTTONI.add(chiudibutton, BorderLayout.EAST);
+    }
+    
+    /**
+     * Posizionamento dei panels nel frame 
+     */
+    public void PosizionamentoPanels() {
+        add(panelLIST, BorderLayout.CENTER);
+        add(panelBOTTONI, BorderLayout.SOUTH);
+        pack();
+        setVisible(true);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    }
+
+    private void initComponents() {
+        
+        CreazioneElementi();
         
         //--------------------------------------------------------------------------
         
         ActionListener IDlistener = new ActionListener() {
+            
+            /**
+             * 
+             * @param e 
+             */
             @Override
             public void actionPerformed(ActionEvent e) {
-                JFrame arbitrogui = new ArbitroGUI(arbitri);
-                arbitrogui.setSize(1000, 655);
-                arbitrogui.setLocation(400, 250);
-                arbitrogui.setVisible(true);
+                System.out.println(arbitri.size());
+                if( !(arbitri.size() == 0) ) {
+                    JFrame arbitrogui = new ArbitroGUI(arbitri);
+                    arbitrogui.setSize(1000, 300);
+                    arbitrogui.setLocation(400, 425);
+                    arbitrogui.setVisible(true);
+                } else if( arbitri.size() == 0 ) {
+                    JOptionPane.showMessageDialog(null, "NESSUN ARBITRO PRESENTE!", "Attenzione", JOptionPane.INFORMATION_MESSAGE);
+                }
             }
             
         };
@@ -150,13 +198,18 @@ public class SceltaTorneoGUI extends JFrame {
         
         //---------------------------------------------------------------------------
         MouseListener Partitelistener = new MouseAdapter() {
+            
+            /**
+             * 
+             * @param e 
+             */
             @Override
             public void mouseClicked(MouseEvent e) {
                 if( e.getClickCount() == 2 ) {
                     int index = listTORNEI.getSelectedIndex();
                     Torneo t = tornei.get(index);
                     JFrame cercapartitegui = new CercaPartiteGUI(t, gentorneo, squadre, arbitri);
-                    cercapartitegui.setSize(1000, 655);
+                    cercapartitegui.setSize(1000, 675);
                     cercapartitegui.setLocation(400, 250);
                     cercapartitegui.setVisible(true);
                 }
@@ -166,13 +219,18 @@ public class SceltaTorneoGUI extends JFrame {
         
         //---------------------------------------------------------------------------
         MouseListener Partitelistener2 = new MouseAdapter() {
+            
+            /**
+             * 
+             * @param e 
+             */
             @Override
             public void mouseClicked(MouseEvent e) {
                 if( e.getClickCount() == 2 ) {
                     int index = listTORNEICREATI.getSelectedIndex();
                     Torneo t = gentorneo.getTorneiCreati().get(index);
                     JFrame cercapartitegui = new CercaPartiteGUI(t, gentorneo, squadre, arbitri);
-                    cercapartitegui.setSize(1000, 655);
+                    cercapartitegui.setSize(1000, 675);
                     cercapartitegui.setLocation(400, 250);
                     cercapartitegui.setVisible(true);
                 }
@@ -183,10 +241,15 @@ public class SceltaTorneoGUI extends JFrame {
         //---------------------------------------------------------------------------
         
         ActionListener GENERATORNEOlistener = new ActionListener() {
+            
+            /**
+             * 
+             * @param e 
+             */
             @Override
             public void actionPerformed(ActionEvent e) {
                 JFrame gentorneogui = new GeneratoreTorneoGUI(gentorneo, squadre, arbitri);
-                gentorneogui.setSize(1000, 655);
+                gentorneogui.setSize(1000, 675);
                 gentorneogui.setLocation(400, 250);
                 gentorneogui.setVisible(true);
             }
@@ -196,6 +259,11 @@ public class SceltaTorneoGUI extends JFrame {
         //---------------------------------------------------------------------------
         
         ActionListener AGGIORNAlistener = new ActionListener() {
+            
+            /**
+             * 
+             * @param e 
+             */
             @Override
             public void actionPerformed(ActionEvent e) {
                 DefaultListModel NUOVOmodeltornei = new DefaultListModel();
@@ -216,10 +284,15 @@ public class SceltaTorneoGUI extends JFrame {
         //---------------------------------------------------------------------------
         
         ActionListener ELIMINAlistener = new ActionListener() {
+            
+            /**
+             * 
+             * @param e 
+             */
             @Override
             public void actionPerformed(ActionEvent e) {
                 if( listTORNEICREATI.isSelectionEmpty() == true && listmodelTORNEICREATI.isEmpty() == true ) {
-                        JOptionPane.showMessageDialog(null, "NESSUN TORNEO SELEZIONATO!", "Attenzione", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(null, "NESSUN TORNEO SELEZIONATO!", "Attenzione", JOptionPane.ERROR_MESSAGE);
                 } else {
                     int i = listTORNEICREATI.getSelectedIndex();
                     Torneo t = gentorneo.getTorneiCreati().get(i);
@@ -237,9 +310,14 @@ public class SceltaTorneoGUI extends JFrame {
         //---------------------------------------------------------------------------
         
         ActionListener GENERAARBITROlistener = new ActionListener() {
+            
+            /**
+             * 
+             * @param e 
+             */
             @Override
             public void actionPerformed(ActionEvent e) {
-                if( gentorneo.getAutenticazione().equals("AUTENTICATO") ) {
+                if( gentorneo.getAutenticazione().equals(Autenticazione.AUTENTICATO) ) {
                     JLabel nomelabel = new JLabel("Nome: ");
                     JTextField nomefield = new JTextField();
                     JLabel cognomelabel = new JLabel("Cogome: ");
@@ -276,7 +354,7 @@ public class SceltaTorneoGUI extends JFrame {
                     if (reply == JOptionPane.YES_OPTION) {
                       JFrame gentorneoGUI = new GeneratoreTorneoGUI(gentorneo, squadre, arbitri);
                       gentorneoGUI.setVisible(true);
-                      gentorneoGUI.setSize(1000, 655);
+                      gentorneoGUI.setSize(1000, 675);
                       gentorneoGUI.setLocation(400, 250);
                     }
                 }
@@ -287,9 +365,14 @@ public class SceltaTorneoGUI extends JFrame {
         //---------------------------------------------------------------------------
         
         ActionListener GENERAGIOCATORElistener = new ActionListener() {
+            
+            /**
+             * 
+             * @param e 
+             */
             @Override
             public void actionPerformed(ActionEvent e) {
-                if( gentorneo.getAutenticazione().equals("AUTENTICATO") ) {
+                if( gentorneo.getAutenticazione().equals(Autenticazione.AUTENTICATO) ) {
                     JLabel nomelabel = new JLabel("Nome: ");
                     JTextField nomefield = new JTextField();
                     JLabel cognomelabel = new JLabel("Cogome: ");
@@ -321,7 +404,7 @@ public class SceltaTorneoGUI extends JFrame {
                         if (reply == JOptionPane.YES_OPTION) {
                           JFrame gentorneoGUI = new GeneratoreTorneoGUI(gentorneo, squadre, arbitri);
                           gentorneoGUI.setVisible(true);
-                          gentorneoGUI.setSize(1000, 655);
+                          gentorneoGUI.setSize(1000, 675);
                           gentorneoGUI.setLocation(400, 250);
                         }
                 }
@@ -332,9 +415,15 @@ public class SceltaTorneoGUI extends JFrame {
         //---------------------------------------------------------------------------
         
         ActionListener GENERASQUADRAlistener = new ActionListener() {
+            
+            /**
+             * 
+             * @param e 
+             */
             @Override
             public void actionPerformed(ActionEvent e) {
-                if( gentorneo.getAutenticazione().equals("AUTENTICATO") ) {
+                if( gentorneo.getAutenticazione().equals(Autenticazione.AUTENTICATO) ) {
+                    giocatorigen.clear();
                     JLabel nomelabel = new JLabel("Nome: ");
                     JTextField nomefield = new JTextField();
                     JLabel colorelabel = new JLabel("Colore: ");
@@ -374,7 +463,6 @@ public class SceltaTorneoGUI extends JFrame {
                                 String citta = cittafield.getText();
                                 Squadra squadra = new Squadra(nome, colore, citta, giocatorigen, true);
                                 squadre.add(squadra);
-                                giocatorigen.clear();
                             } else {
                             JOptionPane.showMessageDialog(null, "E' NECESSARIO SELEZIONARE ALMENO DUE GIOCATORI!", "Attenzione", JOptionPane.ERROR_MESSAGE);                                
                             }
@@ -387,7 +475,7 @@ public class SceltaTorneoGUI extends JFrame {
                         if (reply == JOptionPane.YES_OPTION) {
                           JFrame gentorneoGUI = new GeneratoreTorneoGUI(gentorneo, squadre, arbitri);
                           gentorneoGUI.setVisible(true);
-                          gentorneoGUI.setSize(1000, 655);
+                          gentorneoGUI.setSize(1000, 675);
                           gentorneoGUI.setLocation(400, 250);
                         }
                 }
@@ -398,6 +486,11 @@ public class SceltaTorneoGUI extends JFrame {
         //---------------------------------------------------------------------------
         
         ActionListener CHIUDIlistener = new ActionListener() {
+            
+            /**
+             * 
+             * @param e 
+             */
             @Override
             public void actionPerformed(ActionEvent e) {
                 System.exit(0);
@@ -407,20 +500,7 @@ public class SceltaTorneoGUI extends JFrame {
         
         //---------------------------------------------------------------------------
         
-        panelLIST.add(scrollpaneTORNEI, BorderLayout.WEST);
-        panelLIST.add(scrollpaneTORNEICREATI, BorderLayout.EAST);
-        panelBOTTONI.add(identificazionearbitro, BorderLayout.EAST);
-        panelBOTTONI.add(aggiorna, BorderLayout.CENTER);
-        panelBOTTONI.add(eliminatorneo, BorderLayout.CENTER);
-        panelBOTTONI.add(generatorneo, BorderLayout.WEST);
-        panelBOTTONI.add(generaarbitro, BorderLayout.WEST);
-        panelBOTTONI.add(generagiocatore, BorderLayout.CENTER);
-        panelBOTTONI.add(generasquadra, BorderLayout.CENTER);
-        panelBOTTONI.add(chiudibutton, BorderLayout.EAST);
-        add(panelLIST, BorderLayout.CENTER);
-        add(panelBOTTONI, BorderLayout.SOUTH);
-        pack();
-        setVisible(true);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        InserimentoElementi();
+        PosizionamentoPanels();
     }
 }

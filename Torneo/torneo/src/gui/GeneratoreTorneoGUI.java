@@ -22,10 +22,10 @@ import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
 import torneo.Arbitro;
+import torneo.Autenticazione;
 import torneo.GeneratoreTorneo;
 import torneo.Squadra;
 
@@ -39,7 +39,6 @@ public class GeneratoreTorneoGUI extends JFrame {
     private List<Squadra> squadre;
     private List<Arbitro> arbitri;
     
-    // liste degli elementi selezionati nella GUI
     List<Squadra> squadregen = new ArrayList<>();
     List<Arbitro> arbitrigen = new ArrayList<>();
     
@@ -67,6 +66,17 @@ public class GeneratoreTorneoGUI extends JFrame {
     private JButton logoutbutton;
     private JButton backbutton;
     
+    private JScrollPane SQUADREscroll;
+    private JScrollPane ARBITRIscroll;
+    
+    private JList jlistSQUADRE;
+    private JList jlistARBITRI;
+    
+    /**
+     * @param gentorneo Organizzatore dei tornei
+     * @param squadre Lista di squadre registrate nel database
+     * @param arbitri Lista degli arbitri registrati nel database
+     */
     public GeneratoreTorneoGUI(GeneratoreTorneo gentorneo, List<Squadra> squadre, List<Arbitro> arbitri) {
         this.gentorneo = gentorneo;
         this.squadre = squadre;
@@ -74,22 +84,24 @@ public class GeneratoreTorneoGUI extends JFrame {
         setTitle("GENERATORE TORNEO E LOG IN ORGANIZZATORE");
         initComponents();
     }
-
-    private void initComponents() {
-        
+    
+    /**
+     * Creazione degli elementi presenti nel frame
+     */
+    public void CreazioneElementi() {
         okbutton = new JButton("Crea torneo");
         loginbutton = new JButton("Log in");
         logoutbutton = new JButton("Log out");
         backbutton = new JButton("Indietro");
         
         panelalto = new JPanel();
-        panelalto.setLayout(new GridLayout(1, 2, 0, 0));
+        panelalto.setLayout(new GridLayout(1, 2, 2, 2));
         panelalto.setBorder(BorderFactory.createEmptyBorder(10, 100, 0, 100));
         panelcentrale = new JPanel();
-        panelcentrale.setLayout(new GridLayout(8, 2, 0, 0));
+        panelcentrale.setLayout(new GridLayout(8, 2, 2, 2));
         panelcentrale.setBorder(BorderFactory.createEmptyBorder(0, 100, 0, 100));
         panelbasso = new JPanel();
-        panelbasso.setLayout(new GridLayout(1, 4, 0, 0));
+        panelbasso.setLayout(new GridLayout(1, 4, 2, 2));
         panelbasso.setBorder(BorderFactory.createEmptyBorder(0, 100, 10, 100));
         
        
@@ -105,6 +117,9 @@ public class GeneratoreTorneoGUI extends JFrame {
         String[] tipologie = {"ELIMINAZIONE DIRETTA", "ITALIANA" };
         tipofield = new JComboBox(tipologie);
         
+        SQUADREscroll = new JScrollPane();
+        ARBITRIscroll = new JScrollPane();
+        
         stringagen = new JLabel("AREA GENERAZIONE TORNEO");
         stringalogin = new JLabel("AREA LOG IN GENERATORE");
         blankspaceuno = new JLabel("");
@@ -114,11 +129,11 @@ public class GeneratoreTorneoGUI extends JFrame {
         for( Squadra s : squadre ) {
             modelSQUADRE.addElement(s);
         }
-        final JList jlistSQUADRE = new JList(modelSQUADRE);
+        jlistSQUADRE = new JList(modelSQUADRE);
         jlistSQUADRE.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
         jlistSQUADRE.setSelectedIndex(0);
         jlistSQUADRE.setSelectionBackground(Color.cyan);
-        JScrollPane SQUADREscroll = new JScrollPane(jlistSQUADRE);
+        SQUADREscroll = new JScrollPane(jlistSQUADRE);
         SQUADREscroll.setVisible(true);
         SQUADREscroll.setBorder(BorderFactory.createTitledBorder("LISTA SQUADRE - Selezionare più squadre"));
         
@@ -126,13 +141,54 @@ public class GeneratoreTorneoGUI extends JFrame {
         for( Arbitro a : arbitri ) {
             modelARBITRI.addElement(a);
         }
-        final JList jlistARBITRI = new JList(modelARBITRI);
+        jlistARBITRI = new JList(modelARBITRI);
         jlistARBITRI.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
         jlistARBITRI.setSelectedIndex(0);
         jlistARBITRI.setSelectionBackground(Color.yellow);
-        JScrollPane ARBITRIscroll = new JScrollPane(jlistARBITRI);
+        ARBITRIscroll = new JScrollPane(jlistARBITRI);
         ARBITRIscroll.setVisible(true);
         ARBITRIscroll.setBorder(BorderFactory.createTitledBorder("LISTA ARBITRI"));
+    }
+    
+    /**
+     * Inserimento dei vari elementi negli appositi panels 
+     */
+    public void InserimentoElementi() {
+        panelalto.add(SQUADREscroll, BorderLayout.WEST);
+        panelalto.add(ARBITRIscroll, BorderLayout.EAST);
+        panelcentrale.add(stringagen, BorderLayout.WEST);
+        panelcentrale.add(blankspaceuno, BorderLayout.EAST);
+        panelcentrale.add(nometorneolabel, BorderLayout.WEST);
+        panelcentrale.add(nometorneofield, BorderLayout.EAST);
+        panelcentrale.add(annotorneolabel, BorderLayout.WEST);
+        panelcentrale.add(annotorneofield, BorderLayout.EAST);
+        panelcentrale.add(tipolabel, BorderLayout.WEST);
+        panelcentrale.add(tipofield, BorderLayout.EAST);
+        panelcentrale.add(stringalogin, BorderLayout.WEST);
+        panelcentrale.add(blankspacedue, BorderLayout.EAST);
+        panelcentrale.add(cflabel, BorderLayout.WEST);
+        panelcentrale.add(cffield, BorderLayout.EAST);
+        panelcentrale.add(passwordlabel, BorderLayout.WEST);
+        panelcentrale.add(passwordfield, BorderLayout.EAST);
+        panelbasso.add(okbutton, BorderLayout.WEST);
+        panelbasso.add(loginbutton, BorderLayout.CENTER);
+        panelbasso.add(logoutbutton, BorderLayout.CENTER);
+        panelbasso.add(backbutton, BorderLayout.EAST);
+    }
+    
+    /**
+     * Posizionamento dei panels nel frame 
+     */
+    public void PosizionamentoPanels() {
+        add(panelalto, BorderLayout.NORTH);
+        add(panelcentrale, BorderLayout.CENTER);
+        add(panelbasso, BorderLayout.SOUTH);
+        pack();
+    }
+
+    private void initComponents() {
+        
+        CreazioneElementi();
         
         //---------------------------------------------------------------------------------
         
@@ -145,7 +201,7 @@ public class GeneratoreTorneoGUI extends JFrame {
                 arbitrigen.clear();
                 System.out.println(squadregen);
                 System.out.println(arbitrigen);
-                if( gentorneo.getAutenticazione().equals("AUTENTICATO") ) {
+                if( gentorneo.getAutenticazione().equals(Autenticazione.AUTENTICATO) ) {
                     String nometorneo = nometorneofield.getText();
                     for( int i : jlistSQUADRE.getSelectedIndices() ) {
                         squadregen.add(squadre.get(i));
@@ -153,8 +209,6 @@ public class GeneratoreTorneoGUI extends JFrame {
                     for( int i : jlistARBITRI.getSelectedIndices() ) {
                         arbitrigen.add(arbitri.get(i));
                     }
-                    System.out.println(squadregen);
-                    System.out.println(arbitrigen);
                     if( (!(nometorneo.equals(""))) && (!(annotorneofield.getText().equals("")) && squadregen.size() != 0) && (arbitrigen.size() != 0) ) {
                         if( tipofield.getSelectedItem().toString().equals("ELIMINAZIONE DIRETTA") ) {
                             for( int i = 0; i < potenzedidue.length; i++ ) {
@@ -180,7 +234,7 @@ public class GeneratoreTorneoGUI extends JFrame {
                     } else {
                         JOptionPane.showMessageDialog(null, "INFORMAZIONI MANCANTI!", "Attenzione", JOptionPane.ERROR_MESSAGE);
                     }
-                } else if( gentorneo.getAutenticazione().equals("NONAUTENTICATO") ) {
+                } else if( gentorneo.getAutenticazione().equals(Autenticazione.NONAUTENTICATO) ) {
                     JOptionPane.showMessageDialog(null, "E' NECESSARIO AUTENTICARSI COME ORGANIZZATORE PER PROCEDERE!", "Attenzione", JOptionPane.OK_OPTION);
                 }
             }
@@ -195,10 +249,10 @@ public class GeneratoreTorneoGUI extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 String cf = cffield.getText();
                 String p = passwordfield.getText();
-                stringalogin.setText("AREA LOG IN ORGANIZZATORE - "+gentorneo.logIn(cf, p));
-                if( gentorneo.getAutenticazione().equals("AUTENTICATO") )
+                stringalogin.setText("AREA LOG IN GENERATORE - "+gentorneo.logIn(cf, p));
+                if( gentorneo.getAutenticazione().equals(Autenticazione.AUTENTICATO) )
                     JOptionPane.showMessageDialog(null, "AUTENTICAZIONE AVVENUTA CORRETTAMENTE!", "Attenzione", JOptionPane.INFORMATION_MESSAGE);
-                else if( gentorneo.getAutenticazione().equals("NONAUTENTICATO") )
+                else if( gentorneo.getAutenticazione().equals(Autenticazione.NONAUTENTICATO) )
                     JOptionPane.showMessageDialog(null, "CREDENZIALI SCORRETTE! IMPOSSIBILE PROCEDERE", "Attenzione", JOptionPane.OK_OPTION);
             }
             
@@ -234,29 +288,7 @@ public class GeneratoreTorneoGUI extends JFrame {
         
         //---------------------------------------------------------------------------------
         
-        panelalto.add(SQUADREscroll, BorderLayout.WEST);
-        panelalto.add(ARBITRIscroll, BorderLayout.EAST);
-        panelcentrale.add(stringagen, BorderLayout.WEST);
-        panelcentrale.add(blankspaceuno, BorderLayout.EAST);
-        panelcentrale.add(nometorneolabel, BorderLayout.WEST);
-        panelcentrale.add(nometorneofield, BorderLayout.EAST);
-        panelcentrale.add(annotorneolabel, BorderLayout.WEST);
-        panelcentrale.add(annotorneofield, BorderLayout.EAST);
-        panelcentrale.add(tipolabel, BorderLayout.WEST);
-        panelcentrale.add(tipofield, BorderLayout.EAST);
-        panelcentrale.add(stringalogin, BorderLayout.WEST);
-        panelcentrale.add(blankspacedue, BorderLayout.EAST);
-        panelcentrale.add(cflabel, BorderLayout.WEST);
-        panelcentrale.add(cffield, BorderLayout.EAST);
-        panelcentrale.add(passwordlabel, BorderLayout.WEST);
-        panelcentrale.add(passwordfield, BorderLayout.EAST);
-        panelbasso.add(okbutton, BorderLayout.WEST);
-        panelbasso.add(loginbutton, BorderLayout.CENTER);
-        panelbasso.add(logoutbutton, BorderLayout.CENTER);
-        panelbasso.add(backbutton, BorderLayout.EAST);
-        add(panelalto, BorderLayout.NORTH);
-        add(panelcentrale, BorderLayout.CENTER);
-        add(panelbasso, BorderLayout.SOUTH);
-        pack();
+        InserimentoElementi();
+        PosizionamentoPanels();
     }
 }

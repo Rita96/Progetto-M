@@ -23,6 +23,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import torneo.Arbitro;
+import torneo.Autenticazione;
 import torneo.Cartellino;
 import torneo.ColoreCartellino;
 import torneo.Giocatore;
@@ -66,6 +67,11 @@ public class GiocatoreGUI extends JFrame {
     private DefaultListModel modelCARTELLINI;
     private JList JlistCARTELLINI;
     
+    /**
+     * @param partita Partita selezionata
+     * @param giocatore Giocatore selezionato
+     * @param torneo Torneo di cui fa parte la partita
+     */
     public GiocatoreGUI(Partita partita, Giocatore giocatore, Torneo torneo) {
         this.partita = partita;
         this.giocatore = giocatore;
@@ -78,9 +84,11 @@ public class GiocatoreGUI extends JFrame {
         setTitle("SCHEDA GIOCATORE "+giocatore.getNome()+" "+giocatore.getCognome()+" NUMERO "+giocatore.getNumero());
         initComponents();
     }
-
-    private void initComponents() {
-        
+    
+    /**
+     * Creazione degli elementi presenti nel frame
+     */
+    public void CreazioneElementi() {
         AGGIUNGICARTbutton = new JButton("Aggiungi cartellino");
         RIMUOVICARTbutton = new JButton("Rimuovi cartellino");
         
@@ -146,13 +154,50 @@ public class GiocatoreGUI extends JFrame {
             JlistCARTELLINI = new JList(modelCARTELLINI);
             CARTELLINOfield = new JScrollPane(JlistCARTELLINI);
         }
+    }
+    
+    /**
+     * Inserimento dei vari elementi negli appositi panels 
+     */
+    public void InserimentoElementi() {
+        panelDATI.add(NOMElabel, BorderLayout.WEST);
+        panelDATI.add(NOMEfield, BorderLayout.EAST);
+        
+        panelDATI.add(COGNOMElabel, BorderLayout.WEST);
+        panelDATI.add(COGNOMEfield, BorderLayout.EAST);
+        
+        panelDATI.add(NUMEROlabel, BorderLayout.WEST);
+        panelDATI.add(NUMEROfield, BorderLayout.EAST);
+        
+        panelDATI.add(GOALlabel, BorderLayout.WEST);
+        panelDATI.add(GOALfield, BorderLayout.EAST);
+        
+        panelDATI.add(CARTELLINOlabel, BorderLayout.WEST);
+        panelDATI.add(CARTELLINOfield, BorderLayout.EAST);
+        
+        panelBOTTONI.add(AGGIUNGICARTbutton);     
+        panelBOTTONI.add(RIMUOVICARTbutton);
+    }
+    
+    /**
+     * Posizionamento dei panels nel frame 
+     */
+    public void PosizionamentoPanels() {
+        add(panelDATI, BorderLayout.CENTER);
+        add(panelBOTTONI, BorderLayout.SOUTH);
+        pack();
+    }
+
+    private void initComponents() {
+        
+        CreazioneElementi();
         
         //---------------------------------------------------------------------------
         
         ActionListener AGGCARTlistener = new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if( partita.getArbitro().getAutenticazione().equals("AUTENTICATO") ) {
+                if( partita.getArbitro().getAutenticazione().equals(Autenticazione.AUTENTICATO) ) {
                     JComboBox jcombo = new JComboBox(ColoreCartellino.values());
                     JPanel panelinformazioni = new JPanel();
                     panelinformazioni.setLayout(new GridLayout(2, 1, 2, 2));
@@ -177,13 +222,15 @@ public class GiocatoreGUI extends JFrame {
                         modelCARTELLINI.addElement(cartellinoROSSO);
                         partita.setCartellino(ColoreCartellino.ROSSO, giocatore, minuto);
                         jcombo.setVisible(false);
+                    } else if( minutofield.equals("") ) {
+                        JOptionPane.showConfirmDialog(null, "Impossibile inserire cartellino! DATI MANCANTI", "Attenzione", JOptionPane.CLOSED_OPTION);
                     } else if( i == JOptionPane.NO_OPTION )
                         jcombo.setVisible(false);
                 } else {
                         int reply = JOptionPane.showConfirmDialog(null, "E' necessario autenticarsi come arbitro per modificare i dati!", "Attenzione!", JOptionPane.YES_NO_OPTION);
                         if (reply == JOptionPane.YES_OPTION) {
                             JFrame arbitroGUI = new ArbitroGUI(a);
-                            arbitroGUI.setSize(1000, 655);
+                            arbitroGUI.setSize(1000, 300);
                             arbitroGUI.setLocation(400, 250);
                             arbitroGUI.setVisible(true);
                         }
@@ -197,7 +244,7 @@ public class GiocatoreGUI extends JFrame {
         ActionListener RIMCARTlistener = new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if( partita.getArbitro().getAutenticazione().equals("AUTENTICATO") ) {
+                if( partita.getArbitro().getAutenticazione().equals(Autenticazione.AUTENTICATO) ) {
                     int index = JlistCARTELLINI.getSelectedIndex();
                     if( JlistCARTELLINI.isSelectionEmpty() == true && modelCARTELLINI.isEmpty() == true ) {
                         JOptionPane.showConfirmDialog(null, "Lista di cartellini del giocatore "+giocatore.getNome()+" "+giocatore.getCognome()+" vuota.", "Attenzione", JOptionPane.CLOSED_OPTION);
@@ -215,7 +262,7 @@ public class GiocatoreGUI extends JFrame {
                         int reply = JOptionPane.showConfirmDialog(null, "E' necessario autenticarsi come arbitro per modificare i dati!", "Attenzione!", JOptionPane.YES_NO_OPTION);
                         if (reply == JOptionPane.YES_OPTION) {
                             JFrame arbitroGUI = new ArbitroGUI(a);
-                            arbitroGUI.setSize(1000, 655);
+                            arbitroGUI.setSize(1000, 300);
                             arbitroGUI.setLocation(400, 250);
                             arbitroGUI.setVisible(true);
                         }
@@ -226,26 +273,7 @@ public class GiocatoreGUI extends JFrame {
         
         //----------------------------------------------------------------------------
         
-        panelDATI.add(NOMElabel, BorderLayout.WEST);
-        panelDATI.add(NOMEfield, BorderLayout.EAST);
-        
-        panelDATI.add(COGNOMElabel, BorderLayout.WEST);
-        panelDATI.add(COGNOMEfield, BorderLayout.EAST);
-        
-        panelDATI.add(NUMEROlabel, BorderLayout.WEST);
-        panelDATI.add(NUMEROfield, BorderLayout.EAST);
-        
-        panelDATI.add(GOALlabel, BorderLayout.WEST);
-        panelDATI.add(GOALfield, BorderLayout.EAST);
-        
-        panelDATI.add(CARTELLINOlabel, BorderLayout.WEST);
-        panelDATI.add(CARTELLINOfield, BorderLayout.EAST);
-        
-        panelBOTTONI.add(AGGIUNGICARTbutton);     
-        panelBOTTONI.add(RIMUOVICARTbutton);
-        
-        add(panelDATI, BorderLayout.CENTER);
-        add(panelBOTTONI, BorderLayout.SOUTH);
-        pack();
+        InserimentoElementi();
+        PosizionamentoPanels();
     }
 }

@@ -29,12 +29,15 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
 import torneo.Arbitro;
+import torneo.Autenticazione;
 import torneo.EliminazioneDiretta;
 import torneo.GeneratoreTorneo;
 import torneo.Giocatore;
 import torneo.Goal;
 import torneo.Italiana;
 import torneo.Partita;
+import torneo.PartitaEliminazioneDiretta;
+import torneo.PartitaItaliana;
 import torneo.Squadra;
 import torneo.StatoPartita;
 import torneo.Torneo;
@@ -102,6 +105,13 @@ public class ModificaRisultatiGUI extends JFrame {
     private JList jlistGOALCASA;
     private JList jlistGOALOSPITE;
     
+    /**
+     * @param partita Partita selezionata
+     * @param torneo Torneo contenente la partita
+     * @param squadre Squadre partecipanti al torneo
+     * @param arbitri Lista degli arbitri registrati nel database
+     * @param gentorneo Organizzatore dei tornei
+     */
     public ModificaRisultatiGUI(Partita partita, Torneo torneo, List<Squadra> squadre, List<Arbitro> arbitri, GeneratoreTorneo gentorneo) {
         this.partita= partita;
         this.torneo = torneo;
@@ -109,7 +119,7 @@ public class ModificaRisultatiGUI extends JFrame {
         this.a = arbitri;
         this.squadre = squadre;
         if( torneo instanceof EliminazioneDiretta ) {
-            ((EliminazioneDiretta) torneo).andata(partita);
+            ((EliminazioneDiretta) torneo).andata((PartitaEliminazioneDiretta) partita);
         } else if( torneo instanceof Italiana ) {
             ((Italiana) torneo).setItaliana();
         }
@@ -117,16 +127,25 @@ public class ModificaRisultatiGUI extends JFrame {
         initComponents();
     }
 
-    private void initComponents() {
-        
+    /**
+     * Creazione degli elementi presenti nel frame
+     */
+    public void CreazioneElementi() {
         OKbutton = new JButton("OK");
         BACKbutton = new JButton("Indietro");
         AGGIORNAbutton = new JButton("Aggiorna");
         
-        NumeroGoalCasa = new JTextArea("goal squadra casa\nregolari: "+partita.getGoalSquadraCasaRegolare()+"\tsupplementari: "+partita.getGoalSquadraCasaSupplementari()+"\trigori: "+partita.getGoalSquadraCasaRigori());
-        NumeroGoalCasa.setEditable(false);
-        NumeroGoalOspite = new JTextArea("goal squadra ospite\nregolari: "+partita.getGoalSquadraOspiteRegolare()+"\tsupplementari: "+partita.getGoalSquadraOspiteSupplementari()+"\trigori: "+partita.getGoalSquadraOspiteRigori());
-        NumeroGoalOspite.setEditable(false);
+        if( partita instanceof PartitaEliminazioneDiretta ) {
+            NumeroGoalCasa = new JTextArea("goal squadra casa\nregolari: "+((PartitaEliminazioneDiretta) partita).getGoalSquadraCasaRegolare()+"\tsupplementari: "+((PartitaEliminazioneDiretta) partita).getGoalSquadraCasaSupplementari()+"\trigori: "+((PartitaEliminazioneDiretta) partita).getGoalSquadraCasaRigori());
+            NumeroGoalCasa.setEditable(false);
+            NumeroGoalOspite = new JTextArea("goal squadra ospite\nregolari: "+((PartitaEliminazioneDiretta) partita).getGoalSquadraOspiteRegolare()+"\tsupplementari: "+((PartitaEliminazioneDiretta) partita).getGoalSquadraOspiteSupplementari()+"\trigori: "+((PartitaEliminazioneDiretta) partita).getGoalSquadraOspiteRigori());
+            NumeroGoalOspite.setEditable(false);
+        } else if( partita instanceof PartitaItaliana ) {
+            NumeroGoalCasa = new JTextArea("goal squadra casa\ntotali: "+((PartitaItaliana) partita).getGoalSquadraCasa());
+            NumeroGoalCasa.setEditable(false);
+            NumeroGoalOspite = new JTextArea("goal squadra ospite\ntotali: "+((PartitaItaliana) partita).getGoalSquadraOspite());
+            NumeroGoalOspite.setEditable(false);
+        }
       
         panelMODIFICHE = new JPanel();
         panelMODIFICHE.setLayout(new GridLayout(3, 2, 2, 2));
@@ -160,7 +179,7 @@ public class ModificaRisultatiGUI extends JFrame {
         
         CITTA = new JLabel("CITTA");
         CITTAfield = new JTextField(10);
-        CITTAfield.setText(partita.getCitta());
+        CITTAfield.setText(partita.getCittaDoveSiSvolge());
         CITTAfield.setEditable(false);
         
         ARBITRO = new JLabel("ARBITRO");
@@ -216,17 +235,73 @@ public class ModificaRisultatiGUI extends JFrame {
         
         labelGIOCATORIospite = new JLabel("Lista giocatori sq ospite");
         labelGIOCATORIospite.setLabelFor(jlistOSPITE);
+    }
+    
+    /**
+     * Inserimento dei vari elementi negli appositi panels 
+     */
+    public void InserimentoElementi() {
+        panelMODIFICHE.add(setGOALSQCASA, BorderLayout.EAST);
+        panelMODIFICHE.add(setGOALSQOSPITE, BorderLayout.WEST);
+        panelMODIFICHE.add(setPUNTICASA, BorderLayout.EAST);
+        panelMODIFICHE.add(setPUNTIOSPITE, BorderLayout.WEST);
+        panelMODIFICHE.add(NumeroGoalCasa);
+        panelMODIFICHE.add(NumeroGoalOspite);
+        
+        panelGOALGIOCATORI.add(listscrollpaneCASA);
+        panelGOALGIOCATORI.add(listscrollpaneOSPITE);
+        panelGOALGIOCATORI.add(GOALSQCASAfield);
+        panelGOALGIOCATORI.add(GOALSQOSPITEfield);
+        
+        panelBOTTONI.add(NOMESQCASA, BorderLayout.WEST);
+        panelBOTTONI.add(NOMESQCASAfield, BorderLayout.CENTER);
+        panelBOTTONI.add(setNOMESQCASA, BorderLayout.EAST);
+        
+        panelBOTTONI.add(NOMESQOSPITE, BorderLayout.WEST);
+        panelBOTTONI.add(NOMESQOSPITEfield, BorderLayout.CENTER);
+        panelBOTTONI.add(setNOMESQOSPITE, BorderLayout.EAST);
+        
+        panelBOTTONI.add(ARBITRO, BorderLayout.WEST);
+        panelBOTTONI.add(ARBITROfield, BorderLayout.CENTER);
+        panelBOTTONI.add(setARBITRO, BorderLayout.EAST);
+        
+        panelBOTTONI.add(CITTA, BorderLayout.WEST);
+        panelBOTTONI.add(CITTAfield, BorderLayout.CENTER);
+        panelBOTTONI.add(setCITTA, BorderLayout.EAST);
+        
+        panelBOTTONI.add(STATOPARTITA, BorderLayout.WEST);
+        panelBOTTONI.add(STATOPARTITAfield, BorderLayout.CENTER);
+        panelBOTTONI.add(setSTATOPARTITA, BorderLayout.EAST);
+        
+        panelBOTTONI.add(OKbutton, BorderLayout.WEST);
+        panelBOTTONI.add(AGGIORNAbutton, BorderLayout.CENTER);
+        panelBOTTONI.add(BACKbutton, BorderLayout.EAST);
+    }
+    
+    /**
+     * Posizionamento dei panels nel frame 
+     */
+    public void PosizionamentoPanels() {
+        add(panelGOALGIOCATORI, BorderLayout.NORTH);
+        add(panelMODIFICHE, BorderLayout.CENTER);
+        add(panelBOTTONI, BorderLayout.SOUTH);
+        pack();
+    }
+    
+    private void initComponents() {
+        
+        CreazioneElementi();
 
         //----------------------------------------------------------------------------
 
         ActionListener NOMESQCASAlistener = new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    if( gentorneo.getAutenticazione().equals("AUTENTICATO") ) {
+                    if( gentorneo.getAutenticazione().equals(Autenticazione.AUTENTICATO) ) {
                         String input = JOptionPane.showInputDialog(null, "Inserire modifica: ", "Modifica dati partita", JOptionPane.QUESTION_MESSAGE);
                         if( input != null && input.length() != 0 )
                             NOMESQCASAfield.setText(input);
-                    } else if( gentorneo.getAutenticazione().equals("NONAUTENTICATO") ) {
+                    } else if( gentorneo.getAutenticazione().equals(Autenticazione.NONAUTENTICATO) ) {
                         int reply = JOptionPane.showConfirmDialog(null, "E' necessario autenticarsi come organizzatore per modificare i dati!", "Attenzione!", JOptionPane.YES_NO_OPTION);
                         if (reply == JOptionPane.YES_OPTION )
                         {
@@ -245,11 +320,11 @@ public class ModificaRisultatiGUI extends JFrame {
         ActionListener NOMESQOSPITElistener = new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    if( gentorneo.getAutenticazione().equals("AUTENTICATO") ) {
+                    if( gentorneo.getAutenticazione().equals(Autenticazione.AUTENTICATO) ) {
                         String input = JOptionPane.showInputDialog(null, "Inserire modifica: ", "Modifica dati partita", JOptionPane.QUESTION_MESSAGE);
                         if( input != null && input.length() != 0 )
                             NOMESQOSPITEfield.setText(input);
-                    } else if( gentorneo.getAutenticazione().equals("NONAUTENTICATO") ) {
+                    } else if( gentorneo.getAutenticazione().equals(Autenticazione.NONAUTENTICATO) ) {
                         int reply = JOptionPane.showConfirmDialog(null, "E' necessario autenticarsi come arbitro per modificare i dati!", "Attenzione!", JOptionPane.YES_NO_OPTION);
                         if (reply == JOptionPane.YES_OPTION)
                         {
@@ -268,7 +343,7 @@ public class ModificaRisultatiGUI extends JFrame {
         ActionListener PUNTICASAlistener = new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if( partita.getArbitro().getAutenticazione().equals("AUTENTICATO") ) {
+                if( partita.getArbitro().getAutenticazione().equals(Autenticazione.AUTENTICATO) ) {
                     if( partita.getTipo().equals("italiana") ) {
                         JTextField punteggiofield = new JTextField();
                         JLabel punteggiolabel = new JLabel("Punteggio:   ");
@@ -279,12 +354,12 @@ public class ModificaRisultatiGUI extends JFrame {
                         int reply = JOptionPane.showConfirmDialog(null, panelinformazioni, "Inserire punteggio assegnato alla squadra", JOptionPane.OK_CANCEL_OPTION);
                         if( reply == JOptionPane.OK_OPTION && punteggiofield != null ) {
                             int punteggio = Integer.parseInt(punteggiofield.getText());
-                            partita.setPuntiSquadra(punteggio, partita.getSquadraCasa().getNome());
+                            ((PartitaItaliana)partita).setPuntiSquadra(punteggio, partita.getSquadraCasa().getNome());
                         }
                     } else if( partita.getTipo().equals("eliminazione diretta") ) {
                         JOptionPane.showMessageDialog(null, "TORNEO AD ELIMINAZIONE DIRETTA NON PREVEDE PUNTEGGIO!", "Attenzione", JOptionPane.OK_OPTION);
                     }
-                } else if(partita.getArbitro().getAutenticazione().equals("NONAUTENTICATO")) {
+                } else if(partita.getArbitro().getAutenticazione().equals(Autenticazione.NONAUTENTICATO)) {
                         int reply = JOptionPane.showConfirmDialog(null, "E' necessario autenticarsi come arbitro per modificare i dati!", "Attenzione!", JOptionPane.YES_NO_OPTION);
                         if (reply == JOptionPane.YES_OPTION)
                         {
@@ -304,7 +379,7 @@ public class ModificaRisultatiGUI extends JFrame {
         ActionListener PUNTIOSPITElistener = new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if( partita.getArbitro().getAutenticazione().equals("AUTENTICATO") ) {
+                if( partita.getArbitro().getAutenticazione().equals(Autenticazione.AUTENTICATO) ) {
                     if( partita.getTipo().equals("italiana") ) {
                         JTextField punteggiofield = new JTextField();
                         JLabel punteggiolabel = new JLabel("Punteggio:   ");
@@ -315,12 +390,12 @@ public class ModificaRisultatiGUI extends JFrame {
                         int reply = JOptionPane.showConfirmDialog(null, panelinformazioni, "Inserire punteggio assegnato alla squadra", JOptionPane.OK_CANCEL_OPTION);
                         if( reply == JOptionPane.OK_OPTION && punteggiofield != null ) {
                             int punteggio = Integer.parseInt(punteggiofield.getText());
-                            partita.setPuntiSquadra(punteggio, partita.getSquadraOspite().getNome());
+                            ((PartitaItaliana)partita).setPuntiSquadra(punteggio, partita.getSquadraOspite().getNome());
                         }
                     } else if( partita.getTipo().equals("eliminazione diretta") ) {
                         JOptionPane.showMessageDialog(null, "TORNEO AD ELIMINAZIONE DIRETTA NON PREVEDE PUNTEGGIO!", "Attenzione", JOptionPane.OK_OPTION);
                     }
-                } else if(partita.getArbitro().getAutenticazione().equals("NONAUTENTICATO")) {
+                } else if(partita.getArbitro().getAutenticazione().equals(Autenticazione.NONAUTENTICATO)) {
                         int reply = JOptionPane.showConfirmDialog(null, "E' necessario autenticarsi come arbitro per modificare i dati!", "Attenzione!", JOptionPane.YES_NO_OPTION);
                         if (reply == JOptionPane.YES_OPTION)
                         {
@@ -340,7 +415,7 @@ public class ModificaRisultatiGUI extends JFrame {
         ActionListener ARBITROlistener = new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    if( partita.getArbitro().getAutenticazione().equals("AUTENTICATO") ) {
+                    if( gentorneo.getAutenticazione().equals(Autenticazione.AUTENTICATO) ) {
                         JLabel nomelabel = new JLabel("Nome: ");
                         JTextField nomefield = new JTextField();
                         JLabel cognomelabel = new JLabel("Cognome: ");
@@ -360,7 +435,7 @@ public class ModificaRisultatiGUI extends JFrame {
                                 ARBITROfield.setText(nome+" "+cognome);
                             }
                         }
-                    } else if(partita.getArbitro().getAutenticazione().equals("NONAUTENTICATO")) {
+                    } else if(partita.getArbitro().getAutenticazione().equals(Autenticazione.NONAUTENTICATO)) {
                         int reply = JOptionPane.showConfirmDialog(null, "E' necessario autenticarsi come arbitro per modificare i dati!", "Attenzione!", JOptionPane.YES_NO_OPTION);
                         if (reply == JOptionPane.YES_OPTION)
                         {
@@ -379,13 +454,13 @@ public class ModificaRisultatiGUI extends JFrame {
         ActionListener CITTAlistener = new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    if( gentorneo.getAutenticazione().equals("AUTENTICATO") ) {
+                    if( gentorneo.getAutenticazione().equals(Autenticazione.AUTENTICATO) ) {
                         String input = JOptionPane.showInputDialog(null, "Inserire modifica: ", "Modifica dati partita", JOptionPane.QUESTION_MESSAGE);
                         if( input != null && input.length() != 0 ) {
                             partita.ModificaCitta(input);
                             CITTAfield.setText(input);
                         }
-                    } else if( gentorneo.getAutenticazione().equals("NONAUTENTICATO") ) {
+                    } else if( gentorneo.getAutenticazione().equals(Autenticazione.NONAUTENTICATO) ) {
                         int reply = JOptionPane.showConfirmDialog(null, "E' necessario autenticarsi come arbitro per modificare i dati!", "Attenzione!", JOptionPane.YES_NO_OPTION);
                         if (reply == JOptionPane.YES_OPTION) {
                             JFrame gentorneoGUI = new GeneratoreTorneoGUI(gentorneo, squadre, a);
@@ -403,7 +478,7 @@ public class ModificaRisultatiGUI extends JFrame {
         ActionListener STATOPARTITAlistener = new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    if( partita.getArbitro().getAutenticazione().equals("AUTENTICATO") ) {
+                    if( partita.getArbitro().getAutenticazione().equals(Autenticazione.AUTENTICATO) ) {
                         JComboBox jcombo = new JComboBox(StatoPartita.values());
                         jcombo.setSelectedItem(partita.getStatoPartita());
                         int i = JOptionPane.showConfirmDialog(null, jcombo, "Attenzione!", JOptionPane.YES_NO_OPTION);
@@ -416,7 +491,7 @@ public class ModificaRisultatiGUI extends JFrame {
                         }
                         if( i == JOptionPane.NO_OPTION )
                             jcombo.setVisible(false);
-                    } else if(partita.getArbitro().getAutenticazione().equals("NONAUTENTICATO")) {
+                    } else if(partita.getArbitro().getAutenticazione().equals(Autenticazione.NONAUTENTICATO)) {
                         int reply = JOptionPane.showConfirmDialog(null, "E' necessario autenticarsi come arbitro per modificare i dati!", "Attenzione!", JOptionPane.YES_NO_OPTION);
                         if (reply == JOptionPane.YES_OPTION)
                         {
@@ -444,9 +519,13 @@ public class ModificaRisultatiGUI extends JFrame {
                     String citta = CITTAfield.getText();
                     partita.ModificaCitta(citta);
                     
-                    NumeroGoalCasa.setText("goal squadra casa\nregolari: "+partita.getGoalSquadraCasaRegolare()+"\tsupplementari: "+partita.getGoalSquadraCasaSupplementari()+"\trigori: "+partita.getGoalSquadraCasaRigori());
-                    NumeroGoalOspite.setText("goal squadra ospite\nregolari: "+partita.getGoalSquadraOspiteRegolare()+"\tsupplementari: "+partita.getGoalSquadraOspiteSupplementari()+"\trigori: "+partita.getGoalSquadraOspiteRigori());
-                    
+                    if( partita instanceof PartitaEliminazioneDiretta ) {
+                        NumeroGoalCasa.setText("goal squadra casa\nregolari: "+((PartitaEliminazioneDiretta) partita).getGoalSquadraCasaRegolare()+"\tsupplementari: "+((PartitaEliminazioneDiretta) partita).getGoalSquadraCasaSupplementari()+"\trigori: "+((PartitaEliminazioneDiretta) partita).getGoalSquadraCasaRigori());
+                        NumeroGoalOspite.setText("goal squadra ospite\nregolari: "+((PartitaEliminazioneDiretta) partita).getGoalSquadraOspiteRegolare()+"\tsupplementari: "+((PartitaEliminazioneDiretta) partita).getGoalSquadraOspiteSupplementari()+"\trigori: "+((PartitaEliminazioneDiretta) partita).getGoalSquadraOspiteRigori());
+                    } else if( partita instanceof PartitaItaliana ) {
+                        NumeroGoalCasa.setText("goal squadra casa\ntotali: "+((PartitaItaliana) partita).getGoalSquadraCasa());
+                        NumeroGoalOspite.setText("goal squadra ospite\ntotali: "+((PartitaItaliana) partita).getGoalSquadraOspite());
+                    }
                     setVisible(false);
                 }
             };
@@ -490,8 +569,13 @@ public class ModificaRisultatiGUI extends JFrame {
                     }
                     jlistOSPITE.setModel(NUOVOmodelgiocatoriospite);
                     
-                    NumeroGoalCasa.setText("goal squadra casa\nregolari: "+partita.getGoalSquadraCasaRegolare()+"\tsupplementari: "+partita.getGoalSquadraCasaSupplementari()+"\trigori: "+partita.getGoalSquadraCasaRigori());
-                    NumeroGoalOspite.setText("goal squadra ospite\nregolari: "+partita.getGoalSquadraOspiteRegolare()+"\tsupplementari: "+partita.getGoalSquadraOspiteSupplementari()+"\trigori: "+partita.getGoalSquadraOspiteRigori());
+                    if( partita instanceof PartitaEliminazioneDiretta ) {
+                        NumeroGoalCasa.setText("goal squadra casa\nregolari: "+((PartitaEliminazioneDiretta) partita).getGoalSquadraCasaRegolare()+"\tsupplementari: "+((PartitaEliminazioneDiretta) partita).getGoalSquadraCasaSupplementari()+"\trigori: "+((PartitaEliminazioneDiretta) partita).getGoalSquadraCasaRigori());
+                        NumeroGoalOspite.setText("goal squadra ospite\nregolari: "+((PartitaEliminazioneDiretta) partita).getGoalSquadraOspiteRegolare()+"\tsupplementari: "+((PartitaEliminazioneDiretta) partita).getGoalSquadraOspiteSupplementari()+"\trigori: "+((PartitaEliminazioneDiretta) partita).getGoalSquadraOspiteRigori());
+                    } else if( partita instanceof PartitaItaliana ) {
+                        NumeroGoalCasa.setText("goal squadra casa\ntotali: "+((PartitaItaliana) partita).getGoalSquadraCasa());
+                        NumeroGoalOspite.setText("goal squadra ospite\ntotali: "+((PartitaItaliana) partita).getGoalSquadraOspite());
+                    }
                 }
             };
         AGGIORNAbutton.addActionListener(AGGIORNAlistener);
@@ -580,15 +664,15 @@ public class ModificaRisultatiGUI extends JFrame {
         ActionListener GOALSQCASAlistener = new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    if( partita.getArbitro().getAutenticazione().equals("AUTENTICATO") ) {
+                    if( partita.getArbitro().getAutenticazione().equals(Autenticazione.AUTENTICATO) ) {
                         if( !partita.getStatoPartita().equals(StatoPartita.PROGRAMMATA) ) {
-                                                        JTextField numerofield = new JTextField();
+                            JTextField numerofield = new JTextField();
                             JLabel numerolabel = new JLabel("Numero giocatore:   ");
                             JTextField minutofield = new JTextField();
                             JLabel minutolabel = new JLabel("Minuto:   ");
                             JPanel panelinformazioni = new JPanel();
-                            panelinformazioni.setLayout(new GridLayout(4, 1, 0, 0));
-                                                        panelinformazioni.add(numerolabel, BorderLayout.WEST);
+                            panelinformazioni.setLayout(new GridLayout(4, 1, 2, 2));
+                            panelinformazioni.add(numerolabel, BorderLayout.WEST);
                             panelinformazioni.add(numerofield, BorderLayout.EAST);
                             panelinformazioni.add(minutolabel, BorderLayout.WEST);
                             panelinformazioni.add(minutofield, BorderLayout.EAST);
@@ -599,14 +683,17 @@ public class ModificaRisultatiGUI extends JFrame {
                                 for( Giocatore g : partita.getSquadraCasa().getGiocatori() ) {
                                     if( g.getNumero() == numero ) {
                                         partita.setGoal(minuto, g);
-                                        NumeroGoalCasa.setText("goal squadra casa\nregolari: "+partita.getGoalSquadraCasaRegolare()+"\tsupplementari: "+partita.getGoalSquadraCasaSupplementari()+"\trigori: "+partita.getGoalSquadraCasaRigori());
+                                        if( partita instanceof PartitaEliminazioneDiretta )
+                                            NumeroGoalCasa.setText("goal squadra casa\nregolari: "+((PartitaEliminazioneDiretta) partita).getGoalSquadraCasaRegolare()+"\tsupplementari: "+((PartitaEliminazioneDiretta) partita).getGoalSquadraCasaSupplementari()+"\trigori: "+((PartitaEliminazioneDiretta) partita).getGoalSquadraCasaRigori());
+                                        else if( partita instanceof PartitaItaliana ) 
+                                            NumeroGoalCasa.setText("goal squadra casa\ntotali: "+((PartitaItaliana) partita).getGoalSquadraCasa());
                                     }
                                 }
                             }
                         } else {
                             JOptionPane.showMessageDialog(null, "IMPOSSIBILE INSERIRE GOAL PERCHE' PARTITA NON IN CORSO!", "Attenzione", JOptionPane.ERROR_MESSAGE);                                                            
                         }
-                    } else if( partita.getArbitro().getAutenticazione().equals("NONAUTENTICATO") ) {
+                    } else if( partita.getArbitro().getAutenticazione().equals(Autenticazione.NONAUTENTICATO) ) {
                         int reply = JOptionPane.showConfirmDialog(null, "E' necessario autenticarsi come arbitro per modificare i dati!", "Attenzione!", JOptionPane.YES_NO_OPTION);
                         if (reply == JOptionPane.YES_OPTION)
                         {
@@ -625,16 +712,15 @@ public class ModificaRisultatiGUI extends JFrame {
         ActionListener GOALSQOSPITElistener = new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    if( partita.getArbitro().getAutenticazione().equals("AUTENTICATO") ) {
-                        if( !partita.getStatoPartita().equals("PROGRAMMATA") ) {
-                                                       JTextField numerofield = new JTextField();
+                    if( partita.getArbitro().getAutenticazione().equals(Autenticazione.AUTENTICATO) ) {
+                        if( !partita.getStatoPartita().equals(StatoPartita.PROGRAMMATA) ) {
+                            JTextField numerofield = new JTextField();
                             JLabel numerolabel = new JLabel("Numero giocatore:   ");
                             JTextField minutofield = new JTextField();
                             JLabel minutolabel = new JLabel("Minuto:   ");
                             JPanel panelinformazioni = new JPanel();
                             panelinformazioni.setLayout(new GridLayout(4, 1, 2, 2));
-                            panelinformazioni.add(Box.createHorizontalStrut(15));
-                                                        panelinformazioni.add(numerolabel, BorderLayout.WEST);
+                            panelinformazioni.add(numerolabel, BorderLayout.WEST);
                             panelinformazioni.add(numerofield, BorderLayout.EAST);
                             panelinformazioni.add(minutolabel, BorderLayout.WEST);
                             panelinformazioni.add(minutofield, BorderLayout.EAST);
@@ -645,14 +731,17 @@ public class ModificaRisultatiGUI extends JFrame {
                                 for( Giocatore g : partita.getSquadraOspite().getGiocatori() ) {
                                     if( g.getNumero() == numero ) {
                                         partita.setGoal(minuto, g);
-                                        NumeroGoalOspite.setText("goal squadra ospite\nregolari: "+partita.getGoalSquadraOspiteRegolare()+"\tsupplementari: "+partita.getGoalSquadraOspiteSupplementari()+"\trigori: "+partita.getGoalSquadraOspiteRigori());
+                                        if( partita instanceof PartitaEliminazioneDiretta )
+                                            NumeroGoalOspite.setText("goal squadra ospite\nregolari: "+((PartitaEliminazioneDiretta) partita).getGoalSquadraOspiteRegolare()+"\tsupplementari: "+((PartitaEliminazioneDiretta) partita).getGoalSquadraOspiteSupplementari()+"\trigori: "+((PartitaEliminazioneDiretta) partita).getGoalSquadraOspiteRigori());
+                                        else if( partita instanceof PartitaItaliana )
+                                            NumeroGoalOspite.setText("goal squadra ospite\ntotali: "+((PartitaItaliana) partita).getGoalSquadraOspite());   
                                     }
                                 }
                             }
                         } else {
                             JOptionPane.showMessageDialog(null, "IMPOSSIBILE INSERIRE GOAL PERCHE' PARTITA NON IN CORSO!", "Attenzione", JOptionPane.ERROR_MESSAGE);                                
                         }
-                    } else if(partita.getArbitro().getAutenticazione().equals("NONAUTENTICATO")) {
+                    } else if(partita.getArbitro().getAutenticazione().equals(Autenticazione.NONAUTENTICATO)) {
                         int reply = JOptionPane.showConfirmDialog(null, "E' necessario autenticarsi come arbitro per modificare i dati!", "Attenzione!", JOptionPane.YES_NO_OPTION);
                         if (reply == JOptionPane.YES_OPTION)
                         {
@@ -668,46 +757,8 @@ public class ModificaRisultatiGUI extends JFrame {
         
         //-------------------------------------------------------------------------
         
-        panelMODIFICHE.add(setGOALSQCASA, BorderLayout.EAST);
-        panelMODIFICHE.add(setGOALSQOSPITE, BorderLayout.WEST);
-        panelMODIFICHE.add(setPUNTICASA, BorderLayout.EAST);
-        panelMODIFICHE.add(setPUNTIOSPITE, BorderLayout.WEST);
-        panelMODIFICHE.add(NumeroGoalCasa);
-        panelMODIFICHE.add(NumeroGoalOspite);
-        
-        panelGOALGIOCATORI.add(listscrollpaneCASA);
-        panelGOALGIOCATORI.add(listscrollpaneOSPITE);
-        panelGOALGIOCATORI.add(GOALSQCASAfield);
-        panelGOALGIOCATORI.add(GOALSQOSPITEfield);
-        
-        panelBOTTONI.add(NOMESQCASA, BorderLayout.WEST);
-        panelBOTTONI.add(NOMESQCASAfield, BorderLayout.CENTER);
-        panelBOTTONI.add(setNOMESQCASA, BorderLayout.EAST);
-        
-        panelBOTTONI.add(NOMESQOSPITE, BorderLayout.WEST);
-        panelBOTTONI.add(NOMESQOSPITEfield, BorderLayout.CENTER);
-        panelBOTTONI.add(setNOMESQOSPITE, BorderLayout.EAST);
-        
-        panelBOTTONI.add(ARBITRO, BorderLayout.WEST);
-        panelBOTTONI.add(ARBITROfield, BorderLayout.CENTER);
-        panelBOTTONI.add(setARBITRO, BorderLayout.EAST);
-        
-        panelBOTTONI.add(CITTA, BorderLayout.WEST);
-        panelBOTTONI.add(CITTAfield, BorderLayout.CENTER);
-        panelBOTTONI.add(setCITTA, BorderLayout.EAST);
-        
-        panelBOTTONI.add(STATOPARTITA, BorderLayout.WEST);
-        panelBOTTONI.add(STATOPARTITAfield, BorderLayout.CENTER);
-        panelBOTTONI.add(setSTATOPARTITA, BorderLayout.EAST);
-        
-        panelBOTTONI.add(OKbutton, BorderLayout.WEST);
-        panelBOTTONI.add(AGGIORNAbutton, BorderLayout.CENTER);
-        panelBOTTONI.add(BACKbutton, BorderLayout.EAST);
-        
-        add(panelGOALGIOCATORI, BorderLayout.NORTH);
-        add(panelMODIFICHE, BorderLayout.CENTER);
-        add(panelBOTTONI, BorderLayout.SOUTH);
-        pack();
+        InserimentoElementi();
+        PosizionamentoPanels();
     
     }
 }
